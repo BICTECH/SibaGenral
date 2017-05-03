@@ -1,0 +1,202 @@
+﻿@{
+    ViewBag.Title = "Currency";
+}
+<script src="~/Scripts/Page_Scripts/currency.setup.js"></script>
+<script src="~/Scripts/Services/currency.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryCurrency" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Currency Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="currencyForm" id="currencyForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+
+                                      <div class="row">
+                                          <div class="col-md-6">
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-3">
+                                                          <label class="required">Code</label>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                          <span id="spry_code">
+                                                              <input id="CUR_CODE" class="form-control" min="3" maxlength="15" type="text" name="CUR_CODE" title="Code" required>
+                                                              <span class="textfieldRequiredMsg">Code is required.</span>
+                                                              <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                          </span>
+                                                      </div>
+
+                                                      <div class="col-md-2">
+                                                          <label>
+                                                              Base?
+                                                          </label>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                          <input class="checkbox checkbox-inline pull-left" type="checkbox" id="CUR_BASE" name="CUR_BASE" />
+                                                      </div>
+
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-3">
+                                                          <label class="required">Name</label>
+                                                      </div>
+                                                      <div class="col-md-4">
+                                                          <span id="spry_name">
+                                                              <input id="CUR_FULL_NAME" class="form-control" min="5" maxlength="50"
+                                                                     type="text" name="CUR_FULL_NAME" title="Name" required>
+                                                              <span class="textfieldRequiredMsg">Name is required.</span>
+                                                          </span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-3">
+                                                          <label class="required">Country</label>
+                                                      </div>
+                                                      <div class="col-md-4">
+                                                          <span id="spry_currcountry">
+                                                              <input id="CUR_ORIG_COUNTRY" class="form-control" min="5" maxlength="50"
+                                                                     type="text" name="CUR_ORIG_COUNTRY" title="Name" required>
+                                                              <span class="textfieldRequiredMsg">Currency country is required.</span>
+                                                          </span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-3">
+                                                          <label class="required">Decimal Symbol</label>
+                                                      </div>
+                                                      <div class="col-md-4">
+                                                          <span id="spry_decsymbol">
+                                                              <input id="CUR_DEC_SYMBOL" class="form-control" min="5" maxlength="50"
+                                                                     type="text" name="CUR_DEC_SYMBOL" title="Name" required>
+                                                              <span class="textfieldRequiredMsg">Decimal symbol is required.</span>
+                                                          </span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <div class="col-md-6">
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-3">
+                                                          <label class="required">Sub Unit</label>
+                                                      </div>
+                                                      <div class="col-md-4">
+                                                          <span id="spry_unit">
+                                                              <input id="CUR_SUB_UNIT" class="form-control" min="5" maxlength="50"
+                                                                     type="text" name="CUR_SUB_UNIT" title="Name" required>
+                                                              <span class="textfieldRequiredMsg">Sub unit is required.</span>
+                                                          </span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-3">
+                                                          <label class="required">Symbol</label>
+                                                      </div>
+                                                      <div class="col-md-4">
+                                                          <span id="sprytf_symbol">
+                                                              <input id="CUR_SYMBOL" class="form-control" min="5" maxlength="50"
+                                                                     type="text" name="CUR_SYMBOL" title="Name" required>
+                                                              <span class="textfieldRequiredMsg">Symbol is required.</span>
+                                                          </span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-2">
+                                                          <label>
+                                                              Status
+                                                          </label>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                          <input class="checkbox checkbox-inline pull-left" type="checkbox" id="CUR_STATUS" name="CUR_STATUS" checked />
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdCurrency"></table>
+                                    <table id="grdCurrencyPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

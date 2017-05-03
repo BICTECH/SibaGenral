@@ -1,0 +1,197 @@
+﻿@{
+    ViewBag.Title = "Transaction Structure";
+}
+
+<script src="~/Scripts/Page_Scripts/transaction.structure.setup.js"></script>
+<script src="~/Scripts/Services/transactionstructure.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryTransacStructure" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Transaction Structure Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="transacstructureForm" id="transacstructureForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Code</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_code">
+                                                                <input id="TST_CODE" class="form-control" min="3" maxlength="15" type="text" name="TST_CODE" title="Code">
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Name</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="TST_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="TST_NAME" title="Name">
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Description</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_dec">
+                                                                <textarea id="TST_DESC" class="form-control" rows="4" cols="50"
+                                                                          name="TST_DESC" title="Description"></textarea>
+                                                                <span class="textfieldRequiredMsg">Description is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Abbreviation</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_abbr">
+                                                                <input id="TST_ABBR" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="TST_ABBR" title="Name">
+                                                                <span class="textfieldRequiredMsg">Percentage is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Organization</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_org">
+                                                                <input id="TST_TRANS_ORG" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="TST_TRANS_ORG" title="Name">
+                                                                <span class="textfieldRequiredMsg">Percentage is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Journal Abbr</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="sprytf_jrnl">
+                                                                <input id="TST_JRNL_ABBR" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="TST_JRNL_ABBR" title="Name">
+                                                                <span class="textfieldRequiredMsg">Sub unit is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label>
+                                                                Status
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input class="checkbox checkbox-inline pull-left" type="checkbox" id="TST_STATUS" name="TST_STATUS" checked required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdTransacStructure"></table>
+                                    <table id="grdTransacStructurePager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

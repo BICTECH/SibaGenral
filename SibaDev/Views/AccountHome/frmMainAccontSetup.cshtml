@@ -1,0 +1,350 @@
+﻿@{
+    Layout = "~/Views/Shared/_AccountModule.cshtml";
+}
+
+<script src="~/Scripts/Accounts/page_scripts/MainAccounts/MainAcount.setup.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/MainAccount.service.js"></script>
+
+<script src="~/Scripts/services/currency.service.js"></script>
+<script src="~/Scripts/services/company.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12">
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+
+                                <button type="button" class="btn btn-success" id="btnSave">
+                                    <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                </button>
+                                <!-- -->
+                                <button type="button" class="btn btn-danger" id="btnDelete">
+                                    <i class="fa ion-trash-b" title="Delete" aria-hidden="true"></i> Delete
+                                </button>
+                                <button id="btnReset" type="reset" class="btn btn-primary">
+                                    <i class="fa ion-loop" title="Reset" aria-hidden="true"></i> Reset
+                                </button>
+                                <button type="button" id="btnQueryMainAcct" class="btn btn-info" style="float: right; margin-right: 15px">
+                                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                </button>
+                                <input id="txtSearch" style="width: 20%; height: 30px; text-align: center; float: right; margin-right: 10px"
+                                       class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="search by Code or Name">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--Header-->
+                    <div class="row form-header">
+                        <div class="row">
+                            <form name="mainAcctForm" id="mainAcctForm">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+
+                                    <div class="row control-group form-padding">
+
+                                        <div class="row">
+                                            <div class="form-group">
+
+                                                <div class="col-md-2">
+                                                    <label>Account Code </label>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <input class="form-control" min="3" maxlength="40" type="text" id="ACCT_CODE" name="ACCT_CODE" title="Main Account Code" required />
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>Account Name</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <input class="form-control" min="3" maxlength="40" type="text" id="ACCT_NAME" name="ACCT_NAME" title="Account Name" required />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>Description </label>
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <textarea class="form-control" min="3" maxlength="100" id="ACCT_DESC" name="ACCT_DESC" title="Account Description" required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /input-group -->
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>Account Category</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text" id="ACCT_CATEGORY" name="ACCT_CATEGORY" title="Accoun Category" required />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default pull-left btn_lov" data-dialog='{"type": "btnAcctCat", "field1":"ACCT_CATEGORY", "field2":"ACAT_NAME"}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <input class="form-control" type="text" id="ACAT_NAME" name="ACAT_NAME" title="Category Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>
+                                                        Main Account ?
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="checkbox checkbox-inline pull-left" type="checkbox" value="Y" id="ACCT_MAIN" name="ACCT_MAIN" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>
+                                                        Open Entry?
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="checkbox checkbox-inline pull-left" value="Y" type="checkbox" id="ACCT_OPEN" name="ACCT_OPEN" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+
+                                                    <div class="col-md-2">
+                                                        <label style="color: red">
+                                                            Account Type:
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <label>
+                                                            Asset
+                                                            <input id="ACCT_TYPE_ASSET" type="radio" value="A" name="ACCT_TYPE">
+                                                        </label>
+
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <label>
+                                                            Liability
+                                                            <input id="ACCT_TYPE_LIABILITY" type="radio" value="L" name="ACCT_TYPE">
+                                                        </label>
+
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <label>
+                                                            Income
+                                                            <input id="ACCT_TYPE_INCOME" type="radio" value="I" name="ACCT_TYPE">
+                                                        </label>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label>
+                                                            Expense
+                                                            <input id="ACCT_TYPE_EXPENSE" type="radio" value="E" name="ACCT_TYPE">
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label>
+                                                            Active
+                                                            <input class="checkbox checkbox-inline" type="checkbox" id="ACCT_ACTIVE" value="Y" name="ACCT_ACTIVE" checked />
+                                                            <input type="hidden" id="ACCT_STATUS" value="U" name="ACCT_STATUS"/>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+
+
+                        <div id="tabs" class="row form-header">
+
+                            <ul>
+                                <li><a href="#tabs-1">Main Account Company Setup</a></li>
+                                <li><a href="#tabs-2">Main Account Crrency Setup</a></li>
+                            </ul>
+
+                            <div id="tabs-1">
+                                <form id="acctCompanyForm">
+                                    <div class="row">
+                                        <hr />
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>Company</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" id="ACOM_CODE" name="ACOM_CODE" title="Accoun Category" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default pull-left btn_lov" data-dialog='{"type": "btnAcctCompany", "field1":"ACOM_CODE", "field2":"ACOM_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input class="form-control" type="text" id="ACOM_NAME" name="ACOM_NAME" title="Category Name" />
+                                            </div>
+                                            <div class="col-md-1">
+
+                                                <input class="form-control" type="hidden" id="ACOM_ACCT_CODE" name="ACOM_ACCT_CODE" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>
+                                                    Active
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input class="checkbox checkbox-inline pull-left" type="checkbox" id="ACOM_ACTIVE" name="ACOM_ACTIVE" value="Y" checked />
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                </form>
+                                <hr />
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btnAddAcctCompany" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                        <button id="btnRemoveAcctCompany" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="exportCompany" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <table id="grdAcctCompany"></table>
+                                    <table id="grdAcctCompanyPager"></table>
+                                </div>
+                            </div>
+
+                            <div id="tabs-2">
+                                <form id="acctCurrencyForm">
+                                    <div class="row">
+                                        <hr />
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>Currency</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" id="ACUR_CODE" name="ACUR_CODE" title="Accoun Category" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default pull-left btn_lov" data-dialog='{"type": "btnAcctCurr", "field1":"ACUR_CODE", "field2":"ACUR_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <input class="form-control" type="text" id="ACUR_NAME" name="ACUR_NAME" title="Category Name" />
+
+                                            </div>
+
+                                            <div class="col-md-1">
+
+                                                <input class="form-control" type="hidden" id="ACUR_ACUR_CODE" name="ACUR_ACCT_CODE" />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>
+                                                    Active
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input class="checkbox checkbox-inline pull-left" type="checkbox" id="ACUR_ACTIVE" name="ACUR_ACTIVE" value="Y" checked />
+
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                </form>
+                                <hr />
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btnAddAcctCurrency" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                        <button id="btnRemoveAcctCurrency" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="exportCurrency" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <table id="grdAcctCurrency"></table>
+                                    <table id="grdAcctCurrencyPager"></table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!--tabs-->
+                    <!--Setup Grid-->
+                    <div class="row hidden">
+                        <table id="grdMainAccount"></table>
+                        <table id="grdMainAccountPager"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+

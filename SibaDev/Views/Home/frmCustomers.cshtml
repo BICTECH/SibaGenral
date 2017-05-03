@@ -1,0 +1,377 @@
+﻿<div class="col-md-42 main">
+
+    <script src="~/Scripts/Page_Scripts/customer.setup.js"></script>
+    <script src="~/Scripts/Services/customers.service.js"></script>
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save " title="Save" aria-hidden="true"></i> Save
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger" id="btn_Delete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryCustomer" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width:50%; height: 30px; text-align:center; float:right; margin-right: 10px"
+                                               class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="tabs">
+                        <ul>
+                            <li><a href="#tabs-1">Customer Setup</a></li>
+                        </ul>
+                        <div id="tabs-1">
+                            <form name="customerForm" id="customerForm" class="form-horizontal">
+                                <div>
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Type</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_custype">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" name="CUS_TYPE_CODE" id="CUS_TYPE_CODE" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_customer_type", "field1":"CUS_TYPE_CODE", "field2":"CUS_TYPE_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Customer type required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                                <input class="form-control" min="3" max-length="50" type="text" name="CUS_TYPE_NAME" />                                                                
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Code</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_code">
+                                                                <input type="text" id="CUS_CODE" min="2" max="15" class="form-control" name="CUS_CODE" title="Code" required>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label  class="required">Pin</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_custid">
+                                                                <input type="text" min="2" max="15" class="form-control" name="CUS_PIN_NO" title="Pin" required>
+                                                                <span class="textfieldRequiredMsg">Customer ID is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Title</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <select class="form-control" name="CUS_TITLE" id="CUS_TITLE" required>
+                                                                <option value="">--Select--</option>
+                                                                <option value="Mr">Mr</option>
+                                                                <option value="Mrs">Mrs</option>
+                                                                <option value="Miss">Miss</option>
+                                                                <option value="Dr">Dr</option>
+                                                                <option value="Prof">Prof</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">First Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_fname">
+                                                                <input type="text" min="3" max="30" class="form-control" id="CUS_FIRST_NAME" name="CUS_FIRST_NAME" title="First Name" required>
+                                                                <span class="textfieldRequiredMsg">First Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Last Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_lname">
+                                                                <input type="text" min="3" max="30" class="form-control" id="CUS_LAST_NAME" name="CUS_LAST_NAME" required>
+                                                                <span class="textfieldRequiredMsg">Last Name is required.</span>
+                                                            </span>                                                          
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>Other Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="text" min="3" max="30" class="form-control" id="CUS_OTHER_NAME" name="CUS_OTHER_NAME" title="Middle Name">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>Official Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">                                                     
+                                                                <input type="text" class="form-control" id="CUS_OFFICIAL_NAME" name="CUS_OFFICIAL_NAME" title="Official Name" readonly>                                                   
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Birth date</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_dob">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" type="text" id="CUS_DOB" name="CUS_DOB" title="Date" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn-default">
+                                                                            <i class="fa fa-calendar" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Date Of Birth is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>Gender</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <select class="form-control" name="CUS_GENDER" id="CUS_GENDER" required>
+                                                                <option value="">--Select--</option>
+                                                                <option value="M">Male</option>
+                                                                <option value="F">Female</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label> Profession</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_occup">
+                                                                <input type="text" id="CUS_PROFESSION" class="form-control" name="CUS_PROFESSION" title="Profession" required>
+                                                                <span class="textfieldRequiredMsg">Profession is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                             
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required"> Home Address</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <textarea id="CUS_ADDRS1" rows="2" cols="50"
+                                                                      class="form-control" type="text" name="CUS_ADDRS1" title="Customer Address1" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label> Postal Address</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <textarea id="CUS_ADDRS2" rows="2" cols="50"
+                                                             class="form-control" type="text" name="CUS_ADDRS2" title="Customer Address1" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Phone No.</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_phone">
+                                                                <input type="number" min="12" maxlength="12" class="form-control" id="CUS_PHONE1" name="CUS_PHONE1" title="Phone Number" required>
+                                                                <span class="textfieldRequiredMsg">Phone Number is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Mobile No.</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_telno">
+                                                                <input type="number" min="12" maxlength="12" class="form-control" id="CUS_MOBILE" name="CUS_MOBILE" title="">
+                                                                <span class="textfieldRequiredMsg">Mobile Number is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Email</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_email">
+                                                                <input type="text" class="form-control" name="CUS_EMAIL" id="CUS_EMAIL" title="Email" required>
+                                                                <span class="textfieldRequiredMsg">Email is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Please enter a valid email (user@domain.com).</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Bank Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="text" class="form-control" name="CUS_BANK_NAME" id="CUS_BANK_NAME" title="Bank Name">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Bank Number</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="number" class="form-control" name="CUS_ACC_NUM" id="CUS_ACC_NUM" title="Bank Number">
+                                                        </div>
+                                                    </div>
+                                                </div>                                               
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Bank Address</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <textarea id="CUS_BANK_BRANCH" rows="2" cols="50"
+                                                             class="form-control" type="text" name="CUS_BANK_BRANCH" title="Address"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </form>
+                            <!--Grid Buttons-->
+                            <div class="row">
+                                <div class="btn-block">
+                                    <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                    <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                    <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                    <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                        <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <table id="grdCustomer"></table>
+                                <table id="grdCustomerPager"></table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+@*<script type="text/javascript">
+function join_ym()
+{
+    var yy = document.getElementById('CUS_FIRST_NAME').value;
+    var mm = document.getElementById('CUS_LAST_NAME').value;
+    document.getElementById('CUS_OFFICIAL_NAME').value = yy + mm;
+    alert(document.getElementById('CUS_OFFICIAL_NAME').value);
+}
+</script>*@

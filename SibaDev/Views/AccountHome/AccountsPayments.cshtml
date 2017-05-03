@@ -1,0 +1,808 @@
+﻿@using System
+@{
+    Layout = "~/Views/Shared/_AccountModule.cshtml";
+}
+
+<script src="~/Scripts/Accounts/page_scripts/AccountsReceivables/AcctPayments.Setup.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/payment.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/MainAccount.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/SubAccount.service.js"></script>
+<script src="~/Scripts/Services/currency.service.js"></script>
+<script src="~/Scripts/Services/office.service.js"></script>
+<script src="~/Scripts/Services/payment.mode.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/TxnDoc.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12">
+
+                    <!--Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btn_Delete">
+                                            <i class="fa ion-trash-b" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa ion-loop" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+
+                                    <div class="col-md-1">
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button id="btnViewSchedule" type="button" class="btn btn-default">
+                                            <i class="ico ion-eye text-blue" title="Print" aria-hidden="true"></i> View Payment
+                                        </button>
+
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <button type="button" id="btnQueryPayment" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="height: 30px; text-align:center; float:right; margin-right: 10px"
+                                               class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-header">
+
+                        <div class="col-md-9">
+                            <div class="row control-group form-padding">
+                                <span class="control-grp-lbl text-danger">Batch Details</span>
+                                <form name="paymentHeaderForm" id="paymentHeaderForm">
+                                    <!--hidden fields-->
+                                    <input type="hidden" id="APH_SYS_ID" name="APH_SYS_ID" />
+                                    <input type="hidden" id="APH_STATUS" name="APH_STATUS" value="U" />
+                                    <input type="hidden" id="APH_TRANS_STATUS" name="APH_TRANS_STATUS" value="P" />
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Issuing Office</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" id="APH_OFF_CODE" maxlength="15" name="APH_OFF_CODE" title="Issuing Office Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_issue_office" ,"field1":"APH_OFF_CODE", "field2":"OFF_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="form-control" type="text" name="OFF_NAME" title="Issuing Office Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Document Type</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" id="APH_ATD_CODE" maxlength="15" name="APH_ATD_CODE" title="Document Type Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_doc_type" ,"field1":"APH_ATD_CODE", "field2":"ATD_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="form-control" type="text" name="ATD_NAME" title="Document Type Name" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- date -->
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>Txn Date</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input class="form-control date" type="text" name="APH_TXN_DATE" title="Transaction Date" required />
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label> Batch No</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input class="form-control" type="number" min="1" id="APH_BATCH_NO" name="APH_BATCH_NO" title="Batch Number" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>Batch Narration</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <textarea class="form-control" maxlength="1000" id="APH_DESC" name="APH_DESC" title="Batch Narration" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row control-group form-padding">
+                                <span class="control-grp-lbl text-danger" style="text-align: left">Payment State</span>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <button type="button" class="center btn btn-default " id="btnProposalConfirmation">
+                                            @*<i class="fa ion-checkmark-circled text-success" title="" aria-hidden="true"></i>*@ <span class="transStatusTxt">Confirm</span> Payment
+                                        </button>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" name="ClaimStatus" readonly value="" class="form-control text-center center" placeholder="Payment Status" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--Grid Buttons-->
+                    <div id="tabs">
+                        <ul>
+                            <li><a href="#tabs-1">Payments Details</a></li>
+                            <li><a href="#tabs-2">Accounts Details</a></li>
+                            <li><a href="#tabs-3">Other Details</a></li>
+                        </ul>
+                        <div id="tabs-1">
+                            <div class="row control-group form-padding">
+                                <span class="control-grp-lbl text-danger">Payment Header info</span>
+
+                                <form name="receiptDetailsForm" id="receiptDetailsForm">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label> Payment Type</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <select id="APD_PAYMNT_TYPE" class="form-control" name="APD_PAYMNT_TYPE" required>
+                                                    <option value=""> --- Select Type --- </option>
+                                                    <option value="CP"> Customer Payments</option>
+                                                    <option value="OP"> Other Payments </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Txn Branch</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" maxlength="15" id="APD_TXN_OFF_CODE" name="APD_TXN_OFF_CODE" title="Transaction Branch Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_txn_office" ,"field1":"APD_TXN_OFF_CODE", "field2":"TXN_OFF_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input class="form-control" type="text" name="TXN_OFF_NAME" title="Transaction Branch Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Dept/Unit</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" maxlength="15" id="APD_DEP_OFF_CODE" name="APD_DEP_OFF_CODE" title="Customer Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_dep_office" ,"field1":"APD_DEP_OFF_CODE", "field2":"DEP_OFF_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input class="form-control" type="text" name="DEP_OFF_NAME" title="Department Branch Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2 pull-left">
+                                                <label>Doc. No</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input class="form-control" type="text" maxlength="20" id="APD_TXN_DOC_NO" name="APD_TXN_DOC_NO" title="Transaction Document Number" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Account Period</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <select id="APD_ACNT_PERIOD" class="form-control" name="APD_ACNT_PERIOD" title="Account Period" required>
+                                                    <option value=""> --- Select Period ---</option>
+                                                    <option value="JAN @DateTime.Now.Year">JAN @DateTime.Now.Year</option>
+                                                    <option value="FEB @DateTime.Now.Year">FEB @DateTime.Now.Year</option>
+                                                    <option value="MAR @DateTime.Now.Year">MAR @DateTime.Now.Year</option>
+                                                    <option value="APR @DateTime.Now.Year">APR @DateTime.Now.Year</option>
+                                                    <option value="MAY @DateTime.Now.Year">MAY @DateTime.Now.Year</option>
+                                                    <option value="JUN @DateTime.Now.Year">JUN @DateTime.Now.Year</option>
+                                                    <option value="JUL @DateTime.Now.Year">JUL @DateTime.Now.Year</option>
+                                                    <option value="AUG @DateTime.Now.Year">AUG @DateTime.Now.Year</option>
+                                                    <option value="SEP @DateTime.Now.Year">SEP @DateTime.Now.Year</option>
+                                                    <option value="OCT @DateTime.Now.Year">OCT @DateTime.Now.Year</option>
+                                                    <option value="NOV @DateTime.Now.Year">NOV @DateTime.Now.Year</option>
+                                                    <option value="DEC @DateTime.Now.Year">DEC @DateTime.Now.Year</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <label>Due Date</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input class="form-control date" type="text" id="APD_DUE_DATE" name="APD_DUE_DATE" title="Due Date" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Currency</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" maxlength="15" id="APD_CUR_CODE" name="APD_CUR_CODE" title="Currency Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_currency" ,"field1":"APD_CUR_CODE", "field2":""}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label>Rate</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input class="form-control" type="number" id="CUR_RATE" name="CUR_RATE" title="Currency Rate"  />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Mode of Payment</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <select id="APD_PM_CODE" class="form-control" name="APD_PM_CODE" title="Mode of Payment" required>
+                                                    <option value="">--- Select Payment Mode</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Paid To</label>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <input class="form-control" type="text" maxlength="100" id="APD_RCVD_FROM" name="APD_RCVD_FROM" title="Customer Name" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Payment Narration</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <textarea class="form-control" maxlength="1000" id="APD_PAYMNT_DESC" name="APD_PAYMNT_DESC" title="Payment Narration" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            <!--Grid Buttons-->
+                            <div class="row">
+                                <div class="btn-block">
+                                    <button id="btn_add_rcptDetail" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                    <button id="btn_update_rcptDetail" class="btn btn-default" type="button"><i class="fa ion-edit text-yellow"></i> Update</button>
+                                    <button id="btn_remove_rcptDetail" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+
+                                    <button type="button" class="btn btn-default pull-right dialog-btn" id="rcptDetail-export-btn" title="Export Grid data to Excel">
+                                        <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <!--Setup Grid-->
+                                <table id="grdRVHeader"></table>
+                                <table id="grdRVHeaderPager"></table>
+                            </div>
+                        </div>
+                        <!--recipt account details-->
+                        <div id="tabs-2">
+
+                            <form name="receiptAccountDetailsForm" id="receiptAccountDetailsForm">
+
+                                <h5 style="border-bottom-color: red" class="sub-header">Account Details</h5>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label>Debit/Credit</label>                                      
+                                            
+                                                <select id="PAD_DR_CR" class="form-control" name="PAD_DR_CR" required>
+                                                    <option value=""> --- Select --- </option>
+                                                    <option value="DR"> Debit</option>
+                                                    <option value="CR"> Credit </option>
+                                                </select>                                          
+                                       
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Main Account Code</label>
+                                        <div class="input-group">
+                                            <div class="input-group">
+                                                <input class="form-control" type="text" maxlength="15" id="PAD_ACCT_CODE" name="PAD_ACCT_CODE" title="Main Account Code" required />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_main_account" ,"field1":"PAD_ACCT_CODE", "field2":"ACCT_NAME"}'>
+                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                    </button>
+                                                </span>
+                                               
+                                            </div>
+                                            <input class="form-control" type="text" name="ACCT_NAME" title="Main Account Name" readonly/>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Sub Account Code</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" maxlength="15" id="PAD_SUB_ACCT_CODE" name="PAD_SUB_ACCT_CODE" title="Sub Ledger Code" required />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_sub_account" ,"field1":"PAD_SUB_ACCT_CODE", "field2":"SUB_ACCT_NAME"}'>
+                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>                                  
+                                   
+                                    <div class="col-md-2">
+                                        <label>Amount</label>                                      
+                                        <input class="form-control" type="number" min="1" id="PAD_AMNT_FC" name="PAD_AMNT_FC" title="Amount Foreign Currency" />
+                                        <input class="form-control" type="number" min="1" id="PAD_AMNT_BC" name="PAD_AMNT_BC" title="Amount Base Currency" readonly/>
+                                    </div>
+                               
+                                    <div class="col-md-2">
+                                        <label>Line Narration</label>
+                                        <textarea class="form-control" id="PAD_DESC" maxlength="1000" rows="3" name="PAD_DESC" title="Line Narration" required></textarea>
+                                    </div>
+
+                                </div>
+
+                                <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                            </form>
+
+                            
+
+                            <!--Grid Buttons-->
+                            <div class="row">
+                                <div class="btn-block">
+                                    <button id="btn_add_acntDetail" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                    <button id="btn_update_acntDetail" class="btn btn-default" type="button"><i class="fa ion-edit text-yellow"></i> Update</button>
+                                    <button id="btn_remove_acntDetail" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+
+
+                                    <button id="btn_Txn_Matching" class="btn btn-default" type="button"><i class="fa fa-list text-danger"></i> Match</button>
+
+                                    <button type="button" class="btn btn-default pull-right dialog-btn" id="acntDetail-export-btn" title="Export Grid data to Excel">
+                                        <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                    </button>
+
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!--Setup Grid -->
+
+                                <table id="grdAcctsDetails"></table>
+                                <table id="grdAcctsDetailsPager"></table>
+                            </div>
+
+                            <div class="row">
+                                <h5 style="border-bottom-color: red" class="sub-header"></h5>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+
+                                        <div class="col-md-2">
+                                            <label> Total Debits</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input class="form-control" type="number" id="totalDebitFC" title="Foreign Currency" readonly />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input class="form-control" type="number" id="totalDebitBC" title="Base Currency" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+
+                                        <div class="col-md-2">
+                                            <label>Total Credits</label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input class="form-control" type="number" id="totalCreditFC" title="Foreign Currency" readonly />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input class="form-control" type="number" id="totalCreditBC" title="Base Currency" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="form-group">
+
+                                        <div class="col-md-2">
+                                            <label> Dr/CR Defference </label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input class="form-control" type="number" id="diffFC" title="Foreign Currency" readonly />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input class="form-control" type="number" id="diffBC" title="Base Currency" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <!--Accounts Details Tab-->
+                        <div id="tabs-3">
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Matching transactions Modal-->
+<div class="modal fade ui-draggable" id="txnMatchingModal" role="dialog">
+    <div class="modal-dialog" style="width:80%">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+
+                <strong style="font-size: 20px; color: white; font-family: Arial">Match Transactions</strong>
+            </div>
+
+            <div class="modal-body" style="padding: 40px 50px">
+                <form id="bankExportForm">
+                    <h5 style="border-bottom-color:red" class="sub-header">Search by:</h5>
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                                <div class="col-md-2">
+                                    <label>	Reference Doc. No</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" id="CUS_CODE" name="CUS_CODE" title="Customer Code" required />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_customer" ,"field1":"CUS_CODE", "field2":"CUS_NAME"}'>
+                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <label>	From Date</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control" type="text" name="CUS_NAME" title="Customer Name" />
+                                </div>
+                                <div class="col-md-1">
+                                    <label>	To Date</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control" type="text" name="CUS_NAME" title="Customer Name" />
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button type="button" id="btnSearch" class="btn btn-default" style="float: right; margin-right: 15px">
+                                        <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                    </button>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Show DR/CR :</label>
+                            </div>
+                            <div class="col-md-4">
+                                Debit: <input id="chk1Many" type="checkbox" name="1ToMany" value="Status?">
+                                Credit: <input id="chk1Many" type="checkbox" name="1ToMany" value="Status?">
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <h5 style="border-bottom-color:red" class="sub-header"></h5>
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                                <div class="col-md-2">
+                                    <label>	Adj. Amount </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control" type="text" name="CUS_NAME" title="Customer Name" />
+                                </div>
+                                <div class="col-md-2">
+                                    <input class="form-control" type="text" name="CUS_NAME" title="Customer Name" />
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" id="btnSearch" class="btn btn-default" style="float: right; margin-right: 15px">
+                                        <i class="fa fa-check-square text-success" title="Search" aria-hidden="true"></i> Match
+                                    </button>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button type="button" id="btnSearch" class="btn btn-default" style="float: right; margin-right: 15px">
+                                        <i class="fa fa-check-square-o text-danger" title="Search" aria-hidden="true"></i> unMatch
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row">
+                    <!--Setup Grid   -->
+
+                    <table id="grdPaymentDetails"></table>
+                    <table id="grdPaymentDetailsPager"></table>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="background-color: rgba(0, 0, 0, .1)">
+
+                <div class="col-md-12">
+
+                    <div class="col-md-8">
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="form-group">
+
+                                <div class="col-md-4">
+                                    <button type="button" id="btnOkExport" class="btn btn-info pull-right">OK</button>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!--Excel Export Modal-->
+<div class="modal fade" id="export-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+
+                <strong style="font-size: 20px; color: white; font-family: Arial">Export Options</strong>
+            </div>
+
+            <div class="modal-body" style="padding: 40px 50px">
+
+                <h4 id="textInfoMessage" style="color: black" class="text-center"></h4>
+                <form id="bankExportForm">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label> Export For?</label>
+                            </div>
+                            <div class="col-md-5">
+                                <select id="" class="form-control" name="bank" required>
+                                    <option value=""> --- Select Bank --- </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>
+                                    Export Columns
+                                </label>
+                            </div>
+                            <div id="column-list" class="col-md-3">
+                                @*<input class="checkbox checkbox-inline pull-left" type="checkbox" id="" name="select_all" checked required />*@
+                                <div>Please Select a Bank</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>
+                                    All Columns?
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="checkbox checkbox-inline pull-left" type="checkbox" id="" name="select_all" checked required />
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer" style="background-color: rgba(0, 0, 0, .1)">
+
+                <div class="col-md-12">
+
+                    <div class="col-md-8">
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="form-group">
+
+                                <div class="col-md-6">
+                                    <button type="button" id="btnOkExport" class="btn btn-info pull-right">Yes</button>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Payment Confirmation Modal -->
+
+<div class="modal fade draggable" id="claimConfirmationModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Payment Transaction Processing</strong>
+            </div>
+
+            <div class="modal-body" style="padding: 40px 40px;">
+                <form id="confirmationForm" name="confirmationForm">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <textarea id="NARRATION" class="form-control center" name="NARRATION" placeholder="Please enter a reason for your action" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnRcptConfirm" type="button" class="btn btn-primary"><span class="transStatusTxt">Confirm</span></button>
+                <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+

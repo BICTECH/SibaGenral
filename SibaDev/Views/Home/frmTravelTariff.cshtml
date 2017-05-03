@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "Travel Tariff";
+}
+<script src="~/Scripts/Page_Scripts/travel.tariff.setup.js"></script>
+<script src="~/Scripts/Services/traveltariff.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryTraveltariff" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Travel Tariff Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="traveltariffForm" id="traveltariffForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+
+                                        <div class="row">
+                                            <div class="col-md-9">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+
+                                                        <div class="col-md-3">
+                                                            <label class="required"> Sub Class</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="input-group">
+                                                                <input class="form-control" type="text" maxlength="15" id="SPD_PRD_CODE" name="TRT_PRD_CODE" title="Class of Business" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_product" ,"field1":"TRT_PRD_CODE", "field2":"SPD_PRD_NAME"}'>
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" type="text" name="SPD_PRD_NAME" title="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Premium</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_name">
+                                                                <input id="TRT_PRM" class="form-control" min="3" maxlength="50" type="number" name="TRT_PRM" title="Name" required>
+                                                                <span class="textfieldRequiredMsg">Premium is required.</span>
+                                                                <span class="textfieldMinCharsMsg">Name must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Days From</label>
+                                                        </div>
+                                                        <div class="col-md-3">                                                    
+                                                              <input id="TRT_DAYS_FROM" class="form-control" min="3" maxlength="50" type="number" name="TRT_DAYS_FROM" title="" required>                                                        
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Days To</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input id="TRT_DAYS_TO" class="form-control" min="3" maxlength="50" type="number" name="TRT_DAYS_TO" title="" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdTraveltariff"></table>
+                                    <table id="grdTraveltariffPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

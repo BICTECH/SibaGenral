@@ -1,0 +1,163 @@
+﻿@{
+    ViewBag.Title = "Motor Risk Fees";
+}
+<script src="~/Scripts/Page_Scripts/motor.risk.fee.setup.js"></script>
+<script src="~/Scripts/Services/motorriskfee.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryCompulsoryfees" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Motor Risk Fees Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="motorriskfeeForm" id="motorriskfeeForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Compulsory fee details</span>
+                                        
+                                            <div class="col-md-12 ">
+                                                <div class="form-group">
+
+                                                    <div class="col-md-2">
+                                                        <label> Motor Risk </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <input class="form-control" type="text" maxlength="15" id="MRF_MPR_SYS_ID" name="MRF_MPR_SYS_ID" title="Motor Risk" required/>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_motor_risk" ,"field1":"MRF_MPR_SYS_ID", "field2":"FEE_MAIN_ACCOUNT_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <input class="form-control" type="text" name="FEE_MAIN_ACCOUNT_NAME" title="Motor Risk Name"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+
+                                                    <div class="col-md-2">
+                                                        <label>Compulsory Fee</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <input class="form-control" type="text" maxlength="15" id="MRF_FEE_CODE" name="MRF_FEE_CODE" title="Fee Code" required/>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_compulsory_fee" ,"field1":"MRF_FEE_CODE", "field2":"MRF_FEE_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input class="form-control" type="text" name="MRF_FEE_NAME" title=""/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                       
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Amount</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_code">
+                                                        <input id="MRF_FEE_AMOUNT" class="form-control" min="1" maxlength="15"
+                                                               type="text" name="MRF_FEE_AMOUNT" title="Code" required>
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                        <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                     
+                                        @*<div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>
+                                                        Status?
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="checkbox checkbox-inline pull-left" type="checkbox" id="MRF_STATUS" name="MRF_STATUS" value="Y" checked />
+                                                </div>
+
+                                            </div>
+                                        </div>*@
+                                    </div>
+
+                                   
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdMotorriskfee"></table>
+                                    <table id="grdMotorriskfeePager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

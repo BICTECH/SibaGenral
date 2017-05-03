@@ -1,0 +1,1135 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <!----------------- Siba References-->
+    <link href="~/Content/Css/Custom/sibaStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/SibaScript/sibaUWMotor.js"></script>
+    <script src="~/Scripts/SibaScript/getSequenceNo.js"></script>
+
+    <!-----------------General  References-->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Css/Jquery/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="~/Scripts/JQuery/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/JQuery/jquery-ui-1.11.4.js"></script>
+    <!-- grid reference-->
+    <script src="~/Scripts/JQuery/jquery-1.8.3.js"></script>
+    <link href="~/Content/Css/Jquery/ui.jqgrid.css" rel="stylesheet" />
+    <script src="~/Scripts/JQuery/jquery-ui-1.9.2.custom.js"></script>
+    <script src="Scripts/JQuery/jqxgrid.selection.js"></script>
+
+    <script src="~/Scripts/JQuery/jquery-ui-1.9.2.customs.js"></script>
+    <link href="~/Content/Css/Jquery/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+
+    <script src="~/Scripts/JQuery/jquery.jqGrid.min.js"></script>
+    <script src="~/Scripts/JQuery/jquery.jqGrid.min.js"></script>
+
+    <script>
+
+        // ================================== Policy Head ===============================
+        //Function to save or upate records ** To be called at the dialog form
+        function SaveUpdate() {
+            alert("function working");
+            //Cover data
+            var polhData = [{
+                //user inputs
+                POLH_COMP_CODE: $('#txtComCode').val(),
+                POLH_CHANNEL_CODE: $('#txtChanIntermCode').val(),
+                POLH_OFF_CODE: $('#txtOffCode').val(),
+                POLH_CUST_CODE: $('#txtCustCode').val(),
+                POLH_INS_SOURCE: $('#txtInsSrcCode').val(),
+                POLH_BIZ_SOURCE: $('#txtbizSrcCode').val(),
+                POLH_INTERMIDIARY: $('#txtAgencySrcCode').val(),
+                POLH_POL_START_DATE: $('#dtPolstartDate').val(),
+                POLH_POL_END_DATE: $('#dtPolEndDate').val(),
+                POLH_POL_DAYS: $('#dtPolDays').val(),
+                //system values
+
+                POLH_SYS_ID: $('#txtPolsysID').val(),
+                POLH_DOC_NO: $('#txtPolsysID').val(),
+                POLH_END_NO: 0,
+                POLH_QUT_SER_NO: $('#txtPolsysID').val(),
+                POLH_POL_SER_NO: $('#txtPolsysID').val(),
+                POLH_CLASS_CODE: '001',
+                POLH_SUB_CLASS_CODE:  '001',
+               // POLH_POL_UW_YEAR:
+                POLH_POL_SI_FC:     0,
+                POLH_POL_SI_BC:     0,
+                POLH_POL_PREM_FC:   0,
+                POLH_POL_PREM_BC:   0,
+                POLH_POL_COMM_FC:   0,
+                POLH_POL_COMM_BC:   0,
+                POLH_POL_DISC_FC:   0,
+                POLH_POL_DIS_BC:    0,
+                POLH_POL_LOAD_FC:   0,
+                POLH_POL_LOAD_BC:   0,
+                POLH_COINS_SI_FC:   0,
+                POLH_COINS_SI_BC:   0,
+                POLH_COINS_PREM_FC: 0,
+                POLH_COINS_PREM_BC: 0,
+                POLH_NET_SI_FC:     0,
+                POLH_NET_SI_BC:     0,
+                POLH_NET_PREM_FC:   0,
+                POLH_NET_PREM_BC:   0,
+                POLH_FEE_FC:        0,
+                POLH_FEE_BC:        0,
+                POLH_RENEW_SER_NO:  0,
+                POLH_TXN_STATE:     'U',
+                POLH_POL_STATE:     'U',
+                POLH_END_TYPE:      '',
+                //POLH_APPROVE_DATE:
+                //POLH_ACCT_DATE:
+                POLH_DISPLAY_NO: 'xxxx-01',
+                POLH_CRTE_BY: 'DEMO',
+                //POLH_CRTE_DATE:
+                POLH_MOD_BY: 'DEMO',
+                //POLH_MOD_DATE:
+                POLH_STATUS: "DEMO"
+
+
+            }];
+
+
+            //var Type = "";
+            //var Url = "";
+            //if ($('#txtStatus').val() == "") {
+            //    Type = 'POST';
+            //    Url = 'http://localhost:46831/api/CreateMotorPolicy';
+
+            //}
+            //else if ($('#txtStatus').val() == 1) {
+
+
+            //    Type = 'POST';
+            //    Url = 'http://localhost:46831/api/updateCovers';
+            //}
+            //else {
+
+            //    alert('Record status not set properly');
+            //}
+
+            //
+            $.ajax({
+
+                type: 'POST',
+                url: 'http://localhost:46831/api/CreateMotorPolicy',
+
+                //Data to send
+
+                data: JSON.stringify({polh: polhData }),
+
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+
+                //dataprocess: true,
+                success: function (data) {
+                    alert(data);
+
+                    $('#txtStatus').val(data);
+
+                    $('#txtStatus').val(1);
+
+                },
+                'error': function (error) {
+                    alert(JSON.stringify(error));
+                    $('#txtStatus').val("");
+                }
+
+            });
+        };
+
+        //// Dialog box==========================================================================
+
+
+
+        $(function () {
+            var dialog, form,
+            Savedialog = $("#dlgCode-form").dialog({
+                autoOpen: false,
+                height: 300,
+                width: 500,
+                modal: true,
+
+                buttons: {
+                    "YES": function () {
+
+                        //alert("YESSSS");
+                        SaveUpdate();
+
+                        $(this).dialog("close");
+                    },
+
+
+                    "NO": function () {
+
+                        $(this).dialog("close");
+
+                    },
+                }
+
+            });
+
+            //open the dialog form TO SAVE
+            $("#btnSavePolicy").button().on("click", function () {
+                if ($('#txtPolsysID').val() == "")
+                {
+                    RetnSequenceNo("MOT_TFF_SEQ", "#txtPolsysID");
+                }
+                Savedialog.dialog("open");
+            });
+
+        });
+
+        //--------------------Add covers --------------------------------
+        $(function () {
+            var dialog, form,
+            AddCoversdialog = $("#dlgCovers-form").dialog({
+                autoOpen: false,
+                height: 700,
+                width: 1300,
+                modal: true,
+
+                buttons: {
+                    "OK": function () {
+
+                        $(this).dialog("close");
+
+                    },
+
+
+                    "Cancel": function () {
+
+                        $(this).dialog("close");
+
+                    },
+                }
+
+            });
+
+            //open the dialog form TO add Covers
+            $("#btnAddCovers").button().on("click", function () {
+
+                AddCoversdialog.dialog("open");
+            });
+
+        });
+
+        ///----------------------Grid to add vehicles---------------------
+
+
+        $(document).ready(function () {
+
+            $("#gridVehRisks").jqGrid({
+                data: 'local',
+                colNames: [
+                    'VehID', 'PolID', 'polDocNo', 'Endorsement No.', 'Risk No',
+                    'Issue Date', 'Restrospective Date', 'Risk Start date', 'Risk End date',
+                    'Period Days', 'UW Year', 'Currrency', 'Rate', 'Product code',
+                    'Cover Code', 'Usage code', 'Registration No', 'Make', 'Model', 'Body Type',
+
+
+                     'Manufacture Year', 'Chassis No.', 'Cubic Capacity', 'Passengers',
+                    'Excess', 'Excess Percentage', 'Min Excess', 'Max Excess', 'Fix Excess',
+                    'Additional TPPD', 'TP Interest', 'TP Details', 'Proposal Declined', 'Declined Reasons',
+                    'Policy Cancelled', 'Cancelled Reason', 'Risk SI FC', 'Risk SI BC', 'Total Premium FC', 'Total Premium BC',
+
+
+                    'RI Applicable', 'RI Effective Date', 'RI SI FC', 'RI SI BC', 'RI Premium FC',
+                      'RI Premium BC', 'Risk Premium FC', 'Risk Premium BC', 'Adj Premium FC',
+                     'Adj Premium BC', 'Discount FC', 'Discount BC', 'Load FC', 'Laod BC',
+                    'Compulsory Fee FC', 'Compulsory Fee BC', 'Commossion FC', 'Commission BC', 'Txn Status', 'Risk State',
+
+                      ' Renewal Status', 'Endorsement Type', 'Approval Date', 'Account Date',
+                    'Create by', 'Create Date', 'Modified By', 'Modified Date', 'Status'
+
+                ],
+                colModel: [
+                    { name: 'VEH_SYS_ID', index: 'VEH_SYS_ID', width: 150, sorttype: "int" },
+                    { name: 'VEH_POLH_SYS_ID', index: 'VEH_POLH_SYS_ID', width: 150 },
+                    { name: 'VEH_POLH_DOC_NO', index: 'VEH_POLH_DOC_NO', width: 150 },
+                    { name: 'VEH_POLH_END_NO', index: 'VEH_POLH_END_NO', width: 150 },
+                    { name: 'VEH_RISK_NO', index: 'VEH_RISK_NO', width: 150 },
+                    { name: 'VEH_ISSUE_DATE', index: 'VEH_ISSUE_DATE', width: 150 },
+                    { name: 'VEH_RETROS_DATE', index: 'VEH_RETROS_DATE', width: 150 },
+                    { name: 'VEH_START_DATE', index: 'VEH_START_DATE', width: 150 },
+                    { name: 'VEH_END_DATE', index: 'VEH_END_DATE', width: 150 },
+                    { name: 'VEH_PERIOD_DAYS', index: 'VEH_PERIOD_DAYS', width: 150 },
+                    { name: 'VEH_UW_YEAR', index: 'VEH_UW_YEAR', width: 150 },
+                    { name: 'VEH_CURRENCY', index: 'VEH_CURRENCY', width: 150 },
+                    { name: 'VEH_CURR_RATE', index: 'VEH_CURR_RATE', width: 150 },
+                    { name: 'VEH_PRODUCT_CODE', index: 'VEH_PRODUCT_CODE', width: 150 },
+                    { name: 'VEH_COVER_CODE', index: 'VEH_COVER_CODE', width: 150 },
+                    { name: 'VEH_USAGE_CODE', index: 'VEH_USAGE_CODE', width: 150 },
+                    { name: 'VEH_VEH_REG_NO', index: 'VEH_VEH_REG_NO', width: 150,},
+                    { name: 'VEH_MAKE', index: 'VEH_MAKE', width: 150 },
+                    { name: 'VEH_MODEL', index: 'VEH_MODEL', width: 150 },
+                    { name: 'VEH_BODY_TYPE', index: 'VEH_BODY_TYPE', width: 150 },
+
+                    { name: 'VEH_MANUFACTURE_YR', index: 'VEH_MANUFACTURE_YR', width: 150 },
+                    { name: 'VEH_CHASSIS_NO', index: 'VEH_CHASSIS_NO', width: 150 },
+                    { name: 'VEH_CUBIC_CAP', index: 'VEH_CUBIC_CAP', width: 150 },
+                    { name: 'VEH_PASSENGERS', index: 'VEH_PASSENGERS', width: 150 },
+                    { name: 'VEH_EXCESS_APP', index: 'VEH_EXCESS_APP', width: 150 },
+                    { name: 'VEH_EXCESS_PERC', index: 'VEH_EXCESS_PERC', width: 150 },
+                    { name: 'VEH_EXCESS_MIN', index: 'VEH_EXCESS_MIN', width: 150 },
+                    { name: 'VEH_EXCESS_MAX', index: 'VEH_EXCESS_MAX', width: 150 },
+                    { name: 'VEH_EXCESS_FIX', index: 'VEH_EXCESS_FIX', width: 150 },
+                    { name: 'VEH_EXTRA_TPPD', index: 'VEH_EXTRA_TPPD', width: 150 },
+                    { name: 'VEH_TP_INTEREST', index: 'VEH_TP_INTEREST', width: 150 },
+                    { name: 'VEH_TP_DETAILS', index: 'VEH_TP_DETAILS', width: 150 },
+                    { name: 'VEH_PROP_DECLINED', index: 'VEH_PROP_DECLINED', width: 150 },
+                    { name: 'VEH_DECLINED_REASON', index: 'VEH_DECLINED_REASON', width: 150 },
+                    { name: 'VEH_POL_CANCELLED', index: 'VEH_POL_CANCELLED', width: 150 },
+                    { name: 'VEH_CANCELLED_REASON', index: 'VEH_CANCELLED_REASON', width: 150 },
+                    { name: 'VEH_SI_FC', index: 'VEH_SI_FC', width: 150 },
+                    { name: 'VEH_SI_BC', index: 'VEH_SI_BC', width: 150 },
+                    { name: 'VEH_TOT_PREM_FC', index: 'VEH_TOT_PREM_FC', width: 150 },
+                    { name: 'VEH_TOT_PREM_BC', index: 'VEH_TOT_PREM_BC', width: 150 },
+
+                    { name: ' VEH_RI_APPLICABLE', index: ' VEH_RI_APPLICABLE', width: 150 },
+                    { name: 'VEH_RI_EFF_DATE', index: 'VEH_RI_EFF_DATE', width: 150 },
+                    { name: 'VEH_RI_SI_FC', index: 'VEH_RI_SI_FC', width: 150 },
+                    { name: 'VEH_RI_SI_BC', index: 'VEH_RI_SI_BC', width: 150 },
+                    { name: 'VEH_RI_PREM_FC', index: 'VEH_RI_PREM_FC', width: 150 },
+                    { name: 'VEH_RI_PREM_BC', index: 'VEH_RI_PREM_BC', width: 150 },
+                    { name: 'VEH_RISK_PREM_FC', index: 'VEH_RISK_PREM_FC', width: 150 },
+                    { name: 'VEH_RISK_PREM_BC', index: 'VEH_RISK_PREM_BC', width: 150 },
+                    { name: 'VEH_ADJ_PREM_FC', index: 'VEH_ADJ_PREM_FC', width: 150 },
+                    { name: 'VEH_ADJ_PREM_BC', index: 'VEH_ADJ_PREM_BC', width: 150 },
+                    { name: 'VEH_DISC_FC', index: 'VEH_DISC_FC', width: 150 },
+                    { name: 'VEH_DISC_BC', index: 'VEH_DISC_BC', width: 150 },
+                    { name: 'VEH_LOAD_FC', index: 'VEH_LOAD_FC', width: 150 },
+                    { name: 'VEH_LOAD_BC', index: 'VEH_LOAD_BC', width: 150 },
+                    { name: 'VEH_COMP_FEE_FC', index: 'VEH_COMP_FEE_FC', width: 150 },
+                    { name: 'VEH_COMP_FEE_BC', index: 'VEH_COMP_FEE_BC', width: 150 },
+                    { name: 'VEH_COMMISSION_FC', index: 'VEH_COMMISSION_FC', width: 150 },
+                    { name: 'VEH_COMMISSION_BC', index: 'VEH_COMMISSION_BC', width: 150 },
+                    { name: 'VEH_TXN_STATUS', index: 'VEH_TXN_STATUS', width: 150 },
+                    { name: 'VEH_RISK_STATE', index: 'VEH_RISK_STATE', width: 150 },
+                    { name: 'VEH_RENEWAL_STATUS', index: 'VEH_RENEWAL_STATUS', width: 150 },
+
+                    { name: 'VEH_END_TYPE', index: 'VEH_END_TYPE', width: 150 },
+                    { name: 'VEH_APPROVE_DATE', index: 'VEH_APPROVE_DATE', width: 150 },
+                    { name: 'VEH_ACCT_DATE', index: 'VEH_ACCT_DATE', width: 150 },
+                    { name: 'VEH_CRTE_BY', index: 'VEH_CRTE_BY', width: 150 },
+                    { name: 'VEH_CRTE_DATE', index: '', width: 150 },
+                    { name: 'VEH_MOD_BY', index: 'VEH_MOD_BY', width: 150 },
+                    { name: 'VEH_MOD_DATE', index: 'VEH_MOD_DATE', width: 150 },
+                    { name: 'VEH_STATUS', index: 'VEH_STATUS', width: 150 }
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#gridVehRisks');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var Code = grid.jqGrid('getCell', sel_id, 'PDT_CODE');
+                    var Desc = DescCellData = grid.jqGrid('getCell', sel_id, 'PDT_DESC');
+                    // $("#txtCustID").val(Code);
+                    // $("#txtCustDesc").val(Desc);
+                },
+
+                rowNum: 30,
+                rowList: [30, 50, 100],
+                pager: '#grdVehPager',
+                sortname: 'Code',
+                viewrecords: true,
+                sortorder: "asc",
+                caption: "Cover list",
+                //loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#gridVehRisks").jqGrid('navGrid', '#grdVehPager',
+                { edit: false, add: false, del: false });
+        });
+
+
+
+        //call add function to add records to Premium Covers grid
+        $(document).ready(function () {
+
+            $("#btnAddVehicleTo_Grid").on('click', function () {
+
+                if ($('#txtVehSysID').val() == "")
+                {
+                    RetnSequenceNo("POL_HD_SEQ", "#txtVehSysID");
+                }
+
+
+                var EmpData = [
+                {
+                    VEH_SYS_ID: $('#txtVehSysID').val(),
+                    VEH_POLH_SYS_ID: $('#txtPolsysID').val(),
+                    VEH_POLH_DOC_NO: $('#txtPolsysID').val(),
+                    VEH_POLH_END_NO : 0,
+                    VEH_RISK_NO : $('#txtEmpID').val(),
+                    VEH_ISSUE_DATE : $('#dtIssueDate').val(),
+                    VEH_RETROS_DATE : $('#dtRetroDate').val(),
+                    VEH_START_DATE : $('#dtVehstartDate').val(),
+                    VEH_END_DATE : $('#dtsVehEndDate').val(),
+                    VEH_PERIOD_DAYS: $('#txtPeriodDays').val(),
+                     VEH_UW_YEAR  : '2016', // $('#txtEmpID').val(),
+                    VEH_CURRENCY : $('#txtCurrCode').val(),
+                    VEH_CURR_RATE : $('#txtRate').val(),
+                    VEH_PRODUCT_CODE : $('#txtProductCode').val(),
+                    VEH_COVER_CODE: $('#txtCoverCode').val(),
+                    VEH_USAGE_CODE: $('#txtVehUsageCode').val(),
+                    VEH_VEH_REG_NO: $('#txtVehRegNo').val(),
+                    VEH_MAKE: $('#txtVehMakeCode').val(),
+                    VEH_MODEL: $('#txtVehModelCode').val(),
+                    VEH_BODY_TYPE: $('#txtBodyType').val(),
+
+                    VEH_MANUFACTURE_YR  : $('#txtManuYear').val(),
+                    VEH_CHASSIS_NO   : $('#txtChassisNo').val(),
+                    VEH_CUBIC_CAP  : $('#txtCC').val(),
+                    VEH_PASSENGERS  : $('#txtSeatNo').val(),
+                    VEH_EXCESS_APP  :($("#chkbuybackExx").is(':checked')) ? 'Y' : 'N',
+                    VEH_EXCESS_PERC : $('#ExxPerc').val(),
+                    VEH_EXCESS_MIN : 0,
+                    VEH_EXCESS_MAX : 0,
+                    VEH_EXCESS_FIX  : 0,
+                    VEH_EXTRA_TPPD : ($("#chkAddTPPD").is(':checked')) ? 'Y' : 'N',
+                    VEH_TP_INTEREST : ($("#chkTPInterest").is(':checked')) ? 'Y' : 'N',
+                    VEH_TP_DETAILS : $('#txtTPInterestInfo').val(),
+                    VEH_PROP_DECLINED  : ($("#chkPropDeclined").is(':checked')) ? 'Y' : 'N',
+                    VEH_DECLINED_REASON  : $('#txtPropDeclReason').val(),
+                    VEH_POL_CANCELLED  :  ($("#chkPolCancelled").is(':checked')) ? 'Y' : 'N',
+                    VEH_CANCELLED_REASON: $('#txtReasonCancelled').val(),
+                    VEH_SI_FC : 0,
+                    VEH_SI_BC : 0,
+                    VEH_TOT_PREM_FC : 0,
+                    VEH_TOT_PREM_BC : 0,
+                    VEH_RI_APPLICABLE: 0,
+                    VEH_RI_EFF_DATE : 0,
+                    VEH_RI_SI_FC : 0,
+                    VEH_RI_SI_BC : 0,
+                    VEH_RI_PREM_FC : 0,
+                    VEH_RI_PREM_BC : 0,
+                    VEH_RISK_PREM_FC : 0,
+                    VEH_TP_PREM_BC : 0,
+                    VEH_ADJ_PREM_FC : 0,
+                    VEH_ADJ_PREM_BC :0,
+                    VEH_DISC_FC : 0,
+                    VEH_DISC_BC : 0,
+                    VEH_LOAD_FC : 0,
+                    VEH_LOAD_BC : 0,
+                    VEH_COMP_FEE_FC : 0,
+                    VEH_COMP_FEE_BC : 0,
+                    VEH_COMMISSION_FC : 0,
+                    VEH_COMMISSION_BC : 0,
+                    VEH_TXN_STATUS : 'U',
+                    VEH_RISK_STATE : 'A',
+                    VEH_RENEWAL_STATUS : 'N',
+                    VEH_END_TYPE : 'N',
+                    VEH_APPROVE_DATE : $('#txtEmpID').val(),
+                    VEH_ACCT_DATE : $('#txtEmpID').val(),
+                    VEH_CRTE_BY : 'DEMO',
+                    VEH_CRTE_DATE : $('#txtEmpID').val(),
+                    VEH_MOD_BY : 'DEMO',
+                    VEH_MOD_DATE : $('#txtEmpID').val(),
+                    VEH_STATUS: 'A',
+                },
+
+                ];
+                for (var i = 0; i < EmpData.length; i++)
+                    jQuery("#gridVehRisks").addRowData(EmpData[i].id, EmpData[i]);
+
+            });
+
+        });
+            // Grid for Covers (SMIs)
+
+
+        $(document).ready(function () {
+
+            $("#gridAppCovers").jqGrid({
+                data: 'local',
+                colNames: [
+                    'Cover Code', 'Sum Insured FC', 'Sum Insured BC', 'Rate', 'Gross Premium FC',
+                    'Gross Premium BC', 'Net Premium FC', 'Net Premium BC'
+                ],
+                colModel: [
+                    { name: 'PCOV_CODE', index: 'PCOV_CODE', width: 150, sorttype: "int" },
+                    { name: 'PCOV_SI_FC', index: 'PCOV_SI_FC', width: 150 },
+                    { name: 'PCOV_SI_BC', index: 'PCOV_SI_BC', width: 150 },
+                    { name: 'PCOV_RATE', index: 'PCOV_RATE', width: 150 },
+                    { name: 'PCOV_GROSS_PREM_FC', index: 'PCOV_GROSS_PREM_FC', width: 150 },
+                    { name: 'PCOV_GROSS_PREM_BC', index: 'PCOV_GROSS_PREM_BC', width: 150 },
+                    { name: 'PCOV_NET_PREM_FC', index: 'PCOV_NET_PREM_FC', width: 150 },
+                    { name: 'PCOV_NET_PREM_BC', index: 'PCOV_NET_PREM_BC', width: 150 }
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#gridAppCovers');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var Code = grid.jqGrid('getCell', sel_id, 'PDT_CODE');
+                    var Desc = DescCellData = grid.jqGrid('getCell', sel_id, 'PDT_DESC');
+                    // $("#txtCustID").val(Code);
+                    // $("#txtCustDesc").val(Desc);
+                },
+
+                rowNum: 30,
+                rowList: [30, 50, 100],
+                pager: '#gridAppCovPager',
+                sortname: 'Code',
+                viewrecords: true,
+                sortorder: "asc",
+                caption: "Cover list",
+                //loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#gridAppCovers").jqGrid('navGrid', '#gridAppCovPager',
+                { edit: false, add: false, del: false });
+        });
+
+
+
+
+
+        //Taps Layout function call using Jquery
+        $(function () {
+            $("#tabs").tabs({
+                beforeLoad: function (event, ui) {
+                    ui.jqXHR.fail(function () {
+                        ui.panel.html(
+                          "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+                          "If this wouldn't be a demo.");
+                    });
+                }
+            });
+        });
+
+        $(function () {
+            $("#tabs").resizable();
+            $("#tabs").height(2000);
+            //$("#tabs").width(1500);
+            //$("#tabs").draggable();
+
+        });
+
+        //Date picker -->
+        //Start date
+        $(function () {
+
+            $("#dtPolstartDate").datepicker({
+                showOn: "button",
+                buttonImage: "~/Content/Images/datePicker.gif",
+
+                buttonImageOnly: true,
+                buttonText: "Select"
+            });
+        });
+        //end date
+        $(function () {
+            $("#dtPolEndDate").datepicker({
+                showOn: "button",
+                buttonImage: "~/Content/Images/datePicker.gif",
+                buttonImageOnly: true,
+                buttonText: "Select"
+
+            });
+
+        });
+
+    </script>
+
+    <div id="tabs">
+        <div style="border: 1px solid #000000; border-color: gray; width: 100%" class="roundElement">
+
+            <br />
+            <div style="text-align: center" class="containera">
+
+                <select id="dwnCovType" style="width:15%; border-radius: 10px" name="Type" class="btn btn-default">
+
+                    <option value="N">None</option>
+                    <option value="T">TPL</option>
+                    <option value="O">OD</option>
+                </select>
+
+
+                <button id="btnSavePolicy" type="button" class="btn btn-default" style="border-radius: 10px">
+                    <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                </button>
+
+                <button id="btnSavePolicy" type="button" class="btn btn-default" style="border-radius: 10px">
+                    <i class="fa fa-save" title="Save" aria-hidden="true"></i> Process Policy
+                </button>
+
+                <button id="btnSavePolicy" type="button" class="btn btn-default" style="border-radius: 10px">
+                    <i class="fa fa-save" title="Save" aria-hidden="true"></i> Approve Policy
+                </button>
+
+                <button id="btnDeletePolicy" type="button" class="btn btn-default" style="border-radius: 10px">
+                    <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                </button>
+
+                <button type="reset" class="btn btn-default" style="border-radius: 10px">
+                    <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                </button>
+
+                <button type="button" id="btnFindTariff" class="btn btn-default" style="float: right;  border-radius: 10px">
+                    <i class="fa fa-search" title="Search" aria-hidden="true" style="border-radius: 10px"></i> Search
+                </button>
+                <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search from DB">
+
+                <br /><br />
+            </div>
+
+
+        </div>
+
+        <!-- Tab 1 Header-->
+        <ul>
+
+            <li><a href="#tabs-1">Policy Details</a></li>
+            <li><a href="#tabs-2">Risk Details</a></li>
+            <li><a href="#tabs-3">Premium Payable</a></li>
+            <li><a href="#tabs-4">Payments Details</a></li>
+            <li><a href="#tabs-4">RI Details </a></li>
+            <li><a href="#tabs-4">Claims History</a></li>
+            <li><a href="#tabs-4">Renewal History</a></li>
+
+
+        </ul>
+
+        <!-- --------------------------Tab 1 Content begins------------------------------------->
+
+        <div id="tabs-1" class="roundElement">
+
+            <form>
+                <div style="width: 80%; border: 1px solid #000000; border-color: dodgerblue;  float:left" class="roundElement">
+
+
+
+
+                    <fieldset>
+                        <h4 style="border-bottom-color:red" class="sub-header">Distribution Channel</h4>
+
+                        <div>
+                            <input id="txtPolsysID" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="hidden" name="Company" title="Office Description">
+                            <br /><br />
+                            <h4 style="border-bottom-color:red" class="sub-header">Distribution Channel</h4>
+
+                            <label id="lblCompanyCode" for="txtCompany">Company</label>
+                            <input id="txtComCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Company">
+                            <button type="button" id="btnSelCompany" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Office"> <> </button>
+                            <input id="txtCompanyName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="Company" title="Office Description">
+                            <br />
+                            <label id="lblChanIntermCode" for="txtChannelIntermName">Intermidiary</label>
+                            <input id="txtChanIntermCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtChanInterm" title="Channel Intermediary Code">
+                            <button type="button" id="btnSelChannelInterm" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Channel Intermediary"> <> </button>
+                            <input id="txtChanIntermName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtChanIntermName" title="Channel Intermediary Name">
+
+                            <br>
+                            <label id="lblOffice" for="txtOffice">Office</label>
+                            <input id="txtOffCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="Office" title="Select Issueing office">
+                            <button type="button" id="btnSelOffice" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Office"> <> </button>
+                            <input id="txtOffName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="OfficeDesc" title="Office Description">
+
+                        </div>
+
+                        <h4 style="border-bottom-color:red" class="sub-header">Customer Details</h4>
+                        <div>
+
+                            <label id="lblCustCode" for="txtCustCode">Customer Code</label>
+                            <input id="txtCustCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="CustID" title="Customer Code">
+                            <button type="button" id="btnSelCust" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Customer Code"> <> </button>
+                            <br />
+                            <label id="lblCustName" for="txtCustName">Customer Name</label>
+                            <input id="txtCustName" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="CustName" title="Customer full name">
+                            <br />
+                            <label id="lblAddress" for="txtAddress"> Address</label>
+                            <input id="txtAddress" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="CustAddress" title="Customer Address">
+                            <br />
+                            <label id="lblCustContNo" for="txtCustContNo"> Mobile Number</label>
+                            <input id="txtCustContNo" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="CustContNo" title="Customer Contact Number">
+
+                        </div> <br />
+
+                        <h4 style="border-bottom-color:red" class="sub-header">Policy Details</h4>
+
+                        <!-- ............................ Policy Details ............. -->
+
+                        <div>
+
+                            <label id="lblInsSrc" for="txtbizSrcCode">Insurance Source</label>
+                            <input id="txtInsSrcCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Insurance Source Code">
+                            <button type="button" id="btnSelInsSrcCode" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Insurance source"> <> </button>
+                            <input id="txtInsSrcName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Insurance Source">
+                        </div>
+
+                        <div>
+                            <label id="lblbizSrcCode" for="txtbizSrcCode">Business Source</label>
+                            <input id="txtbizSrcCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Business Source Code">
+                            <button type="button" id="btnSelBizSource" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select business source"> <> </button>
+                            <input id="txtbizSource" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Business Source">
+                        </div>
+                        <div>
+                            <label id="lblAgency" for="txtAgencySrcCode">Broker-Agent Soruce</label>
+                            <input id="txtAgencySrcCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="Agency" title="Agency Code">
+                            <button type="button" id="btnSelAgencySrc" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Agency"> <> </button>
+                            <input id="txtAgencySrcName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="Agency" title="Broker-Agency name">
+                        </div>
+
+
+                        <!-- Insurance Period -->
+                        <h4 style="border-bottom-color:red" class="sub-header">Period of Insurance</h4>
+
+                        <div>
+
+                            <label id="lblPolDate " for="dtstartDate"> Start Date</label>
+                            <input id="dtPolstartDate" style="width:15%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" title="Start Date of policy">
+                            <br>
+                            <label id="lblPolEndDate " for="dtEndDate"> End Date</label>
+                            <input id="dtPolEndDate" style="width:15%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" title="End Date of Policy">
+                            <br>
+                            <label id="lblPolDays " for="dtstartDate"> PolicyDays</label>
+                            <input id="dtPolDays" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="number" title="Policy Duration in days">
+
+                        </div><br />
+
+
+                        <div>
+                            <!-- Policy reference Details -->
+                            <h4 style="border-bottom-color:red" class="sub-header">Policy reference Details</h4>
+
+
+                            <label id="lblQtnNo" for="txtQtnSerNo">Quotation Number</label>
+                            <input id="txtQuotationNo" style="width:30%; height: 30px; align-self:flex-start" class="text ui-widget-content ui-corner-all" type="text" name="QuotationNo" title="Qoutation number">
+                            - <input id="txtQtnSerNo" style="width:3%; height: 30px" class="text ui-widget-content ui-corner-all" type="text" name="QuotationNo" title="Qoutation Serial Number">
+
+                            <br />
+
+                            <label id="lblSerNoID" for="txtSerNo">Policy Number</label>
+                            <input id="txtPoliNo" style="width:30%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Policy Number">
+                            - <input id="txtSerNo" style="width:3%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Policy Serial number">
+                            - <input id="txtEndSeq" style="width:3%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Endorsement Sequence">
+                            - <input id="txtRenSeq" style="width:3%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Renewal Sequence">
+
+                        </div>
+
+                        <br /><br />
+                    </fieldset>
+
+
+                    <br />
+                    <div style="border: 1px solid #000000; align-content:center; border-color: dodgerblue; width: 70%" class="roundElement">
+                        <br /><br />
+                        <button id="btnSaveTariff" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Commissions
+                        </button>
+                        <button id="btnSaveTariff" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Covers
+                        </button>
+                        <button id="btnSaveTariff" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Conditions and Clauses
+                        </button>
+                        <button id="btnSaveTariff" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Excess
+                        </button>
+                        <button id="btnSaveTariff" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Attach Documents
+                        </button>
+                        <br /><br />
+                    </div>
+                </div>
+
+                <div style="width: 18%; height: 50% ; background-color: silver; float:right" class="roundElement">
+                    <div>
+                        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+                    </div>
+                </div>
+
+
+            </form>
+
+
+            <!-- --------------------------Tab 1 Content begins------------------------------------->
+            <!-- --------------------------Tab 2 Content begins------------------------------------->
+
+            <div id="tabs-2">
+                <!-- --------------------------Risk form------------------------------------>
+
+                <form>
+                    <div style="border: 1px solid #000000; border-color: dodgerblue; width: 90%" class="roundElement">
+
+
+                        <div>
+                            <fieldset>
+                                <h4 style="border-bottom-color:red" class="sub-header">Vehilce Period</h4>
+
+                                <div>
+                                    <input id="txtVehSysID" class="text ui-widget-content ui-corner-all" type="text" title="Start Date of policy">
+                                    <br /><br />
+
+                                    <label id="lblDate " for="dtstartDate"> Issue Date</label>
+                                    <input id="dtIssueDate" class="text ui-widget-content ui-corner-all" type="text" title="Start Date of policy">
+
+                                    <label id="lblDate " for="dtstartDate"> Retrospective Date</label>
+                                    <input id="dtRetroDate" class="text ui-widget-content ui-corner-all" type="text" title="Start Date of policy">
+                                    <br />
+                                    <label id="lblDate " for="dtstartDate"> Effective Date</label>
+                                    <input id="dtVehstartDate" class="text ui-widget-content ui-corner-all" type="text" title="Start Date of policy">
+
+                                    <label id="lblDate " for="dtstartDate"> End Date</label>
+                                    <input id="dtsVehEndDate" class="text ui-widget-content ui-corner-all" type="text" title="Start Date of policy">
+                                    <br />
+                                    <label id="lblDate " for="dtstartDate"> period Days</label>
+                                    <input id="txtPeriodDays" class="text ui-widget-content ui-corner-all" type="text" title="Start Date of policy">
+                                    <br />
+                                    <h4 style="border-bottom-color:red" class="sub-header">Vehilce Period</h4>
+                                    <label id="lblPolCurrency" for="txtPolCurrency">Currency</label>
+                                    <input id="txtCurrCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Policy Curency">
+                                    <button type="button" id="btnSelPolCurrency" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Customer Code"> <> </button>
+                                    <input id="txtCurrDetls" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="Intermidiary" title="Currency details">
+                                    <input id="txtRate" style="width:5%; height: 30px " class="text ui-widget-content ui-corner-all" type="number" title="Policy Duration in days">
+                                    <br>
+                                </div>
+                                <div>
+
+                                    <h4 style="border-bottom-color:red" class="sub-header">Type of Insurance Cover</h4>
+
+                                    <label id="lblProduct" for="txtProduct">Policy Type</label>
+                                    <input id="txtProductCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <button type="button" id="btnSelProduct" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Product"> <> </button>
+                                    <input id="txtProductName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br />
+
+                                    <label id="lblCoverCode" for="txtCoverCode">Cover Type</label>
+                                    <input id="txtCoverCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <button type="button" id="btnSelCover" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Product"> <> </button>
+                                    <input id="txtCoverName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br />
+                                    <br />
+
+                                    <label id="lblCoverCode" for="txtCoverCode">Vehicle Use</label>
+                                    <input id="txtVehUsageCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <button type="button" id="btnSelUsage" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Product"> <> </button>
+                                    <input id="txtUsageName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br />
+
+                                </div>
+                                <div>
+                                    <h4 style="border-bottom-color:red" class="sub-header">Vehicle Details</h4>
+
+                                    <label id="lblVehRegNo" for="txtProduct">Registration No.</label>
+                                    <input id="txtVehRegNo" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br /><br />
+                                    <label id="lblVehMakeCode" for="txtVehMakeCode">Make</label>
+                                    <input id="txtVehMakeCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <button type="button" id="btnSelProduct" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Product"> <> </button>
+                                    <input id="txtVehMakeName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br />
+                                </div>
+                                <div>
+
+                                    <label id="lblVehModelCode" for="txtVehModelCode">Model</label>
+                                    <input id="txtVehModelCode" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <button type="button" id="btnSelProduct" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Select Product"> <> </button>
+                                    <input id="txtVehModelName" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br />
+                                </div>
+                                <div>
+
+                                    <label id="lblBodyType" for="txtProduct">Body Type</label>
+                                    <input id="txtBodyType" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br />
+                                    <label id="lblManuYear" for="txtManuYear">Year of Manufacture</label>
+                                    <input id="txtManuYear" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+
+                                    <label id="lblchassNo" for="txtChassisNo">   Chasis Number</label>
+                                    <input id="txtChassisNo" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br />
+                                    <label id="lblCC" for="txtProduct">   Cubic Capacity </label>
+                                    <input id="txtCC" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+
+                                    <label id="lblSeatNo" for="txtProduct">   Seating Capacity </label>
+                                    <input id="txtSeatNo" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br /><br />
+                                    <label id="lblbuybackExx" for="chkbuybackExx">Buy Back Excess? </label>
+                                    <input id="chkbuybackExx" type="checkbox" value="Rated?">
+
+                                    <label id="lblExxPerc" for="ExxPerc"> Excess % </label>
+                                    <input id="ExxPerc" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br />
+                                    <label id="lblAddTPPD" for="chkbuybackExx">Increase TPPD Limit? </label>
+                                    <input id="chkAddTPPD" type="checkbox" value="Rated?">
+
+                                    <label id="lblAddTPPD" for="txtAddTPPD"> Amount </label>
+                                    <input id="txtAddTPPD" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+
+                                </div>
+                                <div>
+                                    <br />
+                                    <h4 style="border-bottom-color:red" class="sub-header">Additional Info</h4>
+                                    <br />
+                                    <label id="lblTPInterest" for="chkTPInterest">  Third Party Interest? </label>
+                                    <input id="chkTPInterest" type="checkbox" value="chkTPInterest">
+
+                                    <label id="lblTPInterestInfo" for="txtTPInterestInfo">Details of TP</label>
+                                    <input id="txtTPInterestInfo" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br /><br />
+
+                                    <p style="color:red">Has any insurance company in connection with any motor vehicle declined your Proposal ? </p>
+                                    <br /><br />
+                                    <label id="lblPropDeclined" for="txtbuybackExx">  Yes/No</label>
+                                    <input id="chkPropDeclined" type="checkbox" value="chkPropDeclined">
+
+                                    <label id="lblPropDeclined" for="txtbuybackExx">  Declined Reeasons </label>
+                                    <input id="txtPropDeclReason" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br /><br />
+
+                                    <p style="color:red"> Has any insurance company in connection with any motor vehicle cancelled your policy ?</p>
+
+                                    <label id="lblPolCancelled" for="chkPolCancelled"> Yes/No </label>
+                                    <input id="chkPolCancelled" type="checkbox" value="chkPolCancelled">
+
+                                    <label id="lblReasonCancelled" for="txtReasonCancelled">  Cancelled Reeasons </label>
+                                    <input id="txtReasonCancelled" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Select Product">
+                                    <br /><br />
+                                </div>
+
+                            </fieldset>
+                        </div>
+
+                    </div>
+
+                    <div style="border: 1px solid #000000; border-color: dodgerblue; width: 90%" class="roundElement">
+                        <br />
+                        <button id="btnAddCovers" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Add Covers" aria-hidden="true"></i> Applicable Covers
+                        </button>
+
+                        <button id="btnApplyExcess" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Deductible Excess" aria-hidden="true"></i> Risk level D/L
+                        </button>
+
+                        <button id="btnApplyExcess" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Deductible Excess" aria-hidden="true"></i> Risk Level Excess
+                        </button>
+                        <button id="btnSaveTariff" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Attach Vehicle Docs" aria-hidden="true"></i> Attach Documents
+                        </button>
+                        <button id="btnSaveTariff" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Capture Driver Details" aria-hidden="true"></i> Driver Details
+                        </button>
+
+                        <br /><br />
+                    </div>
+
+                    <div style="border: 1px solid #000000; border-color: dodgerblue; width: 90%" class="roundElement">
+                        <h4 style="border-bottom-color:red" class="sub-header"> Risk Managment</h4>
+
+                        <br />
+                        <div style="text-align: center" class="containera">
+                            <button id="btnAddVehicleTo_Grid" type="button" class="btn btn-default">
+                                <i class="fa fa-save" title="Save" aria-hidden="true"></i> Add Risk
+                            </button>
+
+                            <button id="btnSaveTariff" type="button" class="btn btn-default">
+                                <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                            </button>
+
+                            <button type="button" class="btn btn-default">
+                                <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                            </button>
+
+                            <button type="reset" class="btn btn-default">
+                                <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                            </button>
+
+                            <button type="button" id="btnFindTariff" class="btn btn-default" style="float: right">
+                                <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                            </button>
+
+                            <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search from DB">
+
+                        </div>
+                        <!--Grid -->
+                        <div>
+                            <table id="gridVehRisks"></table>
+                            <table id="gridVehPager"></table>
+                        </div>
+
+                    </div>
+
+                </form>
+                <div style="border: 1px solid #000000; border-color: dodgerblue; width: 70%" class="roundElement">
+
+                </div>
+                <!-- -------------------------- data Grid------------------------------------->
+
+
+            </div>
+            <!-- --------------------------Tab 3 Content Begins------------------------------------->
+            <div id="tabs-3">
+                <!-- --------------------------Premium calculations------------------------------------>
+                <p> Premium calculations</p>
+            </div>
+            <!-- --------------------------Tab 3 Content Ends------------------------------------>
+            <!-- --------------------------Tab 4 Content Begins------------------------------------>
+
+            <div id="tabs-4">
+                <!-- --------------------------Payment process------------------------------------>
+                <p> Payment processing here</p>
+
+            </div>
+            <!-- --------------------------Tab 4 Content ends------------------------------------>
+        </div>
+        <!-- dialog form for Covers LOV -->
+        <div id="dlgCode-form" title="Save Data">
+            <form id="ProdCovers">
+                <div style="color: red">
+                    Alert Message
+                </div>
+                <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+                <!-- -->
+                <div style="color: fuchsia">
+                    Are you sure you want to save ?
+                </div>
+
+            </form>
+        </div>
+        <!--- ----Dialog Form For managing Covers -->
+        <div id="dlgCovers-form" title="Applicable Covers">
+            <form id="AppCovers">
+                <div style="border: 1px solid #000000; border-color: dodgerblue; width: 100%" class="roundElement">
+                    <h4 style="border-bottom-color:red" class="sub-header"> Risk Managment</h4>
+
+                    <br />
+                    <table>
+                        <tr>
+                            <th>Cover Code</th>
+                            <th></th>
+                            <th>Sum Insured </th>
+                            <th>Rate</th>
+                            <th>Gross Premium</th>
+                            <th>Net Premium </th>
+                            <th>Diccount</th>
+                            <th>Loading</th>
+                            <th>Cover Excess </th>
+                            <th>Accessories</th>
+                        </tr>
+                        <tr>
+
+                            <td>
+                                <input id="txtAppCovCode" style="width: 100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Cover Code">
+                            </td>
+                            <td>
+                                <button id="btnSelCovCode" type="reset" style="width: 50px; height: 30px " class="btn btn-default">
+                                    <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i>
+                                </button>
+
+                            </td>
+                            <td>
+                                <input id="txtCovSI" style="width: 150px;height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Sum Insured">
+
+                            </td>
+                            <td>
+                                <input id="txtA" style="width: 75px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Rate">
+                            </td>
+                            <td>
+                                <input id="txtAppCover" style="width: 150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Gross Premium">
+
+                            </td>
+                            <td>
+                                <input id="txtAppCover" style="width: 150px; height:30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Net Premium">
+
+                            </td>
+                            <td>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Discount
+                                </button>
+                            </td>
+                            <td>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Loading
+                                </button>
+                            </td>
+                            <td>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i>Ded. Excess
+                                </button>
+                            </td>
+                            <td>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Accessories
+                                </button>
+                            </td>
+
+                        </tr>
+                    </table>
+                    <br /><br />
+
+                    <!-- Grid for Covers-->
+                </div>
+                <div style="border: 1px solid #000000; border-color: dodgerblue; width: 100%" class="roundElement">
+                    <br /><br />
+                    <button id="btnAddCovers" type="button" class="btn btn-default">
+                        <i class="fa fa-save" title="Add Covers" aria-hidden="true"></i> Add Covers
+                    </button>
+
+
+                    <button id="btnDeletePolicy" type="button" class="btn btn-default" style="border-radius: 10px">
+                        <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                    </button>
+
+
+                    <button type="reset" class="btn btn-default" style="border-radius: 10px">
+                        <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                    </button>
+
+                    <button type="button" id="btnFindTariff" class="btn btn-default" style="float: right;  border-radius: 10px">
+                        <i class="fa fa-search" title="Search" aria-hidden="true" style="border-radius: 10px"></i> Search
+                    </button>
+                    <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search from DB">
+
+
+                    <!--Grid -->
+                    <div>
+                        <table id="gridAppCovers"></table>
+                        <table id="gridAppCovPager"></table>
+                    </div>
+                    <br /><br />
+
+                    <button type="button" id="btnFindTariff" class="btn btn-default" style="float: right;  border-radius: 10px">
+                        <i class="fa fa-refresh" title="Recalculate" aria-hidden="true" style="border-radius: 10px"></i> Recalculate
+                    </button>
+                    <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Cover Premium">
+
+                    <label style="float: right" id="lblTPInterest" for="chkTPInterest"> Cover Total Premium </label>
+
+                    <label style="float: left" id="lblTPInterest" for="chkTPInterest"> Cover Name </label>
+
+                    <input id="txtSearch" style="width:30%; height: 30px; text-align:center; float:left; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Cover Name">
+
+                    <br />
+                    <br />
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+
+
+
+

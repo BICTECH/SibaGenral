@@ -1,0 +1,575 @@
+﻿@{
+    Layout = "~/Views/Shared/_AccountModule.cshtml";
+}
+
+<script src="~/Scripts/Accounts/page_scripts/TxnDocNo/TxnDocNo.setup.js"></script>
+<script src="~/Scripts/services/user.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/TxnDoc.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/account.origin.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/MainAccount.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/InsAcctTxn.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12">
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <button type="button" class="btn btn-success" id="btnSave">
+                                    <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                </button>
+                                <button type="button" class="btn btn-danger" id="btnDelete">
+                                    <i class="fa ion-trash-b" title="Delete" aria-hidden="true"></i> Delete
+                                </button>
+                                <button type="reset" class="btn btn-primary" id="btnReset">
+                                    <i class="fa ion-loop" title="Reset" aria-hidden="true"></i> Reset
+                                </button>
+                                <button type="button" id="btnQuerytXNdOC" class="btn btn-info" style="float: right; margin-right: 15px">
+                                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                </button>
+                                <input id="txtSearch" style="width: 20%; height: 30px; text-align: center; float: right; margin-right: 10px"
+                                       class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search by Code or Name">
+                            </div>
+                        </div>
+                    </div>
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <form name="txDocForm" id="txnDocForm">
+                            
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="row control-group form-padding">
+                                    <span class="control-grp-lbl text-danger">Transaction Setup</span>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label> Code </label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input id="ATD_CODE" class="form-control" min="3" maxlength="15" type="text" name="ATD_CODE" title="Transaction Code" required/>
+                                                <input id="ATD_STATUS" type="hidden" name="ATD_STATUS" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>Name</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input id="ATD_NAME" class="form-control" min="3" maxlength="100" type="text" name="ATD_NAME" title="Transaction Name" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>Description</label>
+                                            </div>
+
+                                            <div class="col-md-8">
+                                                <textarea id="ATD_DESC" class="form-control" min="3" maxlength="1000" name="ATD_DESC" title="Transaction Description" required></textarea>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label> Txn Type</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <select id="ATD_TXN_CODE" class="form-control" name="ATD_TXN_CODE" title="Transaction Type" required>
+                                                    <option value="">Select Type</option>
+
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!-- /input-group -->
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>Txn Origin</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input id="ATD_TXN_ORIGN" class="form-control" maxlength="15" type="text" name="ATD_TXN_ORIGN" title="Transaction Origin Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btnTxnOrigin", "field1":"ATD_TXN_ORIGN", "field2":"DOC_ORIGN_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input id="DOC_ORIGN_NAME" class="form-control" type="text" name="DOC_ORIGN_NAME" title="Transaction Origin Name" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <!-- Posting Mode-->
+                                    <div class="col-sm-8 col-md-8 col-lg-12">
+
+                                        <div class="col-sm-8 col-md-8 col-lg-2">
+
+                                            <div class="row control-group form-padding">
+                                                <span class="control-grp-lbl text-danger" style="text-align: left">Posting Mode</span>
+
+                                                <div class="form-group">
+
+                                                    <label class="col-md-6">
+                                                        Batch
+                                                        <input id="" type="radio" value="Batch" name="ATD_PST_MODE">
+                                                    </label>
+
+                                                    <label class="col-md-6">
+                                                        Online
+                                                        <input id="" type="radio" value="Online" name="ATD_PST_MODE">
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- -->
+                                        <div class="col-sm-8 col-md-8 col-lg-3">
+
+                                            <div class="row control-group form-padding">
+                                                <span class="control-grp-lbl text-danger" style="text-align: left">Payment Mode</span>
+
+                                                <div class="form-group">
+
+
+                                                    <label class="col-md-3">
+                                                        Cash
+                                                        <input id="" type="radio" value="Cash" name="ATD_PAYMT_MODE">
+                                                    </label>
+
+                                                    <label class="col-md-3">
+                                                        Bank
+                                                        <input id="" type="radio" value="Bank" name="ATD_PAYMT_MODE">
+                                                    </label>
+
+                                                    <label class="col-md-3">
+                                                        Others
+                                                        <input id="" type="radio" value="Others" name="ATD_PAYMT_MODE">
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- -->
+                                        <div class="col-sm-8 col-md-8 col-lg-6">
+
+                                            <div class="row control-group form-padding">
+                                                <span class="control-grp-lbl text-danger" style="text-align: left">Other Properties</span>
+
+                                                <div class="form-group">
+
+
+                                                    <label class="col-md-3">
+                                                        Generate Doc. No?
+                                                        <input id="" type="checkbox" value="Y" name="ATD_GEN_DOC_NO_YN">
+
+                                                    </label>
+
+                                                    <label class="col-md-3">
+                                                        Print Before Post?
+                                                        <input id="" type="checkbox" value="Y" name="ATD_PRNT_BFR_PST_YN">
+                                                    </label>
+
+                                                    <label class="col-md-3">
+                                                        Print After Post?
+                                                        <input id="" type="checkbox" value="Y" name="ATD_PRNT_AFTR_PST_YN">
+                                                    </label>
+
+                                                    <label class="col-md-3">
+                                                        Self Reversing?
+                                                        <input id="" type="checkbox" value="Y" name="ATD_SLF_REV_YN">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Document No. Generation</a></li>
+                                <li><a href="#tabs-2">Default Accounts</a></li>
+                                <li><a href="#tabs-3">Access Rights</a></li>
+                                <li><a href="#tabs-4">Advanced Properties</a></li>
+                            </ul>
+
+                            <div id="tabs-1">
+                                <form name="docNoForm" id="docNoForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Transaction No. Generation</span>
+
+                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <div class="col-md-2">
+                                                <p> Accounting Year</p>
+
+                                                <input class="form-control" id="DNG_ACNT_YEAR" type="number" name="DNG_ACNT_YEAR" title="Accounting Year" required />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <p> From Date </p>
+
+                                                <input class="form-control date" id="DNG_FROM_DATE" type="text" name="DNG_FROM_DATE" title="From Date" required />
+                                            </div>
+                                            <div class="col-md-2">
+
+                                                <p> To date </p>
+                                                <input class="form-control date" id="DNG_TO_DATE" type="text" name="DNG_TO_DATE" title="To Date" required />
+                                            </div>
+
+                                            <div class="col-md-1">
+
+                                                <p> Start No. </p>
+                                                <input class="form-control" id="DNG_STRT_NO" min="1" type="number" name="DNG_STRT_NO" title="Starting Number" required />
+                                            </div>
+
+                                            <div class="col-md-1">
+
+                                                <p> Min Value </p>
+                                                <input class="form-control" id="DNG_CUR_NO" min="1" type="number" name="DNG_CUR_NO" title="Current Number" required />
+                                            </div>
+
+                                            <div class="col-md-1">
+
+                                                <p> Increment By </p>
+                                                <input class="form-control" id="DNG_NXT_NO" min="1" type="number" name="DNG_NXT_NO" title="Next Nmber" required />
+                                            </div>
+
+                                            <div class="col-md-1">
+
+                                                <p> Max Value </p>
+                                                <input class="form-control" id="DNG_END_NO" min="1" maxlength="20" type="number" name="DNG_END_NO" title="End Number" required />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                    </div>
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Optional Components</span>
+                                        <div class="col-sm-12 col-md-12 col-lg-12">
+                                            <div class="row">
+
+                                                <div class="col-md-2">
+                                                    <p> Separator</p>
+                                                    <select class="form-control" name="DNG_SEPARATOR" title="Separator" required>
+                                                        <option value="">-- Select-- </option>
+                                                        <option value="-">- Dash</option>
+                                                        <option value="/">/ Forwad Slash</option>
+                                                        <option value="/">\ Back Slash</option>
+                                                        <option value=".">. Dot</option>
+                                                    </select>
+
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <p> Prefix</p>
+
+                                                    <input class="form-control" id="DNG_PREF" min="3" maxlength="5" type="text" name="DNG_PREF" title="Document Number Prefix" required />
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <p> Suffix</p>
+
+                                                    <input class="form-control" id="DNG_SUFX" min="3" maxlength="5" type="text" name="DNG_SUFX" title="Document Number Suffix" required />
+                                                </div>
+                                                <div class="col-md-1">
+
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label>Append:</label>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label style="text-align: left !important">
+
+                                                        <input id="DNG_APND_CNTRY_YN" class="checkbox checkbox-inline pull-left" type="checkbox" name="DNG_APND_CNTRY_YN" value="Y" required />
+                                                        Country ?
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label style="text-align: left !important">
+
+                                                        <input id="DNG_APND_REG_YN" class="checkbox checkbox-inline pull-left" type="checkbox" name="DNG_APND_REG_YN" value="Y" required />
+                                                        Region ?
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <label style="text-align: left !important">
+
+                                                        <input id="DNG_APND_OFF_YN" class="checkbox checkbox-inline pull-left" type="checkbox" name="DNG_APND_OFF_YN" value="Y" required />
+                                                        Office ?
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label style="text-align: left !important">
+
+                                                        <input id="DNG_APND_DEP_YN" class="checkbox checkbox-inline pull-left" type="checkbox" name="DNG_APND_DEP_YN" value="Y" required />
+                                                        Department?
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_docNo" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                        <button id="btn_update_docNo" class="btn btn-default" type="button"><i class="fa ion-edit text-yellow"></i> Update</button>
+                                        <button id="btn_delete_docNo" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="docNo-export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdDocNo"></table>
+                                    <table id="grdDocNoPager"></table>
+                                </div>
+                            </div>
+
+                            <div id="tabs-2">
+                                <form name="defAcntForm" id="defAcntForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Default Accounts</span>
+                                        <!-- /input-group -->
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="form-group">
+
+                                                    <div class="col-md-2">
+                                                        Acount Code
+                                                        <div class="input-group">
+                                                            <input class="form-control" id="DA_ACNT_CODE" type="text" maxlength="15" name="DA_ACNT_CODE" title="Account Code" required />
+
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btnAccount", "field1":"DA_ACNT_CODE", "field2":"ACNT_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        Name
+                                                        <input class="form-control" id="ACNT_NAME" type="text" maxlength="100" name="ACNT_NAME" title="Account Name" required />
+                                                    </div>
+
+                                                    <div class="col-md-2">
+
+                                                        Min. Amount
+                                                        <input class="form-control" id="DA_MIN_AMNT" type="number" min="1" name="DA_MIN_AMNT" title="Minimum Amount" required />
+
+
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        Max. Amount
+                                                        <input class="form-control" id="DA_MAX_AMNT" type="number" min="1" name="DA_MAX_AMNT" title="Maximum Amount" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_defAcnt" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                        <button id="btn_update_defAcnt" class="btn btn-default" type="button"><i class="fa ion-edit text-yellow"></i> Update</button>
+                                        <button id="btn_delete_defAcnt" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="defAcnt-export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="22" width="22" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdDeftAccount"></table>
+                                    <table id="grdDeftAccountPager"></table>
+                                </div>
+
+
+                            </div>
+
+                            <div id="tabs-3">
+                                <form name="accsRghtForm" id="accsRghtForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">User Right</span>
+                                        <!-- /input-group -->
+                                        <div class="col-md-12">
+
+                                            <div class="row">
+                                                <div class="form-group">
+
+                                                    <div class="col-md-2">
+                                                        User Code
+                                                        <div class="input-group">
+                                                            <input class="form-control" id="TDAR_USR_CODE" maxlength="15" type="text" name="TDAR_USR_CODE" title="User Code" required />
+
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_user", "field1":"TDAR_USR_CODE", "field2":"USR_FULL_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-10">
+                                                        <div class="form-group">
+
+                                                            <div class="col-md-6">
+                                                                User Name
+                                                                <input class="form-control" id="USR_FULL_NAME" maxlength="100" type="text" name="USR_FULL_NAME" title="User Full Name" />
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                Min. Amount
+                                                                <input class="form-control" id="TDAR_MIN_AMNT" min="1" type="number" name="TDAR_MIN_AMNT" title="Minimum Amount" required />
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                Max. Amount
+                                                                <input class="form-control" id="TDAR_MAX_AMNT" min="1" type="number" name="TDAR_MAX_AMNT" title="Maximum Amount" required />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr />
+
+                                            <div class="row">
+
+                                                <div class="col-md-2">
+                                                    Post Transaction?
+                                                    <input id="TDAR_POST_TXN_YN" type="checkbox" value="Y" name="TDAR_POST_TXN_YN">
+
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    Can Ammend?
+                                                    <input id="TDAR_AMMEND_YN" type="checkbox" value="Y" name="TDAR_AMMEND_YN">
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    Can Reverse?
+                                                    <input id="TDAR_REVERSE_YN" type="checkbox" value="Y" name="TDAR_REVERSE_YN">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    Print before Post?
+                                                    <input id="TDAR_PRNT_BFR_PST_YN" type="checkbox" value="Y" name="TDAR_PRNT_BFR_PST_YN">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    Print after Post?
+                                                    <input id="TDAR_PRNT_AFTR_PST_YN" type="checkbox" value="Y" name="TDAR_PRNT_AFTR_PST_YN">
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_rght" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                        <button id="btn_update_rght" class="btn btn-default" type="button"><i class="fa ion-edit text-yellow"></i> Update</button>
+                                        <button id="btn_delete_rght" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="rght-export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdUserAccess"></table>
+                                    <table id="grdUserAccessPager"></table>
+                                </div>
+
+                            </div>
+
+                            <div id="tabs-4">
+                                <form name="advPropsForm" id="advPropsForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Advanced Properties</span>
+                                        <!-- /input-group -->
+                                        <div class="col-md-12">
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label class="col-md-2">
+                                                        Allow Back-Date?
+                                                        <input id="DAP_ALW_BCK_DATE_YN" type="checkbox" value="Y" name="DAP_ALW_BCK_DATE_YN">
+                                                    </label>
+
+                                                    <div class="col-md-1">
+                                                        <label> Days allowed</label>
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <input class="form-control" id="DAP_BACK_DAYS" min="1" type="number" name="DAP_BACK_DAYS" title="Number of Back Days Allowed" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label class="col-md-2">
+                                                        Allow Future-Date?
+                                                        <input id="DAP_ALW_FUTRE_DATE_YN" type="checkbox" value="Y" name="DAP_ALW_FUTRE_DATE_YN">
+                                                    </label>
+
+                                                    <div class="col-md-1">
+                                                        <label> Days allowed</label>
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <input class="form-control" min="1" id="DAP_FUTRE_DAYS" type="number" name="DAP_FUTRE_DAYS" title="Number of Future Days Allowed" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <label class="col-md-2">
+                                                        Log Audit Trail?
+                                                        <input id="DAP_LOG_TRAILS_YN" type="checkbox" value="Y" name="DAP_LOG_TRAILS_YN">
+                                                        <input id="DAP_STATUS" type="hidden" name="DAP_STATUS" value="U" />
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

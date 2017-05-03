@@ -1,0 +1,646 @@
+﻿@{
+    ViewBag.Title = "Country";
+}
+<script src="~/Scripts/Page_Scripts/country.setup.js"></script>
+<script src="~/Scripts/Services/country.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-7">
+                                        <select id="dwnCovType" onchange="runReport()" style="width:25%; color:darkgreen;" name="Type" class="btn btn-default">
+                                            <option value="">--Print Policy Documents --</option>
+                                            <option value="S">Poilicy Schedule</option>
+                                            <option value="C">Certificate</option>
+                                            <option value="D">Debit/Credit Notes</option>
+                                            <option value="R">Renewal Notices</option>
+                                        </select>
+
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+
+                                        <button id="btnProcessPolicy" type="button" class="btn btn-default">
+                                            <i class="fa fa-save" title="Process" aria-hidden="true"></i> Process Policy
+                                        </button>
+
+                                        <button id="btnApprovePolicy" type="button" class="btn btn-default">
+                                            <i class="fa fa-save" title="Approve" aria-hidden="true"></i> Approve Policy
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <button type="button" id="btnQueryCountry" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Policy Details</a></li>
+                                <li><a href="#tabs-2">Risk Details</a></li>
+                                <li><a href="#tabs-3">Premium Payable</a></li>
+                                <li><a href="#tabs-4">Payments Details</a></li>
+                                <li><a href="#tabs-4">RI Details </a></li>
+                                <li><a href="#tabs-4">Claims History</a></li>
+                                <li><a href="#tabs-4">Renewal History</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="countryForm" id="countryForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Policy Details Setup</span>
+
+                                        <div class="row">
+                                            <input id="txtPolsysID" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="Company" title="txtPolsysID">
+                                            <input id="txtPolicyState" style="width:5%; height: 30px " title="txtPolicyState">
+
+                                            <input id="txtPolPremFC" style="width:10%; height: 30px " title="txtPolPremFC">
+                                            <input id="txtPolPremBC" style="width:10%; height: 30px " title="txtPolPremBC">
+
+                                            <input id="txtPolLoadFC" style="width:10%; height: 30px " title="txtPolLoadFC">
+                                            <input id="txtPolLoadBC" style="width:10%; height: 30px " title="txtPolLoadBC">
+
+                                            <input id="txtPolDiscFC" style="width:10%; height: 30px " title="txtPolDiscFC">
+                                            <input id="txtPolDiscBC" style="width:10%; height: 30px " title="txtPolDiscBC">
+
+                                            <input id="txtPolSIFC" style="width:10%; height: 30px " title="txtPolCommFC">
+                                            <input id="txtPolSIBC" style="width:10%; height: 30px " title="txtPolCommBC">
+
+                                            <input id="txtPolCommFC" style="width:10%; height: 30px " title="txtPolCommFC">
+                                            <input id="txtPolCommBC" style="width:10%; height: 30px " title="txtPolCommBC">
+                                        </div>
+                                      <hr />
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Company</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Intermediary</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Office</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <hr />
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Customer Code</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Name</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" placeholder="Name">
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Address</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" placeholder="Address">
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Mobile No.</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" placeholder="Mobile No.">
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <hr />
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Product type</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Cover type</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Insurance source</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Business source</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Broker/Agent source</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <hr />
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Start Date</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" title="Name">
+                                                                <span class="textfieldRequiredMsg">Date is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">End Date</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" title="Name">
+                                                                <span class="textfieldRequiredMsg">Date is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Policy Days</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" title="Name">
+                                                                <span class="textfieldRequiredMsg">Date is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                               
+                            </div>
+
+                            <div id="tabs-2">
+                                <form>
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Risk Details Setup</span>
+
+                                        <div class="row">
+
+                                            <button id="btnResetRiskControls" style="margin-left:10px" type="reset" class="btn btn-default">
+                                                <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                            </button>
+
+                                            <button id="btnResetRiskControls" style="margin-left:10px" type="button" class="btn btn-default">
+                                                <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Copy Vehicle
+                                            </button>
+
+                                            <button id="btnValidate" style="margin-left:10px" type="button" class="btn btn-default">
+                                                <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Validate form
+                                            </button>
+
+                                            <input id="txtPolDocNo" style="width:8%; height: 30px " type="text" title="Policy Doc No">
+                                            <input id="txtBondSysID" style="width:8%; height: 30px " type="text" title="Sys ID">
+                                            <input id="txtBondRiskID" style="width:8%; height: 30px " title="Risk ID">
+                                            <input id="txtBondRiskState" style="width:8%; height: 30px " title="Risk State">
+
+                                        </div>
+
+                                        <hr />
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Line of Business</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <select name="types" id="dwnLOB" class="btn btn-default dropdown-toggle">
+                                                                    <option selected="selected" value="">-- Select type --</option>
+                                                                    <option value="Motor">Motor</option>
+                                                                    <option value="Casualty">Casualty</option>
+                                                                    <option value="A and H">A and H</option>
+                                                                    <option value="Rural and Multilines">Rural and Multilines</option>
+                                                                    <option value="Property">Property</option>
+                                                                    <option value="Marine">Marine</option>
+                                                                    <option value="Engineering">Engineering</option>
+                                                                </select>
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Description</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <textarea id="txtAgencyCommissionDesc" rows="4" cols="90" class="form-control"
+                                                                          name="txtAgencyCommissionDesc" placeholder="Description"></textarea>
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Short Description</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" placeholder="Short Description">
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Abbreviation</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" placeholder="Abbreviation">
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Line of Business</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <select name="types" id="dwnInsType" class="btn btn-default dropdown-toggle">
+                                                                    <option selected="selected" value="">-- Select type --</option>
+                                                                    <option value="LIAB">LIAB</option>
+                                                                    <option value="Casualty">Casualty</option>
+                                                                </select>
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Group</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" placeholder="Group">
+                                                                <span class="textfieldRequiredMsg">Group is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Currency</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="INT_CMP_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Start Date</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" placeholder="Start Date">
+                                                                <span class="textfieldRequiredMsg">Date is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">End Date</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="CNT_NAME" class="form-control" min="5" maxlength="50"
+                                                                       type="text" name="CNT_NAME" placeholder="End Date">
+                                                                <span class="textfieldRequiredMsg">Date is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdCountry"></table>
+                                    <table id="grdCountryPager"></table>
+                                </div>
+                            </div>
+
+                             <!--
+                             Tab 3    
+                             -->
+
+                            <div id="tabs-3">
+                                <form>
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Policy Premium Summary</span>
+
+                                        <div style="margin: 0px 10px 0px 10px;">
+                                           
+                                            <br />
+                                            <button id="btnPremRefresh" type="button" class="btn btn-default" style="border-radius: 10px">
+                                                <i title="Recalculate Premium" aria-hidden="true"></i> Refresh Premium
+                                            </button>
+                                            <br />
+                                            <!--Grid -->
+                                            <div>
+                                                <table id="gridPremSum"></table>
+                                                <table id="gridPremSumPager"></table>
+                                            </div>
+                                            <br />
+                                            <br />
+                                            <div>
+                                                <table id="gridFees"></table>
+                                                <table id="gridFeesPager"></table>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                   
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

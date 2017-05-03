@@ -1,0 +1,308 @@
+﻿@{
+    ViewBag.Title = "Make & Model";
+}
+<script src="~/Scripts/Page_Scripts/make.model.setup.js"></script>
+<script src="~/Scripts/Services/makemodel.service.js"></script>
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryDiscountLoading" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Make &amp; Model Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="makemodelForm" id="makemodelForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required"> Brand</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="input-group">
+                                                                <input class="form-control" type="text" maxlength="15" id="MMO_MAK_CODE" name="MMO_MAK_CODE" title="" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_make" ,"field1":"MMO_MAK_CODE", "field2":"MAK_NAME"}'>
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" type="text" name="MAK_NAME" title="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Code</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_code">
+                                                                <input id="MMO_CODE" class="form-control" min="1" maxlength="15" type="text" name="MMO_CODE" title="Code" required />
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Name</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="MMO_NAME" class="form-control" min="1" maxlength="50" type="text"
+                                                                       name="MMO_NAME" title="Name" required />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                                <span class="textfieldMinCharsMsg">Name must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Description</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="sprytf_desc">
+                                                                <textarea id="MMO_DESC" rows="2" cols="10" maxlength="100"
+                                                                          class="form-control" type="text" name="MMO_DESC" title="Description"></textarea>
+                                                                <span class="textfieldRequiredMsg">Description is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Man. Year</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_fromdate">
+                                                                <input id="MMO_YEAR_MFG" class="form-control" min="3" maxlength="50" type="text"
+                                                                       name="MMO_YEAR_MFG" title="Name" required />
+                                                                <span class="textfieldRequiredMsg">Manufacture Year is required.</span>                                                               
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Chasis No.</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_chasisno">
+                                                                <input id="MMO_CHASSIS_NUM" class="form-control" min="3" maxlength="50" type="text"
+                                                                       name="MMO_CHASSIS_NUM" title="Name" required />
+                                                                <span class="textfieldRequiredMsg">Chasis Number is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Chasis Number must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                               
+
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Cubic No.</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_cubicno">
+                                                                <input id="MMO_CUBIC_CAPACITY" class="form-control" min="3" maxlength="50" type="number"
+                                                                       name="MMO_CUBIC_CAPACITY" title="Name" required />
+                                                                <span class="textfieldRequiredMsg">Cubic Number is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Cubic Number must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Fuel Type</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="sprytf_type">
+                                                                <select id="MMO_FUEL_TYPE" name="MMO_FUEL_TYPE" class="btn btn-default dropdown-toggle" required>
+                                                                    <option value="....">Select Fuel</option>
+                                                                    <option value="Petrol">Petrol</option>
+                                                                    <option value="Disiel">Disiel</option>
+                                                                </select>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Body Type</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="sprytf_type">
+                                                                <select id="MMO_BODY_TYPE" name="MMO_BODY_TYPE" class="btn btn-default dropdown-toggle" required>
+                                                                    <option value="....">Select Body</option>
+                                                                    <option value="Others">Others</option>
+                                                                    <option value="Fibre">Fibre</option>
+                                                                    <option value="SUV">SUV</option>
+                                                                </select>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Usage</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="sprytf_maxamount">
+                                                                <select id="MMO_USAGE" name="MMO_USAGE" class="btn btn-default dropdown-toggle" required>
+                                                                    <option value="....">--Select Usage--</option>
+                                                                    <option value="Private">Private</option>
+                                                                    <option value="Commercial">Commercial</option>
+                                                                </select>                                                         
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Passengers</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_minperc">
+                                                                <input id="MMO_PASSENGERS" class="form-control" min="3" maxlength="50" type="number"
+                                                                       name="MMO_PASSENGERS" title="Name" required>
+                                                                <span class="textfieldRequiredMsg"> Passengers required.</span>
+                                                                <span class="textfieldInvalidFormatMsg"> Passengers must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Load Tonnage</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_load">
+                                                                <input id="MMO_LOAD_TONNAGE" class="form-control" min="3" maxlength="50" type="number"
+                                                                       name="MMO_LOAD_TONNAGE" title="Name" required>
+                                                                <span class="textfieldRequiredMsg">Load tonnage is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg"> Load tonnage  must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label>
+                                                                Status
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input class="checkbox checkbox-inline pull-left" type="checkbox" id="MMO_STATUS" name="CIT_STATUS" checked />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdMakeModel"></table>
+                                    <table id="grdMakeModelPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

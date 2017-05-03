@@ -1,0 +1,3335 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <!--  -->
+
+    <link href="~/Content/Css/Custom/sibaStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/SibaScript/sibaUWMotor.js"></script>
+
+    <script src="~/Scripts/SibaScript/RetnSequenceNo.js"></script>
+    <script src="~/Scripts/SibaScript/sibaDateFunction.js"></script>
+
+    <!-----------------General  References-->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.base.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.2.min.js"></script>
+
+    <script src="~/Scripts/jquery-1.7.2.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.8.11.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.min.js"></script>
+
+
+
+    <script>
+
+        //=================Save/Update fxn Call =======================
+        function SaveUpdate(callback) {
+
+            var txnDocHeadData = [{
+
+                TXN_DOC_SYS_ID: $('#txtTxnDocSysID').val(),
+                TXN_DOC_TYPE: $('#dwnTxnType').val(),
+                TXN_DOC_SOURCE: $('#txtTxnOriginCode').val(),
+                TXN_DOC_CODE: $('#txtTxnCode').val(),
+                TXN_DOC_NAME: $('#txtTxnName').val(),
+                TXN_DOC_DESC: $('#txtTxnDesc').val(),
+                TXN_DOC_POST_MODE: $("input[name=radPostMode]:checked").val(), //
+                TXN_DOC_PAY_MODE: $("input[name=radPmtMode]:checked").val(),
+                TXN_DOC_GEN_NO_YN: ($('#chkGenDoc').is(':checked')) ? 'Y' : 'N',
+                TXN_DOC_POST_YN: ($('#chkAppPost').is(':checked')) ? 'Y' : 'N',
+                TXN_DOC_REVERSE_YN: ($('#chkReverse').is(':checked')) ? 'Y' : 'N',
+                TXN_DOC_AUTHOZE_YN: ($('#chkAuthorize').is(':checked')) ? 'Y' : 'N',
+                TXN_DOC_PRNT_B_P_YN: ($('#chkPrintBPost').is(':checked')) ? 'Y' : 'N',
+                TXN_DOC_PRNT_A_P_YN: ($('#chkPrintAPost').is(':checked')) ? 'Y' : 'N',
+                TXN_DOC_CRTE_BY: "DEMO",
+                // TXN_DOC_CRTE_DATE : ,
+                TXN_DOC_MOD_BY: "DEMO",
+                //TXN_DOC_MOD_DATE : ,
+                TXN_DOC_STATUS: "U",
+
+            }];
+
+
+            var txnNoData = jQuery("#grdAppTxnNo").jqGrid('getRowData');
+            var txnDftAcctData = jQuery("#grdDeftAccount").jqGrid('getRowData');
+
+
+
+            //alert(JSON.stringify(agtBrokerCommData));
+
+            if ($('#txtTxnState').val() == "") {
+
+                Url = '/api/AcctTransactionDocuments/CreateTxnDocuments';
+            }
+            else if ($('#txtTxnState').val() == "A") {
+
+                //udate if status is A (Saved and active)
+                Url = '/api/AcctTransactionDocuments/UpdateTxnDocuments';
+            }
+            // --- -- ------
+
+            $.ajax({
+
+                type: 'POST',
+                url: Url,
+
+                //Data to send
+
+                data: JSON.stringify({ txnDoc: txnDocHeadData, txnNo: txnNoData, txnAcct: txnDftAcctData }),
+
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+
+                //dataprocess: true,
+                success: function (data) {
+
+                    if (data == "A" || data == "F") {
+                        callback(data);
+                    }
+                    else {
+                        alert(JSON.stringify(data));
+                    }
+                },
+                'error': function (error) {
+
+                    callback(error);
+
+                    return (error);
+                    alert(JSON.stringify(error));
+                }
+            });
+        };
+
+        //--------------------------------Dialog Box to Save/Update -------------------------------
+
+        $(function () {
+            var dialog, form,
+            Savedialog = $("#dlgCode-form").dialog({
+                autoOpen: false,
+                height: 300,
+                width: 500,
+                modal: true,
+
+                buttons: {
+                    "YES": function () {
+
+                        //Call Save function
+                        SaveUpdate(getDataAfterSave);
+
+                        function getDataAfterSave(data) {
+                            var results = data;
+
+                            if (results == "A") {
+
+                                $('#txtTxnState').val("A");
+
+                                var TxnNogrid = $('#grdAppTxnNo');
+
+                                var txnNoRowIds = TxnNogrid.jqGrid('getDataIDs');
+
+                                // iterate through the rows in Cover Grid and update Status
+                                for (var i = 0, len = txnNoRowIds.length; i < len; i++) {
+                                    var CurrRow = txnNoRowIds[i];
+
+                                    TxnNogrid.jqGrid('setCell', CurrRow, 'TXN_NO_STATUS', 'A');
+                                }
+                                //
+
+
+                                alert("Saved successfully");
+
+                            }
+
+                            else if (results == "F") {
+                                alert("Records not Saved, Check and try again");
+                            }
+                            else {
+                                alert("An error occured: " + JSON.stringify(jresults));
+                            }
+
+                        };
+
+
+                        $(this).dialog("close");
+                    },
+
+
+                    "NO": function () {
+
+                        $(this).dialog("close");
+
+                    },
+                }
+
+            });
+
+            //open the dialog form TO SAVE
+            $("#btnSaveUpdate").button().on("click", function () {
+                //Upade Vehcil risk status
+                var txnNogrid = $('#grdAppTxnNo');
+
+                var RowIds = txnNogrid.jqGrid('getDataIDs');
+                if (RowIds.length == "")
+                {
+                    alert("No records found in Transaction Number Generation, Please check and try again");
+                }
+                else
+                {
+                    Savedialog.dialog("open");
+                }
+
+            });
+
+
+        });
+
+
+        //===============================Query Txn Document generation Data=========================================
+        function getTxnDocumentData(callback) {
+
+            var txnDocCode = [{
+
+                paramTxnDocCode: $('#txtTxnCode').val(),
+
+            }];
+
+            //alert("No data found, Check and try again");
+
+            $.ajax({
+
+                type: 'POST',
+                url: '/api/AcctTransactionDocuments/getTxnDocuments',
+
+                //Data to send
+
+                data: JSON.stringify({txnDoc: txnDocCode }),
+
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+
+
+                //dataprocess: true,
+                success: function (data) {
+
+                        callback(data);
+
+                },
+                'error': function (error) {
+
+                    alert(JSON.stringify(error));
+                }
+
+            });
+        }
+
+        //Query Documents for all data
+
+        $(document).ready(function () {
+        $("#btnSearch").click(function () {
+
+                //Call query function
+                getTxnDocumentData(getTxnDocData);
+
+                //call back function
+                function getTxnDocData(data) {
+
+
+                    //alert(JSON.stringify(data));
+
+                    if (data.length == "") {
+
+                        alert("No data found, No data found");
+                    }
+                    else {
+
+                     //   alert("Working");
+
+                        var txnDocHeadData = data[0].TXN_DOCUMENT_DATA;
+                        var txnDocNoData = data[0].TXN_NUMBER_DATA;
+                        var txnDftAcctData = data[0].TXN_DEFT_ACCT_DATA;
+
+                      //  alert(JSON.stringify(txnDocNoData));
+
+                        if (txnDocHeadData.length > 0) {
+
+                            $('#txtTxnDocSysID').val(txnDocHeadData[0].TXN_DOC_SYS_ID);
+                            $('#dwnTxnType').val(txnDocHeadData[0].TXN_DOC_TYPE);
+                            $('#txtTxnOriginCode').val(txnDocHeadData[0].TXN_DOC_SOURCE);
+                            $('#txtTxnCode').val(txnDocHeadData[0].TXN_DOC_CODE);
+                            $('#txtTxnName').val(txnDocHeadData[0].TXN_DOC_NAME);
+                            $('#txtTxnDesc').val(txnDocHeadData[0].TXN_DOC_NAME);
+                            //
+                            if (txnDocHeadData[0].TXN_DOC_GEN_NO_YN == "Y")
+                            {
+                                $('#chkGenDoc').is(':checked');
+                            }
+
+                            /*
+
+                                                 TXN_DOC_SYS_ID = txnDocType.TXN_DOC_SYS_ID,
+                                                 TXN_DOC_TYPE = txnDocType.TXN_DOC_TYPE,
+                                                 TXN_DOC_SOURCE = txnDocType.TXN_DOC_SOURCE,
+                                                 TXN_DOC_CODE = txnDocType.TXN_DOC_CODE,
+                                                 TXN_DOC_NAME = txnDocType.TXN_DOC_NAME,
+                                                 TXN_DOC_DESC = txnDocType.TXN_DOC_DESC,
+                                                 TXN_DOC_POST_MODE = txnDocType.TXN_DOC_POST_MODE,
+                                                 TXN_DOC_PAY_MODE = txnDocType.TXN_DOC_PAY_MODE,
+                                                 TXN_DOC_GEN_NO_YN = txnDocType.TXN_DOC_GEN_NO_YN,
+                                                 TXN_DOC_POST_YN = txnDocType.TXN_DOC_POST_YN,
+                                                 TXN_DOC_REVERSE_YN = txnDocType.TXN_DOC_REVERSE_YN,
+                                                 TXN_DOC_AUTHOZE_YN = txnDocType.TXN_DOC_AUTHOZE_YN,
+                                                 TXN_DOC_PRNT_B_P_YN = txnDocType.TXN_DOC_PRNT_B_P_YN,
+                                                 TXN_DOC_PRNT_A_P_YN = txnDocType.TXN_DOC_PRNT_A_P_YN,
+                                                 TXN_DOC_CRTE_BY = txnDocType.TXN_DOC_CRTE_BY,
+                                                 TXN_DOC_CRTE_DATE = txnDocType.TXN_DOC_CRTE_DATE,
+                                                 TXN_DOC_MOD_BY = txnDocType.TXN_DOC_MOD_BY,
+                                                 TXN_DOC_MOD_DATE = txnDocType.TXN_DOC_MOD_DATE,
+                                                 TXN_DOC_STATUS = txnDocType.TXN_DOC_STATUS,
+                                                 */
+
+                            //load txn Number grid
+
+                            if (txnDocNoData.length > 0) {
+
+                                //clear before loading
+                                $("#grdAppTxnNo").clearGridData();
+                                //Load grid
+                                for (var i = 0; i < txnDocNoData.length; i++)
+                                    jQuery("#grdAppTxnNo").addRowData(txnDocNoData[i].id, txnDocNoData[i]);
+
+
+                            }
+                            else
+                            {
+                                $("#grdAppTxnNo").clearGridData();
+                            }
+
+                            if (txnDftAcctData.length > 0) {
+
+                                //clear before loading
+                                $("#grdDeftAccount").clearGridData();
+                                //Load grid
+                                for (var i = 0; i < txnDftAcctData.length; i++)
+                                    jQuery("#grdDeftAccount").addRowData(txnDftAcctData[i].id, txnDftAcctData[i]);
+                            }
+                            else
+                            {
+                                $("#grdDeftAccount").clearGridData();
+                            }
+                        }
+                        else {
+                            alert("No Data found, check and try again");
+                        }
+
+                    }
+
+                }
+            });
+        });
+
+        // Select document origin=============btnQueryDocCode
+
+        $(document).ready(function () {
+            $("#btnQueryDocOrigin").click(function () {
+                //function findCovers() {
+
+                var GetItem = [{
+                    //paramProdCode: $("#txtProductCode").val(),
+                    paramsearchField: $("#txtSearchDocOrgn").val(),
+                    //paramCoverCode: $('#txtSearchCover').val()
+                }];
+
+                //alert("No data found, Check and try again");
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '/api/AcctTransactionDocuments/QueryDocOrigin',
+
+                    //Data to send
+
+                    data: JSON.stringify({getDocOrgn: GetItem }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+
+                    //dataprocess: true,
+                    success: function (data) {
+
+                        //clear the grid
+                        $("#grdTxnOrigin").clearGridData();
+
+                        var Covdata = data;
+                        //alert(data);
+
+                        if (Covdata.length > 0) {
+                            for (var i = 0; i < Covdata.length; i++)
+
+                                jQuery("#grdTxnOrigin").addRowData(Covdata[i].id, Covdata[i]);
+                        }
+                        else {
+
+                            alert("No data found, Check and try again");
+                        }
+
+                    },
+                    'error': function (error) {
+
+                        alert(JSON.stringify(error));
+                    }
+
+                });
+            });
+        });
+
+        // Select document origin=============
+
+        $(document).ready(function () {
+            $("#btnQueryDocCode").click(function () {
+                //function findCovers() {
+
+                var GetItem = [{
+                    //paramProdCode: $("#txtProductCode").val(),
+                    paramsearchField: $("#txtSearchDocCode").val(),
+                    //paramCoverCode: $('#txtSearchCover').val()
+                }];
+
+                //alert("No data found, Check and try again");
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '/api/AcctTransactionDocuments/QueryDocCode',
+
+                    //Data to send
+
+                    data: JSON.stringify({ getDocOrgn: GetItem }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+
+                    //dataprocess: true,
+                    success: function (data) {
+
+                        //clear the grid
+                        $("#grdGetDocCode").clearGridData();
+
+                        var Covdata = data;
+                        //alert(data);
+
+                        if (Covdata.length > 0) {
+                            for (var i = 0; i < Covdata.length; i++)
+
+                                jQuery("#grdGetDocCode").addRowData(Covdata[i].id, Covdata[i]);
+                        }
+                        else {
+
+                            alert("No data found, Check and try again");
+                        }
+
+                    },
+                    'error': function (error) {
+
+                        alert(JSON.stringify(error));
+                    }
+
+                });
+            });
+        });
+
+
+        //<!-- LOV for Doc origin -->
+        var dialogDocOrgn, form;
+        $(function () {
+
+            dialogDocOrgn = $("#dialog-Frm-DocOrgn").dialog({
+                autoOpen: false,
+                height: 550,
+                width: 700,
+                modal: true,
+
+                buttons: {
+                    "OK": function () {
+                        if ($("#txtTxnOriginCode").val() == "") {
+                            alert("No value selected, check and try again")
+                        }
+                        else {
+
+                            $(this).dialog("close");
+                        }
+                    },
+
+                    "Clear": function () {
+                        $("#txtTxnOriginCode").val("");
+                        $("#txtOriginName").val("");
+                    },
+
+                    Cancel: function () {
+                        $(this).dialog("close");
+                        $("#txtTxnOriginCode").val("");
+                        $("#txtOriginName").val("");
+                    },
+                }
+
+            });
+
+            //open the dialog form
+            $("#btnSelTxnOrigin").button().on("click", function () {
+                dialogDocOrgn.dialog("open");
+            });
+
+        });
+
+        //<!-- LOV for Doc Code -->
+        var dialogDocCode, form;
+        $(function () {
+
+            dialogDocCode = $("#dialog-Frm-DocCode").dialog({
+                autoOpen: false,
+                height: 550,
+                width: 700,
+                modal: true,
+
+                buttons: {
+                    "OK": function () {
+                        if ($("#txtTxnDocCode").val() == "") {
+                            alert("No value selected, check and try again")
+                        }
+                        else {
+
+                            $(this).dialog("close");
+                        }
+                    },
+
+                    "Clear": function () {
+                        $("#txtTxnDocCode").val("");
+
+                    },
+
+                    Cancel: function () {
+                        $(this).dialog("close");
+                        $("#txtTxnDocCode").val("");
+
+                    },
+                }
+
+            });
+
+            //open the dialog form
+        $("#btnSelTxnCode").button().on("click", function () {
+                dialogDocCode.dialog("open");
+            });
+
+        });
+
+
+        //<!-- LOV for Risk Details -->
+        var dialogRiskDetails, form;
+        $(function () {
+
+            dialogRiskDetails = $("#dialog-Frm-RiskDetails").dialog({
+                autoOpen: false,
+                height: 550,
+                width: 700,
+                modal: true,
+
+                buttons: {
+                    "OK": function () {
+                        if ($("#txtRiskID").val() == "") {
+                            alert("No value selected, check and try again")
+                        }
+                        else {
+
+                            $(this).dialog("close");
+                        }
+                    },
+
+                    "Clear": function () {
+                        $("#txtRiskID").val("");
+
+                    },
+
+                    Cancel: function () {
+                        $(this).dialog("close");
+                        $("#txtRiskID").val("");
+
+                    },
+                }
+
+            });
+
+            //open the dialog form
+            $("#btnSelRiskDetails").button().on("click", function () {
+                dialogRiskDetails.dialog("open");
+            });
+
+        });
+
+        ///======================================== Grid  Section ==== ==========================
+
+        /// Grid for Document generation
+        $(document).ready(function () {
+            $("#grdAppTxnNo").jqGrid({
+                data: 'local',
+                colNames: ['Acconting Year', 'From Date', 'To Date ', 'Start No.',
+                    'Next No.', 'Current No', 'End No','Prefix','Suffix','Country Component','Region Component','Office Component','Department Component','Separator',
+                    'Create by', 'Create Date', 'Modifed By', 'Modified Date', 'Status','Txn SysID', 'TxnDoc SysID'
+                ],
+
+                colModel: [
+
+                    { name: 'TXN_NO_ACCT_YEAR', index: 'TXN_NO_ACCT_YEAR', width: 100 },
+                    { name: 'TXN_NO_FROM_DATE', index: 'TXN_NO_FROM_DATE', hidden: false, width: 150 },
+
+                    { name: 'TXN_NO_TO_DATE', index: 'TXN_NO_TO_DATE', width: 150 },
+                    { name: 'TXN_NO_START_NO', index: 'TXN_NO_START_NO', width: 100 },
+                    { name: 'TXN_NO_NEXT_NO', index: 'TXN_NO_NEXT_NO', hidden: false, width: 100 },
+                    { name: 'TXN_NO_CURRENT_NO', index: 'TXN_NO_CURRENT_NO', width: 100 },
+
+                    { name: 'TXN_NO_END_NO', index: 'TXN_NO_END_NO', width: 100 },
+                    { name: 'TXN_NO_PREFIX', index: 'TXN_NO_PREFIX', width: 100 },
+                    { name: 'TXN_NO_SUFFIX', index: 'TXN_NO_SUFFIX', width: 100 },
+                    { name: 'TXN_NO_COUNTRY', index: 'TXN_NO_COUNTRY', width: 100 },
+                    { name: 'TXN_NO_REGION', index: 'TXN_NO_REGION', width: 100 },
+                    { name: 'TXN_NO_OFFICE', index: 'TXN_NO_OFFICE', width: 100 },
+                    { name: 'TXN_NO_UNIT', index: 'TXN_NO_UNIT', width: 100 },
+                    { name: 'TXN_NO_SEPARATOR', index: 'TXN_NO_SEPARATOR', width: 100 },
+
+                    { name: 'TXN_NO_CRTE_BY', index: 'TXN_NO_CRTE_BY', hidden: false, width: 100 },
+                    { name: 'TXN_NO_CRTE_DATE', index: 'TXN_NO_CRTE_DATE', hidden: false, width: 100 },
+                    { name: 'TXN_NO_MOD_BY', index: 'TXN_NO_MOD_BY', hidden: false, width: 100 },
+                    { name: 'TXN_NO_MOD_DATE', index: 'TXN_NO_MOD_DATE', hidden: false, width: 100 },
+                    { name: 'TXN_NO_STATUS', index: 'TXN_NO_STATUS', hidden: false, width: 100 },
+
+                    { name: 'TXN_NO_SYS_ID', index: 'TXN_NO_SYS_ID', hidden: false, width: 100 },
+                    { name: 'TXN_NO_DOC_SYS_ID', index: 'TXN_NO_DOC_SYS_ID', hidden: false, width: 100 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdAppTxnNo');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdAppTxnNo');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdAppTxnNoPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Currency",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdAppTxnNo").jqGrid('navGrid', '#grdAppTxnNoPager',
+                { edit: false, add: false, del: false });
+
+            jQuery("#grdAppTxnNo").jqGrid('filterToolbar',
+              { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+        });
+
+
+        /// Grid for Dialog Risk Details
+        $(document).ready(function () {
+            $("#grdDialogRiskDetails").jqGrid({
+                data: 'local',
+                colNames: ['Account Code', 'Min. Amount', 'Maximum',
+                    'Create by', 'Create Date', 'Modifed By', 'Modified Date', 'Status','Txn Deft Acct sysID','Txn No Sys ID'],
+                colModel: [
+                    { name: 'TXN_DFT_ACCT_CODE', index: 'TXN_DFT_ACCT_CODE', width: 150 },
+                    { name: 'TXN_DFT_ACCT_MIN_AMT', index: 'TXN_DFT_ACCT_MIN_AMT', width: 150 },
+                    { name: 'TXN_DFT_ACCT_MAX_AMT', index: 'TXN_DFT_ACCT_MAX_AMT', hidden: false, width: 150 },
+                    { name: 'TXN_DFT_ACCT_CRTE_BY', index: 'TXN_DFT_ACCT_CRTE_BY', hidden: false, width: 100 },
+                    { name: 'TXN_DFT_ACCT_CRTE_DATE', index: 'TXN_DFT_ACCT_CRTE_DATE', hidden: false, width: 100 },
+                    { name: 'TXN_DFT_ACCT_MOD_BY', index: 'TXN_DFT_ACCT_MOD_BY', hidden: false, width: 100 },
+                    { name: 'TXN_DFT_ACCT_MOD_DATE', index: 'TXN_DFT_ACCT_MOD_DATE', hidden: false, width: 100 },
+                    { name: 'TXN_DFT_ACCT_STATUS', index: 'TXN_DFT_ACCT_STATUS', hidden: false, width: 100 },
+                    { name: 'TXN_DFT_ACCT_TXN_SYS_ID', index: 'TXN_DFT_ACCT_TXN_SYS_ID', hidden: false, width: 100 },
+                    { name: 'TXN_DFT_ACCT_SYS_ID', index: 'TXN_DFT_ACCT_SYS_ID', hidden: false, width: 100 },
+                ],
+
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdDialogRiskDetails');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdDialogRiskDetails');
+
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Currency",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdDialogRiskDetails").jqGrid('navGrid', '#grdPager',
+                { edit: false, add: false, del: false });
+
+            jQuery("#grdDialogRiskDetails").jqGrid('filterToolbar',
+              { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+        });
+
+
+        /// Grid for Risk Details
+        $(document).ready(function () {
+            $("#grdRiskDetails").jqGrid({
+                data: 'local',
+                colNames: ['Risk ID', 'Risk Class', 'Cover Code',
+                    'SMI Code', 'Loss Type', 'Loss Code', 'Event Code', 'Tot.Loss Y/N', 'Stolen Y/N', 'Remarks'],
+                colModel: [
+                    { name: 'CLMRID_RISK_ID', index: 'CLMRID_RISK_ID', width: 150 },
+                    { name: 'CLMRID_RISK_CLASS', index: 'CLMRID_RISK_CLASS', width: 150 },
+                    { name: 'CLMRID_COVER_CODE', index: 'CLMRID_COVER_CODE', hidden: false, width: 150 },
+                    { name: 'CLMRID_SMI_CODE', index: 'CLMRID_SMI_CODE', hidden: false, width: 100 },
+                    { name: 'CLMRID_LOSS_TYPE', index: 'CLMRID_LOSS_TYPE', hidden: false, width: 100 },
+                    { name: 'CLMRID_LOSS_CODE', index: 'CLMRID_LOSS_CODE', hidden: false, width: 100 },
+                    { name: 'CLMRID_EVENT_CODE', index: 'CLMRID_EVENT_CODE', hidden: false, width: 100 },
+                    { name: 'CLMRID_TOTAL_LOSS_YN', index: 'CLMRID_TOTAL_LOSS_YN', hidden: false, width: 100 },
+                    { name: 'CLMRID_STOLEN_YN', index: 'CLMRID_STOLEN_YN', hidden: false, width: 100 },
+                    { name: 'CLMRID_REMARKS', index: 'CLMRID_REMARKS', hidden: false, width: 100 },
+                ],
+
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdRiskDetails');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdRiskDetails');
+
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdDeftAccountPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Risk Details",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdRiskDetails").jqGrid('navGrid', '#grdPager',
+                { edit: false, add: false, del: false });
+
+            jQuery("#grdRiskDetails").jqGrid('filterToolbar',
+              { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+        });
+
+        /// Grid for Claim Estimate
+        $(document).ready(function () {
+            $("#grdClmEstimate").jqGrid({
+                data: 'local',
+                colNames: ['Sys id', 'Est No.', 'Date', 'Type', 'Customer Code', 'Customer Name', 'Currency', 'FC Amount', 'O/S Amount',
+                'Frz. YN', 'Conf YN', 'Claim YN', 'Link YN', 'Misc Loss YN', 'Loss Type YN', 'Sub YN', 'Salv YN', 'Close YN', 'Description', 'Party Ref No.',
+                'Legal YN', 'Remarks', 'Status Code', 'Status Name', 'Inv Ref No', 'Customer Name', 'Cust. Type', 'LC Amount', 'Currency Rate', 'Date of Entry/Closing',
+                'Link Est Ref No', 'INV Ref No', 'Src of Business Code', 'Src of Business', 'Payment Est', 'Payment Paid', 'Payment O/S', 'Recovery Est', 'Recovery Paid', 'Recovery O/S',
+                ],
+                colModel: [
+                    { name: 'CLMEST_SYS_ID', index: 'CLMEST_SYS_ID', hidden: false, width: 150 },
+                    { name: 'CLMEST_EST_NO', index: 'CLMEST_EST_NO', hidden: false, width: 150 },
+                    { name: 'CLMEST_EST_DATE', index: 'CLMEST_EST_DATE', width: 300 },
+                    { name: 'CLMEST_EST_TYPE', index: 'CLMEST_EST_TYPE', width: 300 },
+                    { name: 'CLMEST_CUSTOMER_CODE', index: 'CLMEST_CUSTOMER_CODE', width: 300 },
+                    { name: 'CLMEST_CUSTOMER_NAME', index: 'CLMEST_CUSTOMER_NAME', width: 300 },
+                    { name: 'CLMEST_CURRENCY', index: 'CLMEST_CURRENCY', width: 300 },
+                    { name: 'CLMEST_FC_AMOUNT', index: 'CLMEST_FC_AMOUNT', width: 300 },
+                    { name: 'CLMEST_OS_CURRENCY', index: 'CLMEST_OS_CURRENCY', width: 300 },
+                    { name: 'CLMEST_FRZ_YN', index: 'CLMEST_FRZ_YN', width: 300 },
+                    { name: 'CLMEST_CONF_YN', index: 'CLMEST_CONF_YN', width: 300 },
+                    { name: 'CLMEST_CLAIM_YN', index: 'CLMEST_CLAIM_YN', width: 300 },
+                    { name: 'CLMEST_LINK_YN', index: 'CLMEST_LINK_YN', width: 300 },
+                    { name: 'CLMEST_MISC_LOSS_YN', index: 'CLMEST_MISC_LOSS_YN', width: 300 },
+                    { name: 'CLMEST_LOSS_TYPE_YN', index: 'CLMEST_LOSS_TYPE_YN', width: 300 },
+                    { name: 'CLMEST_SUB_YN', index: 'CLMEST_SUB_YN', width: 300 },
+                    { name: 'CLMEST_SALV_YN', index: 'CLMEST_SALV_YN', width: 300 },
+                    { name: 'CLMEST_CLOSE_YN', index: 'CLMEST_CLOSE_YN', width: 300 },
+                    { name: 'CLMEST_DESCRIPTION', index: 'CLMEST_DESCRIPTION', width: 300 },
+                    { name: 'CLMEST_PARTY_REF_NO', index: 'CLMEST_PARTY_REF_NO', width: 300 },
+                    { name: 'CLMEST_LEGAL_YN', index: 'CLMEST_LEGAL_YN', width: 300 },
+                    { name: 'CLMEST_REMARKS', index: 'CLMEST_REMARKS', width: 300 },
+                    { name: 'CLMEST_STATUS_CODE', index: 'CLMEST_STATUS_CODE', width: 300 },
+                    { name: 'CLMEST_STATUS_NAME', index: 'CLMEST_STATUS_NAME', width: 300 },
+                    { name: 'CLMEST_INV_REF_NO', index: 'CLMEST_INV_REF_NO', width: 300 },
+                    { name: 'CLMEST_CUSTOMER_NAME', index: 'CLMEST_CUSTOMER_NAME', width: 300 },
+                    { name: 'CLMEST_CUSTOMER_TYPE', index: 'CLMEST_CUSTOMER_TYPE', width: 300 },
+                    { name: 'CLMEST_LC_AMOUNT', index: 'CLMEST_LC_AMOUNT', width: 300 },
+                    { name: 'CLMEST_CURRENCY_RATE', index: 'CLMEST_CURRENCY_RATE', width: 300 },
+                    { name: 'CLMEST_DATE_ENTRY_CLOSING', index: 'CLMEST_DATE_ENTRY_CLOSING', width: 300 },
+                    { name: 'CLMEST_LINK_REF_NO', index: 'CLMEST_LINK_REF_NO', width: 300 },
+                    { name: 'CLMEST_INV_REF_NO', index: 'CLMEST_INV_REF_NO', width: 300 },
+                    { name: 'CLMEST_SRC_BUSINESS_CODE', index: 'CLMEST_SRC_BUSINESS_CODE', width: 300 },
+                    { name: 'CLMEST_SRC_BUSINESS', index: 'CLMEST_SRC_BUSINESS', width: 300 },
+                    { name: 'CLMEST_PAYMENT_EST', index: 'CLMEST_PAYMENT_EST', width: 300 },
+                    { name: 'CLMEST_PAYMENT_PAID', index: 'CLMEST_PAYMENT_PAID', width: 300 },
+                    { name: 'CLMEST_PAYMENT_OS', index: 'CLMEST_PAYMENT_OS', width: 300 },
+                    { name: 'CLMEST_RECOVERY_EST', index: 'CLMEST_RECOVERY_EST', width: 300 },
+                    { name: 'CLMEST_RECOVERY_PAID', index: 'CLMEST_RECOVERY_PAID', width: 300 },
+                    { name: 'CLMEST_RECOVERY_OS', index: 'CLMEST_RECOVERY_OS', width: 300 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdClmEstimate');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CLM_SR_NO');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CLM_CLMCON_CODE');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdClmEstimate');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdClmEstimatePager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Claim Estimate Details",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdClmEstimate").jqGrid('navGrid', '#grdClmEstimatePager',
+                  { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdClmEstimate").jqGrid('filterToolbar',
+                  { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdClmEstimate").jqGrid('bindKeys');
+        });
+        
+
+        /// Grid for Injured Details
+        $(document).ready(function () {
+            $("#grdInjuredDetails").jqGrid({
+                data: 'local',
+                colNames: ['Sys id', 'Injury ID', 'Salary Curr Code', 'Salary Currency', 'Injured FC Salary', 'Injured BC Salary', 'Injury Cause Code', 'Injury Cause', 'Injury Member Code',
+                'Injury Member', 'Sex', 'injury Result Code', 'injury Result', 'Accident Date', 'Relationship', 'Time bar Date', 'Injured Name',
+                'Injured Sal Type', 'Salary Doc Y/N', 'Occ Code', 'Injury Type Code', 'Injury Type', 'Age',
+                'Nationality Code', 'Nationality', 'Disability', 'Absence Days', 'Absence date'
+                ],
+                colModel: [
+                    { name: 'CLMINJ_SYS_ID', index: 'CLMINJ_SYS_ID', hidden: false, width: 150 },
+                    { name: 'CLMINJ_INJURED_ID', index: 'CLMINJ_INJURED_ID', hidden: false, width: 150 },
+                    { name: 'CLMINJ_SALARY_CURR_CODE', index: 'CLMINJ_SALARY_CURR_CODE', width: 300 },
+                    { name: 'CLMINJ_SALARY_CURRENCY_', index: 'CLMINJ_SALARY_CURRENCY_', width: 300 },
+                    { name: 'CLMINJ_INJURED_FC_SALARY', index: 'CLMINJ_INJURED_FC_SALARY', width: 300 },
+                    { name: 'CLMINJ_INJURED_BC_SALARY', index: 'CLMINJ_INJURED_BC_SALARY', width: 300 },
+                    { name: 'CLMINJ_INJURED_CAUSE_CODE', index: 'CLMINJ_INJURED_CAUSE_CODE', width: 300 },
+                    { name: 'CLMINJ_INJURED_CAUSE', index: 'CLMINJ_INJURED_CAUSE', width: 300 },
+                    { name: 'CLMINJ_INJURED_MEMBER_CODE', index: 'CLMINJ_INJURED_MEMBER_CODE', width: 300 },
+                    { name: 'CLMINJ_INJURED_MEMBER', index: 'CLMINJ_INJURED_MEMBER', width: 300 },
+                    { name: 'CLMINJ_SEX', index: 'CLMINJ_SEX', width: 300 },
+                    { name: 'CLMINJ_INJURED_RESULT_CODE', index: 'CLMINJ_INJURED_RESULT_CODE', width: 300 },
+                    { name: 'CLMINJ_INJURED_RESULT', index: 'CLMINJ_INJURED_RESULT', width: 300 },
+                    { name: 'CLMINJ_ACCIDENT_DATE', index: 'CLMINJ_ACCIDENT_DATE', width: 300 },
+                    { name: 'CLMINJ_RELATIONSHIP', index: 'CLMINJ_RELATIONSHIP', width: 300 },
+                    { name: 'CLMINJ_TIMEBAR_DATE', index: 'CLMINJ_TIMEBAR_DATE', width: 300 },
+                    { name: 'CLMINJ_INJURED_NAME', index: 'CLMACC_STATUS', width: 300 },
+                    { name: 'CLMINJ_INJURED_SAL_TYPE', index: 'CLMINJ_INJURED_SAL_TYPE', width: 300 },
+                    { name: 'CLMINJ_SALARY_DOC_YN', index: 'CLMINJ_SALARY_DOC_YN', width: 300 },
+                    { name: 'CLMINJ_OCC_CODE', index: 'CLMINJ_OCC_CODE', width: 300 },
+                    { name: 'CLMINJ_INJURY_TYPE_CODE', index: 'CLMINJ_INJURY_TYPE_CODE', width: 300 },
+                    { name: 'CLMINJ_INJURY_TYPE', index: 'CLMINJ_INJURY_TYPE', width: 300 },
+                    { name: 'CLMINJ_AGE', index: 'CLMINJ_AGE', width: 300 },
+                    { name: 'CLMINJ_NATIONALITY_CODE', index: 'CLMINJ_NATIONALITY_CODE', width: 300 },
+                    { name: 'CLMINJ_NATIONALITY', index: 'CLMINJ_NATIONALITY', width: 300 },
+                    { name: 'CLMINJ_DISABILITY', index: 'CLMINJ_DISABILITY', width: 300 },
+                    { name: 'CLMINJ_ABSENCE_DAYS', index: 'CLMINJ_ABSENCE_DAYS', width: 300 },
+                    { name: 'CLMINJ_ABSENCE_DATE', index: 'CLMINJ_ABSENCE_DATE', width: 300 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdInjuredDetails');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CLM_SR_NO');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CLM_CLMCON_CODE');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdInjuredDetails');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdInjuredDetailsPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Injured Details",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdInjuredDetails").jqGrid('navGrid', '#grdInjuredDetailsPager',
+                  { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdInjuredDetails").jqGrid('filterToolbar',
+                  { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdInjuredDetails").jqGrid('bindKeys');
+        });
+
+
+        /// Grid for Claim Accident
+        $(document).ready(function () {
+            $("#grdCLAccident").jqGrid({
+                data: 'local',
+                colNames: ['Sys id', 'Party Ref No.', 'Speed KPH', 'No. of Pass', 'Fault', 'Fault %', 'Location Code', 'Location Name', 'Description',
+                'Driving Exp', 'Case', 'Case date', 'injury Result Code', 'injury Result', 'Police Abstract Rep', 'Details', 'Status', 'Driver Type Code', 'Driver Type', 'Driver ID', 'Driver Name', 'Nationality Code',
+                'Nationality', 'DOB', 'Age', 'Marital Status', 'Sex', 'Licence code', 'Licence type', 'Remarks', 'Licensing Auth Code', 'Licensing Auth Name', 'Issue Date', 'Expiry Date',
+                'Address', 'Tel No.'],
+                colModel: [
+                    { name: 'CLMACC_SYS_ID', index: 'CLMACC_SYS_ID', hidden: false, width: 150 },
+                    { name: 'CLMACC_PARTY_REF', index: 'CLMACC_PARTY_REF', hidden: false, width: 150 },
+                    { name: 'CLMACC_SPEED', index: 'CLMACC_SPEED', width: 300 },
+                    { name: 'CLMACC_NO_PASS', index: 'CLMACC_NO_PASS', width: 300 },
+                    { name: 'CLMACC_FAULT', index: 'CLMACC_FAULT', width: 300 },
+                    { name: 'CLMACC_FAULT_PEC', index: 'CLMACC_FAULT_PEC', width: 300 },
+                    { name: 'CLMACC_LOCATION_CODE', index: 'CLMACC_LOCATION_CODE', width: 300 },
+                    { name: 'CLMACC_LOCATION_NAME', index: 'CLMACC_LOCATION_NAME', width: 300 },
+                    { name: 'CLMACC_DESCRIPTION', index: 'CLMACC_DESCRIPTION', width: 300 },
+                    { name: 'CLMACC_DRIVING_EXPERIENCE', index: 'CLMACC_DRIVING_EXPERIENCE', width: 300 },
+                    { name: 'CLMACC_CASE_YN', index: 'CLMACC_CASE_YN', width: 300 },
+                    { name: 'CLMACC_CASE_DATE', index: 'CLMACC_CASE_DATE', width: 300 },
+                    { name: 'CLMACC_INJURY_RESULT_CODE', index: 'CLMACC_INJURY_RESULT_CODE', width: 300 },
+                    { name: 'CLMACC_INJURY_RESULT', index: 'CLMACC_INJURY_RESULT', width: 300 },
+                    { name: 'CLMACC_POLICE_ABSTRACT_REP', index: 'CLMACC_POLICE_ABSTRACT_REP', width: 300 },
+                    { name: 'CLMACC_DETAILS', index: 'CLMACC_DETAILS', width: 300 },
+                    { name: 'CLMACC_STATUS', index: 'CLMACC_STATUS', width: 300 },
+                    { name: 'CLMACC_DRIVER_TYPE_CODE', index: 'CLMACC_DRIVER_TYPE_CODE', width: 300 },
+                    { name: 'CLMACC_DRIVER_TYPE', index: 'CLMACC_DRIVER_TYPE', width: 300 },
+                    { name: 'CLMACC_DRIVER_ID', index: 'CLMACC_DRIVER_ID', width: 300 },
+                    { name: 'CLMACC_DRIVER_NAME', index: 'CLMACC_DRIVER_NAME', width: 300 },
+                    { name: 'CLMACC_NATIONALITY_CODE', index: 'CLMACC_NATIONALITY_CODE', width: 300 },
+                    { name: 'CLMACC_NATIONALITY', index: 'CLMACC_NATIONALITY', width: 300 },
+                    { name: 'CLMACC_DOB', index: 'CLMACC_DOB', width: 300 },
+                    { name: 'CLMACC_AGE', index: 'CLMACC_AGE', width: 300 },
+                    { name: 'CLMACC_MARITAL_STATUS', index: 'CLMACC_MARITAL_STATUS', width: 300 },
+                    { name: 'CLMACC_SEX', index: 'CLMACC_SEX', width: 300 },
+                    { name: 'CLMACC_LICENSE_CODE', index: 'CLMACC_LICENSE_CODE', width: 300 },
+                    { name: 'CLMACC_LICENSE_TYPE', index: 'CLMACC_LICENSE_TYPE', width: 300 },
+                    { name: 'CLMACC_REMARKS', index: 'CLMACC_REMARKS', width: 300 },
+                    { name: 'CLMACC_LICENSE_AUTH_CODE', index: 'CLMACC_LICENSE_AUTH_CODE', width: 300 },
+                    { name: 'CLMACC_LICENSE_AUTH', index: 'CLMACC_LICENSE_AUTH', width: 300 },
+                    { name: 'CLMACC_ISSUE_DATE', index: 'CLMACC_ISSUE_DATE', width: 300 },
+                    { name: 'CLMACC_EXPIRY_DATE', index: 'CLMACC_EXPIRY_DATE', width: 300 },
+                    { name: 'CLMACC_DESCRIPTION', index: 'CLMACC_DESCRIPTION', width: 300 },
+                    { name: 'CLMACC_TEL_NO', index: 'CLMACC_TEL_NO', width: 300 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdCLAccident');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CLM_SR_NO');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CLM_CLMCON_CODE');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdCLAccident');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdCLAccidentPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Accident Claims",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdCLAccident").jqGrid('navGrid', '#grdCLAccidentPager',
+                  { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdCLAccident").jqGrid('filterToolbar',
+                  { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdCLAccident").jqGrid('bindKeys');
+        });
+
+
+        /// Grid for TP/Own Damage Claim
+        $(document).ready(function () {
+            $("#grdTPODClaim").jqGrid({
+                data: 'local',
+                colNames: ['Sys ID', 'Party Ref No.', 'Cover Code', 'Name', 'Occupation', 'Address', 'Tel No.', 'Insurance Co. Code',
+                'Nationality', 'Loss Desc', 'Case', 'Age of Injured', 'Acc. Desc', 'Policy No.', 'Date from', 'Date to', 'Disablement', 'Case Desc' ],
+                colModel: [
+                    { name: 'CLMTPOWD_SYS_ID', index: 'CLMTPOWD_SYS_ID', hidden: false, width: 150 },
+                    { name: 'CLMTPOWD_PARTY_REF_NO', index: 'CLMTPOWD_PARTY_REF_NO', width: 300 },
+                    { name: 'CLMTPOWD_COVER_CODE', index: 'CLMTPOWD_COVER_CODE', width: 300 },
+                    { name: 'CLMTPOWD_NAME', index: 'CLMTPOWD_NAME', width: 300 },
+                    { name: 'CLMTPOWD_OCCUPATION', index: 'CLMTPOWD_OCCUPATION', width: 300 },
+                    { name: 'CLMTPOWD_ADDRESS', index: 'CLMTPOWD_ADDRESS', width: 300 },
+                    { name: 'CLMTPOWD_TEL_NO', index: 'CLMTPOWD_TEL_NO', width: 300 },
+                    { name: 'CLMTPOWD_INSURANCE_CODE', index: 'CLMTPOWD_INSURANCE_CODE', width: 300 },
+                    { name: 'CLMTPOWD_NATIONALITY', index: 'CLMTPOWD_NATIONALITY', width: 300 },
+                    { name: 'CLMTPOWD_LOSS_DESC', index: 'CLMTPOWD_LOSS_DESC', width: 300 },
+                    { name: 'CLMTPOWD_CASE', index: 'CLMTPOWD_CASE', width: 300 },
+                    { name: 'CLMTPOWD_AGE_INJURED', index: 'CLMTPOWD_AGE_INJURED', width: 300 },
+                    { name: 'CLMTPOWD_ACC_DESC', index: 'CLMTPOWD_ACC_DESC', width: 300 },
+                    { name: 'CLMTPOWD_POLICY_NO', index: 'CLMTPOWD_POLICY_NO', width: 300 },
+                    { name: 'CLMTPOWD_DATE_FROM', index: 'CLMTPOWD_DATE_FROM', width: 300 },
+                    { name: 'CLMTPOWD_DATE_TO', index: 'CLMTPOWD_DATE_TO', width: 300 },
+                    { name: 'CLMTPOWD_DISABLEMENT', index: 'CLMTPOWD_DISABLEMENT', width: 300 },
+                    { name: 'CLMTPOWD_CASE_DESC', index: 'CLMTPOWD_CASE_DESC', width: 300 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdTPODClaim');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CLM_SR_NO');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CLM_CLMCON_CODE');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdTPODClaim');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdTPODClaimPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "TP/OD Claims",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdTPODClaim").jqGrid('navGrid', '#grdTPODClaimPager',
+                  { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdTPODClaim").jqGrid('filterToolbar',
+                  { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdTPODClaim").jqGrid('bindKeys');
+        });
+
+
+        /// Grid for Claim Recovery
+        $(document).ready(function () {
+            $("#grdClaimRecovery").jqGrid({
+                data: 'local',
+                colNames: ['Rec Sys id', 'Recovery Ref', 'Recovery type', 'Recovery date', 'Arrival date', 'Ins Company', 'Recovery agent',
+                'Time bar date', 'Extended date', 'Description', ],
+                colModel: [
+                    { name: 'CLMREV_SYS_ID', index: 'CLMREV_SYS_ID', hidden: false, width: 150 },
+                    { name: 'CLMREV_RECV_REF', index: 'CLMREV_RECV_REF', width: 300 },
+                    { name: 'CLMREV_RECV_TYPE', index: 'CLMREV_RECV_TYPE', width: 300 },
+                    { name: 'CLMREV_RECV_DATE', index: 'CLMREV_RECV_DATE', width: 300 },
+                    { name: 'CLMREV_ARRIVAL_DATE', index: 'CLMREV_ARRIVAL_DATE', width: 300 },
+                    { name: 'CLMREV_INS_COMPANY', index: 'CLMREV_INS_COMPANY', width: 300 },
+                    { name: 'CLMREV_RECV_AGENT', index: 'CLMREV_RECV_AGENT', width: 300 },
+                    { name: 'CLMREV_TIMEBAR_DATE', index: 'CLMREV_TIMEBAR_DATE', width: 300 },
+                    { name: 'CLMREV_EXTENDED_DATE', index: 'CLMREV_EXTENDED_DATE', width: 300 },
+                    { name: 'CLMREV_DESCRIPTION', index: 'CLMREV_DESCRIPTION', width: 300 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdClaimRecovery');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CLM_SR_NO');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CLM_CLMCON_CODE');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdClaimRecovery');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdClaimRecoveryPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Claim Recovery",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdClaimRecovery").jqGrid('navGrid', '#grdClaimRecoveryPager',
+                  { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdClaimRecovery").jqGrid('filterToolbar',
+                  { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdClaimRecovery").jqGrid('bindKeys');
+        });
+
+
+        /// Grid for Claim Conditions
+        $(document).ready(function () {
+            $("#grdClaimConditions").jqGrid({
+                data: 'local',
+                colNames: ['Sr No', 'Code', 'Description', 'Type Desc',
+                            ],
+                colModel: [
+                    { name: 'CLM_SR_NO', index: 'CLM_SR_NO', hidden: false, width: 150 },
+                    { name: 'CLM_CLMCON_CODE', index: 'CLM_CLMCON_CODE', width: 300 },
+                    { name: 'CLM_CLMCON_DESC', index: 'CLM_CLMCON_DESC', width: 300 },
+                    { name: 'CLM_CLMCON_TYPE_DESC', index: 'CLM_CLMCON_TYPE_DESC', width: 300 },
+                  
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdClaimConditions');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CLM_SR_NO');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CLM_CLMCON_CODE');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdClaimConditions');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdClaimConditionsPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Claim Condtions",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdClaimConditions").jqGrid('navGrid', '#grdClaimConditionsPager',
+                  { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdClaimConditions").jqGrid('filterToolbar',
+                  { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdClaimConditions").jqGrid('bindKeys');
+        });
+
+
+        /// Grid for Claim Status
+        $(document).ready(function () {
+            $("#grdStatus").jqGrid({
+                data: 'local',
+                colNames: ['Code', 'Description', 'Date', 'Confirmed'
+                ],
+                colModel: [
+                    { name: 'CLM_STATUS_CODE', index: 'CLM_STATUS_CODE', hidden: false, width: 150 },
+                    { name: 'CLM_STATUS_DESC', index: 'CLM_STATUS_DESC', width: 300 },
+                    { name: 'CLM_STATUS_DATE', index: 'CLM_STATUS_DATE', width: 300 },
+                    { name: 'CLM_STATUS_CONFIRMED', index: 'CLM_STATUS_CONFIRMED', width: 300 },
+
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdStatus');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CLM_SR_NO');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CLM_CLMCON_CODE');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdStatus');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdStatusPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Claim Status",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdStatus").jqGrid('navGrid', '#grdStatusPager',
+                  { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdStatus").jqGrid('filterToolbar',
+                  { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdStatus").jqGrid('bindKeys');
+        });
+
+
+        /// Grid for Claim Status
+        $(document).ready(function () {
+            $("#grdCloseRe").jqGrid({
+                data: 'local',
+                colNames: ['Sys Id', 'Date of Closing', 'Reason for Closing', 'Close User ID', 'Close User Name', 'Date of Reopen', 'Reason for Reopen', 'Reopen User id',
+                'Reopen User Name'],
+                colModel: [
+                    { name: 'CLM_CLOSERE_SYS_ID', index: 'CLM_CLOSERE_SYS_ID', hidden: false, width: 150 },
+                    { name: 'CLM_CLOSERE_DATE_CLOSING', index: 'CLM_CLOSERE_DATE_CLOSING', width: 300 },
+                    { name: 'CLM_CLOSERE_REASON_CLOSING', index: 'CLM_CLOSERE_REASON_CLOSING', width: 300 },
+                    { name: 'CLM_CLOSERE_CLOSE_USER', index: 'CLM_CLOSERE_CLOSE_USER', width: 300 },
+                    { name: 'CLM_CLOSERE_CLOSE_USERNAME', index: 'CLM_CLOSERE_CLOSE_USERNAME', width: 300 },
+                    { name: 'CLM_CLOSERE_DATE_REOPEN', index: 'CLM_CLOSERE_DATE_REOPEN', width: 300 },
+                    { name: 'CLM_CLOSERE_REASON_REOPEN', index: 'CLM_CLOSERE_REASON_REOPEN', width: 300 },
+                    { name: 'CLM_CLOSERE_REOPEN_USER', index: 'CLM_CLOSERE_REOPEN_USER', width: 300 },
+                    { name: 'CLM_CLOSERE_REOPEN_USERNAME', index: 'CLM_CLOSERE_REOPEN_USERNAME', width: 300 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdCloseRe');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CLM_SR_NO');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CLM_CLMCON_CODE');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                },
+                ondblClickRow: function (rowid) {
+                    var grid = $('#grdCloseRe');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var code = grid.jqGrid('getCell', sel_id, 'CT_TYPE_CODE');
+                    var name = DescCellData = grid.jqGrid('getCell', sel_id, 'CT_TYPE_NAME');
+                    $("#txtCustTypeCode").val(code);
+                    $("#txtCustTypeName").val(name);
+                    //closeon double click
+                    dlgCustType.dialog("close");
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdCloseRePager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Claim Close/Reopen",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdCloseRe").jqGrid('navGrid', '#grdCloseRePager',
+                  { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdCloseRe").jqGrid('filterToolbar',
+                  { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdCloseRe").jqGrid('bindKeys');
+        });
+
+
+        //======================= select transaction origin grid =============444
+        $(document).ready(function () {
+            $("#grdTxnOrigin").jqGrid({
+                data: 'local',
+                colNames: ['Code', 'Name'],
+                colModel: [
+                    { name: 'CODE', index: 'CODE', width: 150 },
+                    { name: 'NAME', index: 'NAME', width: 500 },
+                ],
+                //Retrive Code and description and return on row click..
+
+                onSelectRow: function (rowid) {
+                    fillDocOrgnOnSelect();
+                },
+                ondblClickRow: function (rowid) {
+                    fillDocOrgnOnSelect();
+
+                    dialogDocOrgn.dialog("close");
+                },
+
+                rowNum: 50,
+                rowList: [50, 75, 150],
+                pager: '#grdPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Transaction Origin",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            }); //
+            jQuery("#grdTxnOrigin").jqGrid('navGrid', '#grdPager',
+                { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdTxnOrigin").jqGrid('filterToolbar',
+             { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdTxnOrigin").jqGrid('bindKeys');
+        });
+
+        function fillDocOrgnOnSelect() {
+            var grid = $('#grdTxnOrigin');
+            var sel_id = grid.jqGrid('getGridParam', 'selrow');
+            var code = grid.jqGrid('getCell', sel_id, 'CODE');
+            var name  = grid.jqGrid('getCell', sel_id, 'NAME');
+            $("#txtTxnOriginCode").val(code);
+            $("#txtOriginName").val(name);
+
+        }
+
+
+        //======================= select Document Code grid =============
+        $(document).ready(function () {
+            $("#grdGetDocCode").jqGrid({
+                data: 'local',
+                colNames: ['Code', 'Name','Document Origin'],
+                colModel: [
+                    { name: 'CODE', index: 'CODE', width: 150 },
+                    { name: 'NAME', index: 'NAME', width: 200 },
+                    { name: 'DOC_ORIGIN', index: 'DOC_ORIGIN', width: 100 },
+
+                ],
+                //Retrive Code and description and return on row click..
+
+                onSelectRow: function (rowid) {
+                    fillOnSelect();
+                },
+                ondblClickRow: function (rowid) {
+                    fillOnSelect();
+
+                    dialogDocCode.dialog("close");
+                },
+
+                rowNum: 50,
+                rowList: [50, 75, 150],
+                pager: '#grdDocCodePager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Transaction Origin",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdGetDocCode").jqGrid('navGrid', '#grdDocCodePager',
+                { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdGetDocCode").jqGrid('filterToolbar',
+             { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdGetDocCode").jqGrid('bindKeys');
+        });
+        //
+        function  fillOnSelect()
+        {
+            var grid = $('#grdGetDocCode');
+            var sel_id = grid.jqGrid('getGridParam', 'selrow');
+            var code = grid.jqGrid('getCell', sel_id, 'CODE');
+            var name = DescCellData = grid.jqGrid('getCell', sel_id, 'NAME');
+            $("#txtTxnCode").val(code);
+            $("#txtTxnName").val(name);
+
+        }
+
+        // ================================== Function to Get Txn Document Header Data ===============================
+        function GetTxnDocHeadData() {
+
+            return polHeadData;
+
+        }
+
+        //call add function to add records to  grid
+
+        $(document).ready(function () {
+
+            $("#btnAddTxnNo").on('click', function () {
+
+                if ($("#txtAcctYear").val() == "")
+                {
+                    alert("Incomplete data, Check and try again");
+                }
+                else {
+
+
+                //generate Txn Document Sys ID  if it is not generated
+                if ($("#txtTxnDocSysID").val() == "") {
+
+                    RetnSequenceNo("ACCT_SETUP_GENERAL_SEQ", getTxnDocSeqNo);
+                    // txtTxnNoSysID
+
+
+                    function getTxnDocSeqNo(data) {
+                        // VehSeqNo = data;
+                        $("#txtTxnDocSysID").val(data);
+
+                    }
+                }
+
+
+                var grid = $('#grdAppTxnNo');
+
+                var rowIds = grid.jqGrid('getDataIDs');
+
+                //declare array to contain the codes to varify
+                var ValidateCodeArray = [];
+
+                // iterate through the rows and check duplicat each of them
+                for (var i = 0, len = rowIds.length; i < len; i++) {
+                    var currRow = rowIds[i];
+
+                    //get value of the cell or column in an array
+                    var cellValue = grid.jqGrid('getCell', currRow, 'TXN_NO_ACCT_YEAR');
+
+                    ValidateCodeArray.push(cellValue);
+
+                }
+
+                //find out if the code exists in the array
+                if ($.inArray($('#txtAcctYear').val(), ValidateCodeArray) < 0) {
+
+
+                    //generate Txn NO Sys ID  if it is not generated
+                    RetnSequenceNo('ACCT_SETUP_GENERAL_SEQ', getIntSeqNo);
+                    v
+                    function getIntSeqNo(data) {
+
+                        $("#txtTxnNoSysID").val(data);
+
+                        var dataToSave = [
+                            {
+                                TXN_NO_ACCT_YEAR: $("#txtAcctYear").val(),
+                                TXN_NO_FROM_DATE: $("#txtFromDate").val(),
+                                TXN_NO_TO_DATE: $("#txtToDate").val(),
+                                TXN_NO_START_NO: $("#txtStartNo").val(),
+                                TXN_NO_NEXT_NO: $("#txtNextNo").val(),
+                                TXN_NO_CURRENT_NO: $("#txtCurrentNo").val(),
+
+                                TXN_NO_END_NO: $("#txtEndNo").val(),
+                                TXN_NO_PREFIX: $("#txtTxnPrefix").val(),
+                                TXN_NO_SUFFIX: $("#txtTxnSuffix").val(),
+                                TXN_NO_COUNTRY: $("#chkCountry").val(),
+                                TXN_NO_REGION: $("#chkRegion").val(),
+                                TXN_NO_OFFICE: $("#chkOffice").val(),
+                                TXN_NO_UNIT: $("#chkUnitDept").val(),
+                                TXN_NO_SEPARATOR: $("#dwnSepartor").val(),
+
+                                TXN_NO_CRTE_BY: "DEMO",
+                                //  TXN_NO_CRTE_DATE :
+                                TXN_NO_MOD_BY: "DEMO",
+                                // TXN_NO_MOD_DATE : new Date(),
+                                TXN_NO_STATUS: "U",
+                                TXN_NO_SYS_ID: $("#txtTxnNoSysID").val(),
+                                TXN_NO_DOC_SYS_ID: $("#txtTxnDocSysID").val(),
+                            },
+
+                        ];
+                        if ($("#txtTxnDocSysID").val() == "" || $("#txtTxnNoSysID").val()== "")
+                        {
+                            alert("Transaction not generated properly");
+                        }
+                        else
+                        {
+                            // add to grid
+                            for (var i = 0; i < dataToSave.length; i++)
+                                jQuery("#grdAppTxnNo").addRowData(dataToSave[i].id, dataToSave[i]);
+                        }
+
+                    }
+
+                }
+                else {
+
+                    alert("Accounting yeaer  exists for this transaction");
+
+                }
+
+            }
+
+            });
+
+        });
+
+        //call add function to add records to  geneate Txn Default Account Codes grid
+
+        $(document).ready(function () {
+
+            $("#btnAddTxnDeftAcct").on('click', function () {
+
+                if ($("#txtDeftAcctCode").val() == "")
+                {
+
+                    alert("Account Code cannot be empty, Check and try again");
+                }
+                else {
+
+
+                    //generate Txn Document Sys ID  if it is not generated
+                    if ($("#txtTxnNoSysID").val() == "") {
+
+                        alert("Transaction Number is not generated, Check and try again");
+
+                    } //txtTxnDftAcctSysID
+
+
+                    var grid = $('#grdDeftAccount');
+
+                    var rowIds = grid.jqGrid('getDataIDs');
+
+                    //declare array to contain the codes to varify
+                    var ValidateCodeArray = [];
+
+                    var ValidateValue = cellAcctCode + cellTxnNoSysID
+                    var cellAcctCode;
+                    var cellTxnNoSysID;
+                    var valueToAdd;
+
+                    // iterate through the rows and check duplicat each of them
+                    for (var i = 0, len = rowIds.length; i < len; i++) {
+                        var currRow = rowIds[i];
+
+                        //get value of the cell or column in an array
+                         cellAcctCode = grid.jqGrid('getCell', currRow, 'TXN_DFT_ACCT_CODE');
+                        //get value of the cell or column in an array
+                         cellTxnNoSysID = grid.jqGrid('getCell', currRow, 'TXN_DFT_ACCT_TXN_SYS_ID');
+
+                         ValidateValue = cellAcctCode + cellTxnNoSysID;
+
+                         ValidateCodeArray.push(ValidateValue);
+
+                    } //txtDeftAcctCode txtDeftAcctName txtDeftAcctMinAmt txtDeftAcctMaxAmt btnAddTxnDeftAcct
+
+                    // get data to compare
+                    valueToAdd = $("#txtDeftAcctCode").val() + $("#txtTxnNoSysID").val()
+                    //find out if the code exists in the array
+                    if ($.inArray(valueToAdd, ValidateCodeArray) < 0) {
+
+
+                        //generate Txn NO Sys ID  if it is not generated
+                        RetnSequenceNo('ACCT_SETUP_GENERAL_SEQ', getIntSeqNo);
+
+                        function getIntSeqNo(data) {
+
+                            $("#txtTxnDftAcctSysID").val(data);
+
+
+                            var dataToSave = [
+                                {
+                                    TXN_DFT_ACCT_SYS_ID: $("#txtTxnDftAcctSysID").val(),
+                                    TXN_DFT_ACCT_TXN_SYS_ID: $("#txtTxnNoSysID").val(),
+                                    TXN_DFT_ACCT_CODE: $("#txtDeftAcctCode").val(),
+                                    TXN_DFT_ACCT_MIN_AMT: $("#txtDeftAcctMinAmt").val(),
+                                    TXN_DFT_ACCT_MAX_AMT: $("#txtDeftAcctMaxAmt").val(),
+                                    TXN_DFT_ACCT_CRTE_BY: "DEMO",
+                                   // TXN_DFT_ACCT_CRTE_DATE :
+                                    TXN_DFT_ACCT_MOD_BY: "DEMO",
+                                    //TXN_DFT_ACCT_MOD_DATE :
+                                    TXN_DFT_ACCT_STATUS: "U",
+
+                                },
+                            ];
+                            if ($("#txtTxnDftAcctSysID").val() == "" || $("#txtTxnNoSysID").val() == "") {
+                                alert("Transaction not generated properly, check and try again");
+                            }
+                            else {
+                                // add to grid
+                                for (var i = 0; i < dataToSave.length; i++)
+                                    jQuery("#grdDeftAccount").addRowData(dataToSave[i].id, dataToSave[i]);
+                            }
+
+                        }
+
+                    }
+                    else {
+
+                        alert("Account Code  exists for this transaction");
+
+                    }
+
+                }
+
+            });
+
+        });
+        //Taps Layout function call using Jquery
+        $(function () {
+            $("#tabs").tabs({
+                beforeLoad: function (event, ui) {
+                    ui.jqXHR.fail(function () {
+                        ui.panel.html(
+                          "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+                          "If this wouldn't be a demo.");
+                    });
+                }
+            });
+        });
+
+        $(function () {
+            //  $("#tabs").resizable();
+            $("#tabs").height(1500);
+            //$("#tabs").draggable();
+
+        });
+
+        /// Dates /////
+        
+        //Accident Start Date
+        $(function () {
+            $("#txtAccidentdate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //Time bar Date
+        $(function () {
+            $("#txTimeBardate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //Claim Recovery Time bar Date
+        $(function () {
+            $("#txtClmrecTimebardate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //Claim Recovery Extended Date
+        $(function () {
+            $("#txtClmrectxtExtendeddate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //Claim Recovery Recovery Date
+        $(function () {
+            $("#txtClmrecRecoverydate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //Claim Recovery Date of Arrival Date
+        $(function () {
+            $("#txtClmrecArrivaldate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //Case Date
+        $(function () {
+            $("#txtCasedate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //DOB Date
+        $(function () {
+            $("#txtDOB").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //Issue Date
+        $(function () {
+            $("#txtIssuedate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //Expiry Date
+        $(function () {
+            $("#txtExpirydate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        //TP Case Date
+        $(function () {
+            $("#txtTPCasedate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        // Date from
+        $(function () {
+            $("#txtDatefrom").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        // Date to
+        $(function () {
+            $("#txtDateto").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        // Absence Date
+        $(function () {
+            $("#txtAbsencedate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        // Status Date
+        $(function () {
+            $("#txtStatusDate").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        // Closing Date
+        $(function () {
+            $("#txtDateofClosing").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+        // Reopening Date
+        $(function () {
+            $("#txtDateofReopening").datepicker({
+                showOn: "button",
+                buttonImage: "../Content/Images/calendar-icon1.png",
+                buttonImageOnly: true,
+            });
+        });
+
+    </script>
+    <!-- Adding a style-->
+
+    <style>
+        .roundElement {
+            border-radius: 10px;
+        }
+
+        .checkboxx-inline {
+            display: inline-block;
+            padding-left: 10px;
+            padding-right: 45px;
+            margin-bottom: 0;
+            font-weight: normal;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+            .checkboxx input[type="checkbox"], .checkboxx-inline input[type="checkbox"] {
+                float: none;
+                margin-left: -10px;
+                margin-right: 10px;
+            }
+
+            .checkboxx-inline + .checkboxx-inline {
+                margin-top: 0;
+                margin-left: 10px;
+            }
+
+        .checkboxx label {
+            display: inline;
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .divleft {
+            background-color: Gray;
+            width: 40%;
+            height: 20px;
+            float: left;
+        }
+
+        .divrihgt {
+            background-color: red;
+            width: 60%;
+            height: 20px;
+            float: left;
+        }
+
+        .divcontainer {
+            width: 100%;
+        }
+
+        div.card {
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        div.Covers {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        div.FormMenu {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        label {
+            display: inline-block;
+            width: 11em;
+            color: blue;
+            text-align: right;
+        }
+
+        errmsg {
+            color: red;
+        }
+
+        .fwm_button {
+            color: white;
+            font-weight: bold;
+            background-color: #6699cc;
+            border: 2px outset;
+            border-top-color: #aaccff;
+            border-left-color: #aaccff;
+            border-right-color: #003366;
+            border-bottom-color: #003366;
+            width: 100px;
+        }
+
+        .Select_button {
+            color: lightseagreen;
+            font-weight: bold;
+            width: 3%;
+            height: 30px;
+        }
+
+        .inputCode {
+            height: 30px;
+            width: 30px;
+            text-align: right;
+        }
+
+        label.required:after {
+            content: " *";
+            color: red;
+        }
+
+        .containera button {
+            margin-bottom: 10px;
+            width: 85px;
+            height: 31px;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            padding-top: 5px;
+            background-color: #f2f2f2;
+            color: #428bca;
+            font-size: 15px;
+            text-rendering: optimizeLegibility;
+            font-weight: bolder;
+            font-family: Georgia, serif;
+        }
+    </style>
+
+
+    <div class="card">
+
+        <!-- --------------------------Tabps------------------------------------>
+
+        <form name="form1" id="form2">
+
+            <div id="tabs">
+                <div style="border: 1px solid #000000; border-color: gray; width: 100%" class="roundElement">
+
+                    <br />
+
+                    <div style="text-align: center" class="containera">
+
+                        <!-- txn parameters inputs-->
+                        <input id="txtTxnDocSysID" style="width:5%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="CustType" title="txtTxnDocSysID">
+                        <input id="txtTxnNoSysID" style="width:5%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="CustType" title="txtTxnNoSysID">
+                        <input id="txtTxnDftAcctSysID" style="width:5%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="CustType" title="txtTxnDftAcctSysID">
+                        <input id="txtTxnState" style="width:5%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="CustType" title="txtTxnState">
+
+                        <button type="button" id="btnSaveUpdate" title="Save Data" class="btn btn-default">
+                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                        </button>
+
+                        <button type="button" class="btn btn-default">
+                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+
+                        <button id="btnReset" type="reset" class="btn btn-default">
+                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                        </button>
+
+                        <button type="button" id="btnSearch" class="btn btn-default" style="float: right; margin-right: 15px">
+                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                        </button>
+
+                        <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search by Transaction Code">
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                  <br />
+                    <h5 style="border-bottom-color:red" class="sub-header">  </h5>
+                   
+                     <div class="col-md-4">
+                          
+                            <label id="lblPolicyNo" class="required" for="txtPolicyNo"> Policy No.</label>
+                            <input id="txtPolicyNo" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtPolicyNo" title="Policy Number">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <br /><br />
+
+                            <label id="lblTxnName" class="required" for="txtDateOfLoss">Date of Loss</label>
+                            <input id="txtDateOfLoss" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDateOfLoss" title="Date of Loss">
+                            <br /><br />
+                            
+                            <label id="lblTxnDesc" class="" for="txtClaimNo">Claim No.</label>
+                            <input id="txtClaimNo" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDateOfLoss" title="Date of Loss">
+                            <br /><br />
+
+                            <label id="" class="dwnTxnTpe" for="dwnBreachWarranty"> Breach Warranty</label>
+                            <select id="dwnBreachWarranty" style="width:30%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select- </option>
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+                            </select>
+                            <br /><br />
+
+                            <label id="" class="dwnTxnTpe" for="dwnRecoveryStatus"> Recovery Status</label>
+                            <select id="dwnRecoveryStatus" style="width:30%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select-</option>
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+                            </select>
+                            <br /><br />
+
+                            <label id="lblClmrefno" for="txtClmrefno">Inward Clm Ref No</label>
+                            <input id="txtClmrefno" style="width:150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmrefno" title="Inward Clm Ref No">
+                            <br /><br />
+
+                            <label id="" class="dwnTxnTpe" for="dwnRenewalYN"> Invite for Renewal YN</label>
+                            <select id="dwnRenewalYN" style="width:30%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select-</option>
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+                            </select>
+                            <br /><br />
+
+                        </div>
+
+                    <div class="col-md-8">
+                        
+                        <label id="lblPolicyNo" class="required" for="txtPreClaimsrefno"> Pre Clms Ref No.</label>
+                        <input id="txtPreClaimsrefno" style="width:12%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtPreClaimsrefno" title=" ">
+                        <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                        </button>
+
+                        <label id="lblPolicyNo" class="required" for="txtMasterClmno"> Master Clm No.</label>
+                        <input id="txtMasterClmno" style="width:12%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtMasterClmno" title=" ">
+                        <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                        </button>
+
+                        <br /><br />
+
+                        <label id="" class="required" for="txtIntimationDate">Intimation Date</label>
+                        <input id="txtIntimationDate" style="width:15%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtIntimationDate" title="Intimation Date">
+                        
+                        <label id="" class="required" for="txtLossDiscDate">Loss Disc Date</label>
+                        <input id="txtLossDiscDate" style="width:15%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLossDiscDate" title="Loss Discovery date">
+
+                        <br /><br />
+
+                        <label id="" class="dwnTxnTpe" for="dwnGenAvgYN"> Gen Avg YN</label>
+                        <select id="dwnGenAvgYN" style="width:15%; border-radius: 10px" name="Type" class="btn btn-default">
+                            <option value="">-Select-</option>
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+
+                        <label id="" class="required" for="txtAssuredName">Assured Name</label>
+                        <input id="txtAssuredName" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtAssuredName" title="Assured Name">
+                        <br /><br />
+
+                        <label id="" class="required" for="txtClaimDesc">Claim Desc</label>
+                        <input id="txtClaimDesc" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClaimDesc" title="Claim Desc">
+                        <br /><br />
+
+                        <label id="" for="txtRecremarks">Recovery Remarks</label>
+                        <input id="txtRecremarks" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRecremarks" title="Recovery remarks">
+                        <br /><br />
+
+                        <label id="" for="txtClaimSummary">Claim Summary</label>
+                        <input id="txtClaimSummary" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClaimSummary" title="Claim Summary">
+                        <br /><br />
+
+                        <label id="" class="dwnTxnTpe" for="dwnClaimReNCDYN"> Clm Retain NCD YN</label>
+                        <select id="dwnClaimReNCDYN" style="width:15%; border-radius: 10px" name="Type" class="btn btn-default">
+                            <option value="">-Select-</option>
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+
+                        <label id="" for="txtCustType">Customer Type</label>
+                        <input id="txtCustType" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCustType" title="Cust type">
+                        <br /><br />
+
+                    </div>
+
+                </div>
+
+                <ul>
+                    <!-- --------------------------tab-1 Menus------------------------------------>
+
+                    <li><a href="#tabs-1"> Risk Detail</a></li>
+                    <li><a href="#tabs-2"> Claim Estimate</a></li>
+                    <li><a href="#tabs-3"> Injury Details</a></li>
+                    <li><a href="#tabs-4"> Accident</a></li>
+                    <li><a href="#tabs-5"> TP/Own Damage Claim</a></li>
+                    <li><a href="#tabs-6"> Claim Recovery</a></li>
+                    <li><a href="#tabs-7"> Claim Conditions</a></li>
+                    <li><a href="#tabs-8"> Status </a></li>
+                    <li><a href="#tabs-9"> Close/Re-open History </a></li>
+                
+                </ul>
+
+                <!-- --------------------------tab-1 Content------------------------------------>
+                <div id="tabs-1">
+
+                    <table>
+
+                        <tr style="color:blue; ">
+
+                            <th>
+                                Risk ID
+                            </th>
+                            <th>
+                               
+                            </th>
+                            <th>
+                                Loss Type
+                            </th>
+
+                            <th>
+                                Loss Code.
+                            </th>
+
+                            <th>
+                                Event Code.
+                            </th>
+
+                            <th>
+                                Tot Loss Y/N
+                            </th>
+
+                            <th>
+                                Stolen Y/N
+                            </th>
+
+                            <th>
+                                Remarks
+                            </th>
+                        </tr>
+                        <tr>
+
+                            <td align="center">
+                                <input id="txtRiskID" style="width:150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRiskID" title="Risk ID">
+
+                            </td>
+                           
+                          <td>
+                              <button type="button" class="btn btn-default" id="btnSelRiskDetails" style="height:30px">
+                                  <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                              </button>
+                          </td>
+                           
+                            <td align="center">
+                                <input id="txtLossType" style="width:150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLossType" title="Loss Type.">
+                            </td>
+
+                            <td align="center">
+                                <input id="txtLossCode" style="width:150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLossCode" title="Loss Code">
+                            </td>
+
+                            <td align="center">
+                                <input id="txtEventCode" style="width:150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEventCode" title="Event Code">
+                            </td>
+
+                            <td align="center">
+                                <input id="chkTotLossYN" type="checkbox" value="Status ?">
+
+                            </td><td align="center">
+                                <input id="chkStolenYN" type="checkbox" value="Status ?">
+                            </td>
+
+                            <td align="center">
+                                <input id="txtRemarks" style="width:150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRemarks" title="Remarks">
+                            </td>
+
+                        </tr>
+                    </table>
+                    <br /><br />
+                    
+                    <h5 style="border-bottom-color:red" class="sub-header">  </h5>
+
+                    <button id="btnAddTxnNo" style="margin-left:10px" type="button" class="btn btn-default">
+                        <img src="~/Content/Images/add.png" />
+                        <i title="Add Covers" aria-hidden="true"></i> Add New
+                    </button>
+
+                    <button id="btnEditTxnDeftAcct1" type="button" class="btn btn-default" style="border-radius: 10px">
+
+                        <img src="~/Content/Images/Edit.png" />
+                        <i title="Edit" aria-hidden="true"></i> Edit
+                    </button>
+
+                    <button id="btnDeleteTxnDeftAcct1" type="button" class="btn btn-default" style="border-radius: 10px">
+
+                        <img src="~/Content/Images/delete.png" />
+                        <i title="Delete" aria-hidden="true"></i> Delete
+                    </button>
+                    <br /><br />
+
+                    <div>
+                        <table id="grdRiskDetails"></table>
+                        <table id="grdPager"></table>
+                    </div>
+
+                </div>
+
+                <!-- --------------------------tab-2 Content------------------------------------>
+                <div id="tabs-2">
+                 
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <input id="txtClmEstSysid" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmrecoverySysid" title="R">
+                            <br /><br />
+
+                            <label id="" class="" for="txtEstNo">Est No.</label>
+                            <input id="txtEstNo" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstNo" title="Estimate No">                           
+                            <br /><br />
+
+                            <label id="" class="" for="txtEstDate">Est Date</label>
+                            <input id="txtEstDate" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstDate" title="">
+                            <br /><br />
+
+                            <label id="" class="" for="txtEstType">Est Type</label>
+                            <input id="txtEstType" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstType" title="">
+                            <br /><br />
+
+                            <label id="" class="" for="txtClmEstCustomerCode">Customer</label>
+                            <input id="txtClmEstCustomerCode" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmEstCustomerCode" title="Customer Code">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtClmEstCustomerCode1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmEstCustomerCode1" title="Customer Name">
+                            <br /><br />
+
+                            <label id="" class="" for="txtEstCurrency">Currency</label>
+                            <input id="txtEstCurrency" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstCurrency" title="Est Currency">
+
+                            <label id="" class="" for="txtEstFCAmount">FC Amount</label>
+                            <input id="txtEstFCAmount" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstFCAmount" title="Est FC Amount">
+                            <br /><br />
+                                          
+                            <label id="" for="txtOSDate">O/S Amt</label>
+                            <input id="txtOSDate" style="width:100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtOSDate" title="OS Date">
+                            <br /><br />
+
+                            <label id="" for="chkFrzYN">Frz.</label>
+                            <input id="chkFrzYN" type="checkbox" value="A">
+
+                            <label id="" for="chkConfYN">Conf.</label>
+                            <input id="chkConfYN" type="checkbox" value="A">
+
+                            <label id="" for="chkAddClaimYN">Add to Clm </label>
+                            <input id="chkAddClaimYN" type="checkbox" value="A">
+                            <br /><br />
+
+                            <label id="" for="chkLinkYN">Link</label>
+                            <input id="chkLinkYN" type="checkbox" value="A">
+
+                            <label id="" for="chkMiscLossYN">Misc Loss</label>
+                            <input id="chkMiscLossYN" type="checkbox" value="A">
+
+                            <label id="" for="chkLossYN"> Loss</label>
+                            <input id="chkLossYN" type="checkbox" value="A">
+                            <br /><br />
+
+                            <label id="" for="chkSubYN"> Sub </label>
+                            <input id="chkSubYN" type="checkbox" value="A">
+
+                            <label id="" for="chkSalvYN">Salv</label>
+                            <input id="chkSalvYN" type="checkbox" value="A">
+
+                            <label id="" for="chkCloseYN">Close Y/N</label>
+                            <input id="chkCloseYN" type="checkbox" value="A">
+                            <br /><br />                    
+
+                            <label id="" for="txtEstDescription">Description</label>
+                            <input id="txtEstDescription" style="width:150%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstDescription" title="Description">
+                            <br /><br />
+
+                            <label id="" for="txtEstPartyRefNo">Party Ref No</label>
+                            <input id="txtEstPartyRefNo" style="width:150%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstPartyRefNo" title="">
+                            <br /><br />
+
+                            <label id="" for="chkLegalYN">Legal Y/N</label>
+                            <input id="chkLegalYN" type="checkbox" value="A">
+
+                            <label id="" for="txtEstRemarks">Remarks</label>
+                            <input id="txtEstRemarks" style="width:150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstRemarks" title="">
+                            <br /><br /> 
+
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label id="" class="required" for="txtEstStatusCode"> Status Code</label>
+                            <input id="txtEstStatusCode" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstStatusCode" title="Status Code">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtEstStatusName" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstStatusName" title="Status">
+                            <br /><br />
+
+                            <label id="" for="txtEstInvRefNo"> Inv Ref No.</label>
+                            <input id="txtEstInvRefNo" style="width:150%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstInvRefNo" title="">
+                            <br /><br />
+
+                            <label id="" class="required" for="txtEstCustomerCode">Customer name</label>
+                            <input id="txtEstCustomerCode" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstCustomerCode" title="Customer Code">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtEstCustomerName" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstCustomerName" title="Customer Name">
+                            <br /><br />
+
+                            <label id="" for="txtEstCustomertype">Customer type</label>
+                            <input id="txtEstCustomertype" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstCustomertype" title="">
+                            <br /><br />
+
+                            <label id="" for="txtEstLCAmount"> LC Amount</label>
+                            <input id="txtEstLCAmount" style="width:150%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstLCAmount" title="">
+                            <br /><br />
+
+                            <label id="" for="txtEstCurrencyRate"> Currency Rate</label>
+                            <input id="txtEstCurrencyRate" style="width:150%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstCurrencyRate" title="">
+                            <br /><br />
+
+                            <label id="" for="txtEstDateEntry"> Date of Entry/Closing</label>
+                            <input id="txtEstDateEntry" style="width:150%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstDateEntry" title="">
+                            <br /><br />
+
+                            <label id="" for="txtLinkEstRefNo"> Link Est Ref No.</label>
+                            <input id="txtLinkEstRefNo" style="width:150%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLinkEstRefNo" title="">
+                            <br /><br />
+
+                            <label id="" class="required" for="txtEstSrcBusiness">Src of Business</label>
+                            <input id="txtEstSrcBusinessCode" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstSrcBusinessCode" title="Customer Code">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtEstSrcBusinessName" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstSrcBusinessName" title="Customer Name">
+                            <br /><br />
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <label id="" class="required" for="txtEstSrcBusiness">Payment</label>
+                            <input id="txtEstPaymentEstimate" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstPaymentEstimate" title="Estimate">
+                            <input id="txtEstPaymentPaid" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstPaymentPaid" title="Paid">
+                            <input id="txtEstPaymentOS" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstPaymentOS" title="O/S">
+                            <br /><br />
+
+                            <label id="" class="required" for="txtEstSrcBusiness">Recovery</label>
+                            <input id="txtEstRecoveryEstimate" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstRecoveryEstimate" title="Recovery">
+                            <input id="txtEstRecoveryPaid" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstRecoveryPaid" title="Paid">
+                            <input id="txtEstRecoveryOS" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtEstRecoveryOS" title="O/S">
+                            <br /><br />
+                        </div>
+                    </div>
+
+                    <h5 style="border-bottom-color:red" class="sub-header"> </h5>
+                    <br />
+                    <!-- LOV Grid and pager-->
+
+                    <button id="btnAddTxnDeftAcct" style="margin-left:10px" type="button" class="btn btn-default">
+                        <img src="~/Content/Images/add.png" />
+                        <i title="Add Covers" aria-hidden="true"></i> Add New
+                    </button>
+
+                    <button id="btnEditTxnDeftAcct" type="button" class="btn btn-default" style="border-radius: 10px">
+                        <img src="~/Content/Images/Edit.png" />
+                        <i title="Edit" aria-hidden="true"></i> Edit
+                    </button>
+
+                    <button id="btnDeleteTxnDeftAcct" type="button" class="btn btn-default" style="border-radius: 10px">
+                        <img src="~/Content/Images/delete.png" />
+                        <i title="Delete" aria-hidden="true"></i> Delete
+                    </button>
+
+                    <div>
+                        <table id="grdClmEstimate"></table>
+                        <table id="grdClmEstimatePager"></table>
+                    </div>
+
+                </div>
+
+                <!-- --------------------------tab-3 Content------------------------------------>
+                <div id="tabs-3">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <input id="txtInjuryDetailsSysid" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmrecoverySysid" title="R">
+                            <br /><br />
+
+                            <label id="lblPolicyNo" class="required" for="txtInjuryId">Injury Id</label>
+                            <input id="txtInjuryId" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuryId" title="Injury Id">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <br /><br />
+
+                            <label id="" class="required" for="txtSalaryCode">Salary Curr Code</label>
+                            <input id="txtSalaryCode" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtSalaryCode" title="Salary Currency Code">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtSalaryCode1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtSalaryCode1" title="Salary Currency Code">
+                            <br /><br />
+
+                            <label id="" class="" for="txtClaimNo">Injured FC Salary</label>
+                            <input id="txtInjuredFCSalary" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuredFCSalary" title="Injured FC Salary">
+
+                            <label id="" class="" for="txtClaimNo">Injured LC Salary</label>
+                            <input id="txtInjuredLCSalary" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuredLCSalary" title="Injured FC Salary">
+                            <br /><br />
+
+                            <label id="" for="txtInjuryCause">Injury Cause</label>
+                            <input id="txtInjuryCause" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuryCause" title="Injury Cause">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtInjuryCause1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuryCa1use" title="Injury Cause">
+                            <br /><br />
+
+                            <label id="" for="txtInjuryCause">Injury Member</label>
+                            <input id="txtInjurymember" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjurymember" title="Injury member">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtInjurymember1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjurymember1" title="Injury member">
+                            <br /><br />
+
+                            <label id="dwnSex" for="dwnSex"> Sex </label>
+                            <select id="dwnSex" style="width:18%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select- </option>
+                                <option value="F">Female</option>
+                                <option value="M">Male</option>
+                            </select>
+                            <br /><br />
+
+                            <label id="" for="txtInjuryCause">Injury Result</label>
+                            <input id="txtInjuryResult" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuryResult" title="Injury Result">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtInjuryResult1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuryResult1" title="Injury Result">
+                            <br /><br />
+
+                            <label id="" for="txtAccidentdate">Accident Date</label>
+                            <input id="txtAccidentdate" style="width:150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtAccidentdate" title="Accident date">
+                            <br /><br />
+
+                            <label id="" class="" for="dwnRelationship"> Relationship</label>
+                            <select id="dwnRelationship" style="width:18%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select-</option>
+                                <option value="Y">Employee</option>
+                                <option value="N">Client</option>
+                            </select>
+                            <br /><br />
+
+                            <label id="" for="txTimeBardate">Time Bar Date</label>
+                            <input id="txTimeBardate" style="width:150px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txTimeBardate" title="Time Bar Date">
+                            <br /><br />
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label id="" class="" for="txtInjuredName"> Injured Name</label>
+                            <input id="txtInjuredName" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuredName" title="">
+                            <br /><br />
+
+                            <label id="" class="dwnTxnTpe" for="dwnInjuredSaltype"> Injured Sal Type</label>
+                            <select id="dwnInjuredSaltype" style="width:20%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select-</option>
+                                <option value="Y">Monthly</option>
+                                <option value="N">Weekly</option>
+                            </select>
+                            <br /><br />
+
+                            <label id="" class="dwnTxnTpe" for="dwnSalaryDocYN"> Salary Doc Y/N </label>
+                            <select id="dwnSalaryDocYN" style="width:20%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select-</option>
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+                            </select>
+                            <br /><br />
+
+                            <label id="" for="txtOccCode">Occ Code</label>
+                            <input id="txtOccCode" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtOccCode" title="Occ Code">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtOccCode1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtOccCode1" title="Occ Code">
+                            <br /><br />
+
+                            <label id="" for="txtOccCode">Injury Type</label>
+                            <input id="txtInjurytype" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjurytype" title="Injury type">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtInjurytype1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjurytype1" title="Injury type">
+                            <br /><br />
+
+                            <label id="" class="" for="txtAge">Age</label>
+                            <input id="txtAge" style="width:15%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtAge" title="Age">
+                            <br /><br />
+
+                            <label id="" for="txtOccCode">Nationality</label>
+                            <input id="txtNationality" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtNationality" title="Nationality">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtNationality1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtNationality1" title="Nationality">
+                            <br /><br />
+
+                            <label id="" for="txtDisability">Disability</label>
+                            <input id="txtDisability" style="width:30%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDisability" title="Disability">
+                            <br /><br />
+
+                            <label id="" for="txtAbsenceDays"> Absence Days</label>
+                            <input id="txtAbsenceDays" style="width:30%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClaimDesc" title="Absence Days">
+                            <br /><br />
+
+                            <label id="" for="txtAbsencedate">Absence Date</label>
+                            <input id="txtAbsencedate" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtAbsencedate" title="Extension Date">
+                            <br /><br />
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <h5 style="border-bottom-color:red" class="sub-header"> </h5>
+                        <br />
+                        <!-- LOV Grid and pager-->
+
+                        <button id="btnAddNewInjuredDetails" style="margin-left:10px" type="button" class="btn btn-default">
+                            <img src="~/Content/Images/add.png" />
+                            <i title="Add Covers" aria-hidden="true"></i> Add New
+                        </button>
+
+                        <button id="btnEditInjuredDetails" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/Edit.png" />
+                            <i title="Edit" aria-hidden="true"></i> Edit
+                        </button>
+
+                        <button id="btnDeleteInjuredDetails" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/delete.png" />
+                            <i title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+                        <br /><br />
+
+                        <div>
+                            <table id="grdInjuredDetails"></table>
+                            <table id="grdInjuredDetailsPager"></table>
+                        </div>
+                        <br /><br />
+                    </div>
+
+                </div>
+
+                <!-- --------------------------tab-4 Content------------------------------------>
+                <div id="tabs-4">
+                    
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <input id="txtAccidentSysid" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmrecoverySysid" title="R">
+                            <br /><br />
+                            <label id="" class="required" for="txtPartyRefNo">Party Ref No.</label>
+                            <input id="txtPartyRefNo" style="width:60%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtPartyRefNo" title="Party Ref No">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <br /><br />
+
+                            <label id="" class="" for="txtSpeedKPH">Speed KPH</label>
+                            <input id="txtSpeedKPH" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtSpeedKPH" title="Speed KPH">
+                         
+                            <label id="" class="" for="txtNoofPass">No. of Pass.</label>
+                            <input id="txtNoofPass" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtNoofPass" title="No. of Pass">
+                            <br /><br />
+
+                            <label id="" class="" for="txtFault">Fault</label>
+                            <input id="txtFault" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtFault" title="Fault">
+
+                            <label id="" class="" for="txtFaultPerc">Fault %</label>
+                            <input id="txtFaultPerc" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtFaultPerc" title="Fault Perc">
+                            <br /><br />
+
+                            <label id="" for="txtLocation">Location</label>
+                            <input id="txtLocation" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLocation" title="Location">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtLocation1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLocation1" title="Location">
+                            <br /><br />
+
+                            <label id="" for="txtDescription">Description</label>
+                            <input id="txtDescription" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDescription" title="Description">
+                            <br /><br />
+
+                            <label id="" for="txtDrivingexp">Driving Exp</label>
+                            <input id="txtDrivingexp" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDrivingexp" title="Driving Experience">
+                            <br /><br />
+
+                            <label id="dwnSex" for="dwnSex"> Case Y/N </label>
+                            <select id="dwnSex" style="width:18%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select- </option>
+                                <option value="F">Yes</option>
+                                <option value="M">No</option>
+                            </select>
+
+                            <label id="" for="txtCasedate">Case Date</label>
+                            <input id="txtCasedate" style="width:100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCasedate" title="Case date">
+                            <br /><br />
+
+                            <label id="" for="txtInjuryCause">Injury Result</label>
+                            <input id="txtInjuryResult" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuryResult" title="Injury Result">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtInjuryResult1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInjuryResult1" title="Injury Result">
+                            <br /><br />
+
+                            <label id="" for="txtPoliceAbsRepNo">Police Abstract Report No. </label>
+                            <input id="txtPoliceAbsRepNo" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtPoliceAbsRepNo" title="Police Abstract Report No">
+                            <br /><br />
+
+                            <label id="" for="txtDetails">Details</label>
+                            <input id="txtDetails" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDetails" title="Details">
+                            <br /><br />
+
+                            <label id="" for="txtStatus">Status</label>
+                            <input id="txtStatus" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtStatus" title="Status">
+                            <br /><br />
+
+                            <label id="" for="txtInjuryCause">Driver Type</label>
+                            <input id="txtDriverType" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDriverType" title="Driver Type">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtDriverType1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDriverType1" title="Driver Type">
+                            <br /><br />
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label id="" class="" for="txtDriverName"> Driver Name &amp; ID</label>
+                            <input id="txtDriverName" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDriverName" title="Driver Name">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtDriverID" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDriverID" title="Driver ID">
+                            <br /><br />
+
+                            <label id="" for="txtNationality">Nationality</label>
+                            <input id="txtNationality" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtNationality" title="Nationality">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtNationality1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtNationality1" title="Nationality">
+                            <br /><br />
+
+                            <label id="" for="txtDOB"> DOB</label>
+                            <input id="txtDOB" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDOB" title="DOB">
+                            
+                            <label id="" for="txtAge"> Age</label>
+                            <input id="txtAge" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtAge" title="Age">
+                            <br /><br />
+
+                            <label id="" class="" for="dwnMaritalStatus"> Marital Status</label>
+                            <select id="dwnMaritalStatus" style="width:20%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select-</option>
+                                <option value="Y">Single</option>
+                                <option value="N">Married</option>
+                            </select>
+
+                            <label id="dwnAccSex" for="dwnAccSex"> Sex </label>
+                            <select id="dwnAccSex" style="width:20%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select- </option>
+                                <option value="F">Female</option>
+                                <option value="M">Male</option>
+                            </select>
+                            <br /><br />                     
+
+                            <label id="" for="txtOccCode">Licence Type</label>
+                            <input id="txtLicencetype" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLicencetype" title="Licence Type">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtLicencetype1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLicencetype1" title="Licence type">
+                            <br /><br />
+
+                            <label id="" for="txtLicenceNo">Licence No.</label>
+                            <input id="txtLicenceNo" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLicenceNo" title="Licence No">
+                            
+                            <label id="" for="txtRemarks">Remarks</label>
+                            <input id="txtRemarks" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRemarks" title="Remarks">
+                            <br /><br />
+
+                            <label id="" class="" for="txtLicensingAuthority">Licensing Authority</label>
+                            <input id="txtLicensingAuthority" style="width:15%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLicensingAuthority" title="Licensing Authority">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtLicensingAuthority1" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLicensingAuthority1" title="Licensing Authority">
+                            <br /><br />
+
+                            <label id="" for="txtIssuedate"> Issue Days</label>
+                            <input id="txtIssuedate" style="width:15%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtIssuedate" title="Issue Date">
+                            
+                            <label id="" for="txtExpirydate"> Expiry Days</label>
+                            <input id="txtExpirydate" style="width:15%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtExpirydate" title="Expiry Date">
+                            <br /><br />
+
+                            <label id="" for="txtOccCode">Address</label>
+                            <textarea rows="4" cols="10" id="txtAddress" style="width:50%" ; min="2" maxlength="100" class="text ui-widget-content ui-corner-all"> </textarea>
+                            <br /><br />
+
+                            <label id="" for="txtTelNo">Tel No</label>
+                            <input id="txtTelNo" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtTelNo" title="Tel No.">
+                            <br /><br />                        
+                          
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <h5 style="border-bottom-color:red" class="sub-header">  </h5>
+
+                        <button id="btnAddAccidento" style="margin-left:10px" type="button" class="btn btn-default">
+                            <img src="~/Content/Images/add.png" />
+                            <i title="Add Covers" aria-hidden="true"></i> Add New
+                        </button>
+
+                        <button id="btnEditAccident" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/Edit.png" />
+                            <i title="Edit" aria-hidden="true"></i> Edit
+                        </button>
+
+                        <button id="btnDeleteAccident" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/delete.png" />
+                            <i title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+                        <br /><br />
+
+                        <div>
+                            <table id="grdCLAccident"></table>
+                            <table id="grdCLAccidentPager"></table>
+                        </div>
+                    </div>
+                 
+                </div>
+
+               <!-- --------------------------tab-5 Content------------------------------------>
+                <div id="tabs-5">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <input id="txtTpowndamageSysid" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmrecoverySysid" title="R">
+                            <br /><br />
+                            <label id="" class="required" for="txtPartyRefNo">Party Ref No.</label>
+                            <input id="txtPartyRefNo" style="width:60%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtPartyRefNo" title="Party Ref No">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <br /><br />
+
+                            <label id="" class="" for="txtSpeedKPH">Cover Code</label>
+                            <input id="txtCoverCode" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCoverCode" title="Cover Code">
+                            <input id="txtCoverCode1" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCoverCode1" title="">
+                            <br /><br />
+
+                            <label id="" class="" for="txtName">Name</label>
+                            <input id="txtName" style="width:60%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtName" title="Name">
+                            <br /><br />
+
+                            <label id="" class="" for="txtOccupation">Occupation</label>
+                            <input id="txtOccupation" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtOccupation" title="Occupation">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtOccupation1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtOccupation1" title="Occupation">
+                            <br /><br />
+
+                            <label id="" for="txtOccCode">Address</label>
+                            <textarea rows="4" cols="10" id="txtAddress" style="width:100%" ; min="2" maxlength="100" class="text ui-widget-content ui-corner-all"> </textarea>
+                            <br /><br />
+
+                            <label id="" for="txtTelNo">Tel No</label>
+                            <input id="txtTelNo" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtTelNo" title="Tel No.">
+                            <br /><br />
+
+                            <label id="" for="txtLocation">Insurance Co Code</label>
+                            <input id="txtInsuranceCode" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInsuranceCode" title="Insurance Code">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtInsuranceCode1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInsuranceCode1" title="Insurance Code">
+                            <br /><br />
+
+                            <label id="" for="txtNationality">Nationality</label>
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtNationality1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInsuranceCode1" title="Insurance Code">
+                            <br /><br />
+
+                            <label id="" for="txtLossDesc">Loss Description</label>
+                            <input id="txtLossDesc" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtLossDesc" title="Loss Description">
+                            <br /><br />                      
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label id="dwnSex" for="dwnSex"> Case Y/N </label>
+                            <select id="dwnSex" style="width:18%; border-radius: 10px" name="Type" class="btn btn-default">
+                                <option value="">-Select- </option>
+                                <option value="F">Yes</option>
+                                <option value="M">No</option>
+                            </select>
+
+                            <label id="" for="txtTPCasedate">Case Date</label>
+                            <input id="txtTPCasedate" style="width:100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtTPCasedate" title="Case date">
+                            <br /><br />
+                            <label id="" class="" for="txtDriverName"> Age Of Injured</label>
+                            <input id="txtAgeOfInjured" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtAgeOfInjured" title="Age Of Injured">
+                            <br /><br />
+
+                            <label id="" for="txtNationality">Acc. Desc</label>
+                            <input id="txtAccDesc" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtAccDesc" title="Accident Description">
+                            <br /><br />
+
+                            <label id="" for="txtPolicyNo"> Policy No</label>
+                            <input id="txtPolicyNo" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtPolicyNo" title="Policy No">
+                            <br /><br />
+
+                            <label id="" for="txtDatefrom"> Date from</label>
+                            <input id="txtDatefrom" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDatefrom" title="Date from">
+                            <br /><br />
+                            <label id="" for="txtDateto"> Date To</label>
+                            <input id="txtDateto" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDateto" title="Date to">
+                            <br /><br />
+                                                              
+                            <label id="" for="txtDisablement">Disablement</label>
+                            <input id="txtDisablement" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDisablement" title="Disablement">
+                            <br /><br />
+
+                            <label id="" for="txtCaseDescription">Case Description</label>                      
+                            <input id="txtCaseDescription" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCaseDescription" title="Case Description">
+                            <br /><br />
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <h5 style="border-bottom-color:red" class="sub-header"> </h5>
+                        <br />
+                        <!-- LOV Grid and pager-->
+
+                        <button id="btnAddTPODClaim" style="margin-left:10px" type="button" class="btn btn-default">
+                            <img src="~/Content/Images/add.png" />
+                            <i title="Add Covers" aria-hidden="true"></i> Add New
+                        </button>
+
+                        <button id="btnEditTPODClaim" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/Edit.png" />
+                            <i title="Edit" aria-hidden="true"></i> Edit
+                        </button>
+
+                        <button id="btnDeleteTPODClaim" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/delete.png" />
+                            <i title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+                        <br /><br />
+
+                        <div>
+                            <table id="grdTPODClaim"></table>
+                            <table id="grdTPODClaimPager"></table>
+                        </div>
+                        <br /><br />
+                    </div>
+
+                </div>
+
+                <!-- --------------------------tab-6 Content------------------------------------>
+                <div id="tabs-6">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <input id="txtClmrecoverySysid" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmrecoverySysid" title="R">
+                            <br /><br />
+
+                            <label id="" class="required" for="txtPartyRefNo">Recovery Ref</label>
+                            <input id="txtRecoveryRef" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRecoveryRef" title="Recovery Ref">
+                            <br /><br />
+
+                            <label id="" class="required" for="txtPartyRefNo">Recovery type</label>
+                            <input id="txtRecoverytype" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRecoverytype" title="Recovery type">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtRecoverytype1" style="width:60%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRecoverytype1" title="Recovery type">
+                            <br /><br />
+
+                            <label id="" class="" for="txtClmrecRecoverydate">Recovery Date</label>
+                            <input id="txtClmrecRecoverydate" style="width:100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRecoverydate" title="Recovery date">
+                            <br /><br />
+
+                            <label id="" class="" for="txtClmrecArrivaldate">Date of Arrival</label>
+                            <input id="txtClmrecArrivaldate" style="width:100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtArrivaldate" title="Arrival Date">
+                            <br /><br />
+
+                            <label id="" for="txtLocation">Ins Company</label>
+                            <input id="txtInsCompany" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInsCompany" title="Insurance Company">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtInsCompany1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtInsCompany1" title="Insurance Company">
+                            <br /><br />
+
+                            <label id="" for="txtLocation">Recovery Agent</label>
+                            <input id="txtRecoveryagent" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRecoveryagent" title="Recovery Agent">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtRecoveryagent1" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtRecoveryagent1" title="Insurance Company">
+                            <br /><br />
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <label id="" for="txtClmrecTimebardate">Time bar Date</label>
+                            <input id="txtClmrecTimebardate" style="width:100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtTimebardate" title="Time bar date">
+                            <br /><br />
+
+                            <label id="" for="txtClmrecExtendeddate">Extended Date</label>
+                            <input id="txtClmrecExtendeddate" style="width:100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtExtendeddate" title="Extended date">
+                            <br /><br />
+
+                            <label id="" for="txtClmRecDescription">Description</label>
+                            <input id="txtClmRecDescription" style="width:50%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmRecDescription" title="Description">
+                            <br /><br />
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <h5 style="border-bottom-color:red" class="sub-header"> </h5>
+                        <br />
+                        <!-- LOV Grid and pager-->
+
+                        <button id="btnAddClaimRecovery" style="margin-left:10px" type="button" class="btn btn-default">
+                            <img src="~/Content/Images/add.png" />
+                            <i title="Add Covers" aria-hidden="true"></i> Add New
+                        </button>
+
+                        <button id="btnEditClaimRecovery" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/Edit.png" />
+                            <i title="Edit" aria-hidden="true"></i> Edit
+                        </button>
+
+                        <button id="btnDeleteClaimRecovery" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/delete.png" />
+                            <i title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+                        <br /><br />
+
+                        <div>
+                            <table id="grdClaimRecovery"></table>
+                            <table id="grdClaimRecoveryPager"></table>
+                        </div>
+                        <br /><br />
+                    </div>
+
+                </div>
+
+                <!-- --------------------------tab-7 Content------------------------------------>
+                <div id="tabs-7">
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <label id="" class="" for="txtSrNo">Sr No</label>
+                            <input id="txtSrNo" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtSrNo" title="Sr No">
+                            <br /><br />    
+                            <label id="" class="" for="txtPartyRefNo">Code</label>
+                            <input id="txtClmConCode" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmConCode" title="Code">
+                                             
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label id="" class="" for="txtClmConDescription">Description</label>
+                            <input id="txtClmConDescription" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtClmConDescription" title="Description">
+                            <br /><br />
+                            <label id="" class="" for="txtNoofPass">Type Desc</label>
+                            <input id="txtTypeDesc" style="width:100%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtTypeDesc" title="Type Desc">
+                           
+                        </div>
+
+                        </div>
+
+                    <div class="row">
+                        <h5 style="border-bottom-color:red" class="sub-header"> </h5>
+                        <br />
+                        <!-- LOV Grid and pager-->
+
+                        <button id="btnAddClaimConditions" style="margin-left:10px" type="button" class="btn btn-default">
+                            <img src="~/Content/Images/add.png" />
+                            <i title="Add Covers" aria-hidden="true"></i> Add New
+                        </button>
+
+                        <button id="btnEditClaimConditions" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/Edit.png" />
+                            <i title="Edit" aria-hidden="true"></i> Edit
+                        </button>
+
+                        <button id="btnDeleteClaimConditions" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/delete.png" />
+                            <i title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+                        <br /><br />
+
+                        <div>
+                            <table id="grdClaimConditions"></table>
+                            <table id="grdClaimConditionsPager"></table>
+                        </div>
+                        <br /><br />
+                    </div>
+
+                </div>
+
+                <!-- --------------------------tab-8 Content------------------------------------>
+                <div id="tabs-8">
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <label id="" class="" for="txtStatusCode">Code</label>
+                            <input id="txtStatusCode" style="width:30%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtStatusCode" title="Code">
+                            <br /><br />
+                            <label id="" class="" for="txtStatusDescription">Description</label>
+                            <input id="txtStatusDescription" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtStatusDescription" title="Description">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label id="" class="" for="txtStatusDate">Date</label>
+                            <input id="txtStatusDate" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtStatusDate" title="Status Date">
+                            <br /><br />
+                            <label id="lblStaus" for="chkConfirmed">Confirmed</label>
+                            <input id="chkConfirmed" type="checkbox"  value="A">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <h5 style="border-bottom-color:red" class="sub-header"> </h5>
+                        <br />
+                        <!-- LOV Grid and pager-->
+
+                        <button id="btnAddStatus" style="margin-left:10px" type="button" class="btn btn-default">
+                            <img src="~/Content/Images/add.png" />
+                            <i title="Add Covers" aria-hidden="true"></i> Add New
+                        </button>
+
+                        <button id="btnEditStatus" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/Edit.png" />
+                            <i title="Edit" aria-hidden="true"></i> Edit
+                        </button>
+
+                        <button id="btnDeleteStatus" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/delete.png" />
+                            <i title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+                        <br /><br />
+
+                        <div>
+                            <table id="grdStatus"></table>
+                            <table id="grdStatusPager"></table>
+                        </div>
+                        <br /><br />
+                    </div>
+
+                </div>
+
+                <!-- --------------------------tab-9 Content------------------------------------>
+                <div id="tabs-9">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <input id="txtCloseReSysid" style="width:10%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCloseReSysid" title="">
+                            <br /><br />
+                            <label id="" class="" for="txtDateofClosing">Date of Closing</label>
+                            <input id="txtDateofClosing" style="width:30%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDateofClosing" title="">
+                            <br /><br />
+                            <label id="" class="" for="txtResonofClosing">Reason for Closing</label>
+                            <input id="txtResonofClosing" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtResonofClosing" title="Reason">
+                            <br /><br />
+                            <label id="" class="" for="txtCloseUserId">Close User ID</label>
+                            <input id="txtCloseUserId" style="width:20%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCloseUserId" title="Close">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtCloseUserName" style="width:60%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCloseUserName" title="">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label id="" class="" for="txtDateofReopening">Date of Reopening</label>
+                            <input id="txtDateofReopening" style="width:30%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtDateofReopening" title="">
+                            <br /><br />
+                            <label id="" class="" for="txtResonofReopening">Reason for Reopening</label>
+                            <input id="txtResonofReopening" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtResonofReopening" title="Reason">
+                            <br /><br />
+                            <label id="" class="" for="txtReopenUserId">Reopen User ID</label>
+                            <input id="txtReopenUserId" style="width:40%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtReopenUserId" title="Reopen">
+                            <button type="button" class="btn btn-default" id="btnSelTxnCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtReopenUserName" style="width:60%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtReopenUserName" title="">
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <h5 style="border-bottom-color:red" class="sub-header"> </h5>
+                        <br />
+                        <!-- LOV Grid and pager-->
+
+                        <button id="btnAddCloseRe" style="margin-left:10px" type="button" class="btn btn-default">
+                            <img src="~/Content/Images/add.png" />
+                            <i title="Add Covers" aria-hidden="true"></i> Add New
+                        </button>
+
+                        <button id="btnEditCloseRe" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/Edit.png" />
+                            <i title="Edit" aria-hidden="true"></i> Edit
+                        </button>
+
+                        <button id="btnDeleteCloseRe" type="button" class="btn btn-default" style="border-radius: 10px">
+                            <img src="~/Content/Images/delete.png" />
+                            <i title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+                        <br /><br />
+
+                        <div>
+                            <table id="grdCloseRe"></table>
+                            <table id="grdCloseRePager"></table>
+                        </div>
+                        <br /><br />
+                    </div>
+
+                </div>
+
+
+                </div>
+        </form>
+    </div>
+
+    <!-- dialog form for Covers LOV -->
+    <div id="dlgCode-form" title="Save Data">
+        <form id="ProdCovers">
+            <div style="color: red">
+                Alert Message
+            </div>
+            <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+            <!-- -->
+            <div style="color: fuchsia">
+
+                Are you sure you want to save ?
+
+            </div>
+
+        </form>
+    </div>
+
+    <!-----------------------Document Code  dialog -------------------->
+    <div id="dialog-Frm-DocCode" title="Get Info">
+        <form>
+            <div>
+                <input id="txtSearchDocCode" type="text" placeholder="Search by Name" style="width: 40%" name="txtSearchDocCode" title="Search Field">
+                <button type="button" class="btn btn-default" id="btnQueryDocCode">
+                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                </button>
+            </div>
+            <h4 style="border-bottom-color: red" class="sub-header"></h4>
+            <!-- LOV Grid and pager-->
+            <div>
+
+                <table id="grdGetDocCode"></table>
+                <table id="grdDocCodePager"></table>
+            </div>
+        </form>
+    </div>
+
+    <!-----------------------Txn Origin  dialog -------------------->
+    <div id="dialog-Frm-DocOrgn" title="Get Info">
+        <form>
+            <div>
+                <input id="txtSearchDocOrgn" type="text" placeholder="Search by Name" style="width: 40%" name="txtSearchDocOrgn" title="Search Field">
+                <button type="button" class="btn btn-default" id="btnQueryDocOrigin">
+                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                </button>
+            </div>
+            <h4 style="border-bottom-color: red" class="sub-header"></h4>
+            <!-- LOV Grid and pager-->
+            <div>
+                <table id="grdTxnOrigin"></table>
+                <table id="grdPager"></table>
+            </div>
+        </form>
+    </div>
+
+
+    <!-----------------------Risk Details dialog -------------------->
+    <div id="dialog-Frm-RiskDetails" title="Get Info">
+        <form>
+            <div>
+                <input id="txtSearchDocOrgn" type="text" placeholder="Search by Name" style="width: 40%" name="txtSearchDocOrgn" title="Search Field">
+                <button type="button" class="btn btn-default" id="btnQueryDocOrigin">
+                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                </button>
+            </div>
+            <h4 style="border-bottom-color: red" class="sub-header"></h4>
+            <!-- LOV Grid and pager-->
+            <div>
+                <table id="grdDialogRiskDetails"></table>
+                <table id="grdPager"></table>
+            </div>
+        </form>
+    </div>
+
+</div>

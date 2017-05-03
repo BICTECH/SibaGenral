@@ -1,0 +1,255 @@
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+.center {
+    margin-left: auto!important;
+    margin-right: auto!important;
+    
+}
+
+.block {
+    display: block!important;
+}
+
+#myLOVModal ui-jqgrid{
+    width:100%!important;
+}
+
+.app-logo {
+    width: 34px;
+    height: 34px;
+    margin-top: -.4em;
+    border-radius: 4px;
+    box-shadow: 0 0px 3px rgba(0,0,0,0.7);
+}
+
+.input-group .input-group-addon{
+    border-radius: 4px;
+    margin-left: 1px;
+    max-height: 34px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+form .col-md-1, form .col-md-3,form .col-md-2,form .col-md-4,
+form .col-md-5,form .col-md-6,form .col-md-7,form .col-md-8,
+form .col-md-9,form .col-md-10,form .col-md-11,form .col-md-12{
+  padding-left:.2em !important;
+  padding-right:.2em !important;
+}
+
+.form-group label{
+  line-height:2.6;
+}
+
+label.required:after {
+    content: " *";
+    color: red;
+}
+
+.control-group {
+    border:1px solid #a94442;
+    padding:1em 2em;
+    margin-top: 1em;
+    margin-bottom:1em!important;
+    -ms-border-radius:3px;
+    border-radius:3px
+}
+
+/*.form-control {
+    width: 100% !important;
+    max-width: 100% !important;
+}*/
+
+.form-group textarea {
+    margin-bottom: .5em;
+}
+
+.control-group .control-grp-lbl{
+  width:auto;
+  display:inline-block;
+  position:relative;
+  margin-left:1.9em;
+  padding:.3em;
+  margin-top:-2.2em;
+  top:-1.4em;
+  background:#ffffff;
+  text-align:center;
+  font-size:1.7rem
+}
+
+.btn-block {
+    margin-bottom: 1em;
+}
+
+#page-content-wrapper{
+  padding:0em 0em
+}
+
+.container{
+    padding: 0 !important;
+}
+.form-view .col-md-12, .container{
+  padding:0
+}
+
+.form-header{
+  padding:0em 2.5em
+}
+
+.navbar{
+  height:5px;
+}
+
+.form-group .checkbox {
+    margin-top: .7em;
+    width: 17px!important;
+    height: 17px!important;
+}
+
+.classWithPad { margin-left: 0px; padding-right:80px; }
+
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+@media(min-width: 768px) {
+   label{
+text-align: right!important;
+width: 100%;
+margin-right: 1em;
+text-align: right;
+   }
+}
+
+@media(max-width: 768px) {
+   label{
+float: left;
+width: 10em;
+margin-right: 1em;
+text-align: left;
+}
+}
+.input-group .input-group-btn {
+    font-size: 1.4rem !important;
+   }
+}
+.sidebaricon i{
+    color: #ac7339;
+    text-shadow: 1px 1px 1px ;
+    font-size: 1.2em;
+}
+
+.sidebaricon1 i{
+    color: #fff;
+
+}
+
+.modal-header-success {
+    color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #428bca;
+}
+
+.modal-dialog{
+    border-radius: 6px!important;
+    overflow:hidden;
+}
+
+.modal-footer{
+    border-top:1px solid rgba(0,0,0,0.2)!important
+}
+
+.treeview-menu{
+    margin-top: -2px!important;
+    margin-left: -1px!important;
+}
+
+#myLOVModal .modal-dialog
+{
+  width: 33%;
+}
+
+#myLOVModal1 .modal-dialog
+{
+  width: 33%;
+}
+
+.modal .modal-body {
+max-height: 400px;
+overflow-y: auto;
+}
+
+#myModal1 .modal-dialog  
+{
+    width:55%;
+    max-height:500%;
+}
+
+#myModal2 .modal-dialog  
+{
+    width:70%;
+    max-height:500%;
+}
+
+#myModal4 .modal-dialog
+{
+  width: 70%;
+}
+
+hr { 
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+    color: #3c8dbc; 
+    background-color: #3c8dbc;
+    border-color: #3c8dbc;
+}
+
+button.close{
+    margin-top:.2em!important
+}
+
+button.close:hover{
+    color:#931010!important;    
+}
+
+.app-logo-text {
+    margin-top: -5px;   
+    text-align: left;
+    color: #003366;
+    font-size: 25px;   
+}
+
+.app-logo-text1 {
+    margin-top: -5px;   
+    text-align: left;
+    color: #c2d6d6;
+    font-size: 23px;   
+}

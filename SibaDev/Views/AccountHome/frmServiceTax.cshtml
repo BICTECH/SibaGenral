@@ -1,0 +1,215 @@
+﻿@{
+    Layout = "~/Views/Shared/_AccountModule.cshtml";
+}
+
+
+<script src="~/Scripts/Accounts/page_scripts/tax/account.service.tax.setup.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/service.tax.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/MainAccount.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/SubAccount.service.js"></script>
+<script src="~/Scripts/Services/customercategory.service.js"></script>
+
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12">
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <button type="button" class="btn btn-success" id="btnSave">
+                                    <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                </button>
+                                <button type="button" class="btn btn-danger" id="btnDelete">
+                                    <i class="fa ion-trash-b" title="Delete" aria-hidden="true"></i> Delete
+                                </button>
+                                <button id="btn_Reset" type="button" class="btn btn-primary">
+                                    <i class="fa ion-loop" title="Reset" aria-hidden="true"></i> Reset
+                                </button>
+                                <button type="button" id="btnQueryTax" class="btn btn-info" style="float: right; margin-right: 15px">
+                                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                </button>
+                                <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px"
+                                       class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search by Name">
+                            </div>
+                        </div>
+                    </div>
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Service Tax Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                            <div class="row control-group form-padding">
+                                <span class="control-grp-lbl text-danger">Service Tax</span>
+                                        
+                                <form name="taxForm" id="taxForm">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <label>Code</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input id="TX_TAX_CODE" class="form-control" min="3" maxlength="15" type="text" name="TX_TAX_CODE" title="Account Service Tax Code" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <label>Name</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="form-control" min="3" maxlength="40" type="text" name="TX_TAX_NAME" title="Account Service Tax Name" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <label>Customer Category</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" name="TX_CUST_CAT_CODE" title="Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_customer_type","field1":"TX_CUST_CAT_CODE","field2":"CAT_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-10">
+                                                <input class="form-control" min="3" max-length="50" type="text" name="CAT_NAME" title="Customer Type Name" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <label>Tax Percentage</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="form-control" min="3" max="19" type="number" name="TX_TAX_PERC" title="Account Service Tax Percentage" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <label>Min Tax Allowed</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="form-control" min="3" max="19" type="number" name="TX_MIN_TAX_APP" title="Account Service Minimum Tax Applicable" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <label>From date</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input id="TX_FROM_DATE" class="form-control date" type="text" name="TX_FROM_DATE" title="From Date" required />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label>To date</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input id="TX_TO_DATE" class="form-control date" type="text" name="TX_TO_DATE" title="To Date" required />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Default Accounts-->
+                                    <div class="col-md-12 ">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label> Main Account</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" maxlength="15" id="TX_MAIN_ACCT_CODE" name="TX_MAIN_ACCT_CODE" title="Main Account Code" required />
+                                                    <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_main_account" ,"field1":"TX_MAIN_ACCT_CODE", "field2":"ACCT_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <input class="form-control" type="text" name="ACCT_NAME" title="Main Account Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label>Sub Account</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" maxlength="15" id="TX_SUB_ACCT_CODE" name="TX_SUB_ACCT_CODE" title="Sub Ledger Code" required />
+                                                    <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_sub_account" ,"field1":"TX_SUB_ACCT_CODE", "field2":"SUB_ACCOUNT_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input class="form-control" type="text" name="SUB_ACCOUNT_NAME" title="Sub Ledger Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa ion-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdAccountServiceTax"></table>
+                                    <table id="grdAccountServiceTaxPager"></table>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+

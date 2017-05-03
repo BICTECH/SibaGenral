@@ -1,0 +1,376 @@
+﻿@{
+    ViewBag.Title = "Motor Tariff";
+}
+
+<script src="~/Scripts/Page_Scripts/Motor.tariff.setup.js"></script>
+<script src="~/Scripts/Services/motortariff.service.js"></script>
+
+<script src="~/Scripts/Libraries/SibaScript/getSequenceNo.js"></script>
+<script src="~/Scripts/Libraries/SibaScript/RetnSequenceNo.js"></script>
+
+<div class="main">
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save_Motor">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btn_Delete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryMotorTariff" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form name="premiumtariffForm" id="premiumtariffForm">
+
+                        <div class="row">
+
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        <label class="required">Product</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <input class="form-control" min="3" max-length="15" type="text" name="MTP_PRD_CODE" id="MTP_PRD_CODE" required />
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_product", "field1":"MTP_PRD_CODE", "field2":"PDT_NAME"}'>
+                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input class="form-control" min="3" max-length="50" type="text" name="PDT_NAME" id="PDT_NAME" />
+                                        <input class="form-control" min="3" max-length="50" type="hidden" name="MTP_STATUS" id="MPR_STATUS" />
+                                        <input class="form-control" min="3" max-length="15" type="hidden" name="MTP_SYS_ID" id="MTP_SYS_ID" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                  
+                        <hr />
+                    </form>
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Motor Risks</a></li>
+
+                            </ul>
+                            <div id="tabs-1">
+
+                                <hr />
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_motor_risk" class="btn btn-default" type="button"><i class="fa fa-plus-circle text-success"></i> Motor Risks</button>
+                                        <button id="btn_remove_motor_risk" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button id="btn_risk_cover" class="btn btn-default" type="button"><i class="fa fa-umbrella text-success"></i> Risk Cover</button>
+
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-cover-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr />
+
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdMotorRisk"></table>
+                                    <table id="grdMotorRiskPager"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Motor Risk Modal -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="productRiskModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"> Motor Risk</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger">Motor Risk</span>
+
+                            <form id="motorriskForm" name="motorriskForm" class="form">
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <input class="form-control" type="hidden" id="MPR_SYS_ID" name="MPR_SYS_ID" />
+                                        <input class="form-control" type="hidden" id="MPR_MTP_PRD_CODE" name="MPR_MTP_PRD_CODE" />
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="required">Motor Risk</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input class="form-control" min="3" max-length="15" type="text" name="MPR_RISK_CODE" id="MPR_RISK_CODE" placeholder="Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_motor_risk", "field1":"MPR_RISK_CODE", "field2":"MPR_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input class="form-control" min="3" max-length="50" type="text" name="MPR_NAME" placeholder="Name" required />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add </button>
+                    <button type="reset" class="btn btn-default"> <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset </button>
+
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Motor Risks Covers Modal-->
+
+<div class="modal draggable fade" id="riskCoversModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Motor Risks Covers</strong>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row control-group form-padding">
+                    <div class="container" style="width:100%">
+                        <span class="control-grp-lbl text-danger">Cover settings</span>
+
+                        <div class="row">
+
+                            <form id="coverForm" name="coverForm" class="form">
+                                <div class="form-group" style="margin-left: 6px">
+
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <label>Cover </label>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <input class="form-control" min="3" max-length="15" type="text" id="MRC_CVR_CODE" name="MRC_CVR_CODE" placeholder="Code" required />
+                                                <span class="input-group-btn">
+                                                    <span id="spry_code">
+                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_cover", "field1":"MRC_CVR_CODE", "field2":"MRC_CVR_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+
+                                            <input type="text" class="form-control" id="MRC_CVR_NAME" name="MRC_CVR_NAME" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <input type="checkbox" id="MRC_DFT_YN" class="checkbox-inline" name="MRC_DFT_YN" placeholder="Check if SI is to be defaulted" >
+                                                </span>
+                                                <label>SI Defaulted ?</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <input type="checkbox" id="MRC_NCD_YN"  class="checkbox-inline" name="MRC_NCD_YN" placeholder="Check if NCD applicable on this Cover">
+                                                </span>
+                                                <label>NCD ?</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <h4 style="border-bottom-color:red" class="sub-header"> </h4>
+                                    <!-- -->
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label>Deft. Sum Insured</label>
+                                            <input type="number" class="form-control" id="MRC_DFT_SI" name="MRC_DFT_SI" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Deft. Rate</label>
+                                            <input type="number" class="form-control" id="MRC_DFT_RATE" name="MRC_DFT_RATE" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Min. Rate </label>
+                                            <input type="number" class="form-control" id="MRC_MIN_RATE" name="MRC_MIN_RATE" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Max. Rate</label>
+                                            <input type="number" class="form-control" id="MRC_MAX_RATE" name="MRC_MAX_RATE" value="0.00" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>Deft. Premium</label>
+                                            <input type="number" class="form-control" id="MRC_DFT_PREM" name="MRC_DFT_PREM" value="0.00" />
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label>Min. Seats</label>
+                                            <input type="number" class="form-control" id="MRC_MIN_SEATS" name="MRC_MIN_SEATS" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>per Seat Premium</label>
+                                            <input type="number" class="form-control" id="MRC_SEAT_LOAD" name="MRC_SEAT_LOAD" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Min. Age</label>
+                                            <input type="number" class="form-control" id="MRC_MIN_AGE" name="MRC_MIN_AGE" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Age Load %</label>
+                                            <input type="number" class="form-control" id="MRC_AGE_LOAD" name="MRC_AGE_LOAD" value="0.00" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>Excess Load %</label>
+                                            <input type="number" class="form-control" id="MRC_EXCESS_LOAD" name="MRC_EXCESS_LOAD" value="0.00" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <input type="hidden" class="form-control" id="MRC_MPR_SYS_ID" name="MRC_MPR_SYS_ID" />
+                                            <input class="form-control" type="hidden" id="MRC_RK_CVR_SYS_ID" name="MRC_RK_CVR_SYS_ID" />
+                                        </div>
+
+                                    </div>
+                                    <h4 style="border-bottom-color:red" class="sub-header"> </h4>
+
+                                </div>
+                            </form>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="btn-block">
+                                <button id="btn_add_cover" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add Cover</button>
+                                <button id="btn_update_cover" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                <button id="btn_remove_cover" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                                <button id="btn_reset_cover" type="reset" class="btn btn-default"> <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset </button>
+
+                                <button type="button" class="btn btn-default pull-right dialog-btn" id="export-cover-btn" title="Export Grid data to Excel">
+                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <table id="gridCovers"></table>
+                            <table id="gridCoversPager"></table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+                <button id="riskCoverOk" type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                <button id="riskCoverCancel" type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Search Modal -->
+
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="mySearchResultModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tariff Search Result</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <table id="grdSearchResults"></table>
+                        <table id="grdSearchResultsPager"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="search-ok" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    <button id="search-close" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

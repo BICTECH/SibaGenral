@@ -1,0 +1,96 @@
+﻿.motor_detail{
+	
+	margin-top:10px;
+	border:1px solid black;
+	padding:30px 30px 30px 30px;
+	border-radius:5px;
+	}	
+
+.motor_head{
+
+	padding:3px 5px;
+	border-radius:10px;
+	font-weight:bold;
+	line-height:70px;
+	
+	}
+
+.motor_detail_red{
+	align-self:center;
+    justify-content:center;
+	border:5px double #f90;
+	padding:8px 5px 5px 50px;
+	border-radius:2px;	
+	}
+
+.motor_detail_overall{
+	
+	border:5px thin #f90;
+	padding:1px 0px 0px 50px;
+	border-radius:2px;	
+	}
+
+.tdfont table{   
+  font-size:small;
+  font-family:'Book Antiqua';
+}
+
+
+
+ body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #FAFAFA;
+        font: 12pt "Tahoma";
+    }
+    * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+    .page {
+        width: 210mm;
+        min-height: 297mm;
+        /*padding: 20mm;*/
+        margin: 0mm auto;
+        border: 5px white solid;
+        border-radius: 5px;
+        background: white;
+    }
+    .subpage {
+        padding: 1cm;
+        border: 5px #f90 double;
+        height: 297mm;
+        width: 205mm;
+        margin: -55px 0px 50px 5px;
+        padding: 5mm;
+    }
+    
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    @media print {
+        html, body {
+            width: 210mm;
+            height: 297mm;        
+        }
+        .page {
+        width: 210mm;
+        min-height: 297mm;
+        /*padding: 20mm;*/
+        margin: 0mm auto;
+        border: 5px white solid;
+        border-radius: 5px;
+        background: white;
+        }
+
+        .subpage {
+        border: 5px #f90 double;
+        /*height: 280mm;
+        width: 210mm;*/
+        margin: -55px 0px 50px 5px;
+        padding: 0mm;
+    }
+    }

@@ -1,0 +1,174 @@
+﻿
+@{
+    ViewBag.Title = "Area";
+}
+
+<script src="~/Scripts/page_scripts/Area.Setup.js"></script>
+<script src="~/Scripts/services/area.service.js"></script>
+<script src="~/Scripts/services/city.service.js"></script>
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btn_Delete">
+                                            <i class="fa ion-trash-b" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa ion-loop" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryArea" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width:50%; height: 30px; text-align:center; float:right; margin-right: 10px"
+                                               class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">                   
+                            <div id="tabs">
+                                <ul>
+                                    <li><a href="#tabs-1">Area Setup</a></li>
+                                </ul>
+                                <div id="tabs-1">
+                                    <form name="areaForm" id="areaForm">
+                                        <div>
+                                            <div class="row control-group form-padding">
+                                                <span class="control-grp-lbl text-danger">Fill Form Below</span>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Code</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_code">
+                                                                <input class="form-control" min="3" maxlength="15" type="text" id="ARE_CODE" name="ARE_CODE" title="Area Code" required />
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMinCharsMsg">Code must not be more than 15 characters.</span>
+                                                            </span>
+                                                          </div>                                                   
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Name</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input class="form-control" min="3" maxlength="40" type="text" id="ARE_NAME" name="ARE_NAME" title="Area Name" required />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                         </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label>Description</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <textarea class="form-control" min="3" maxlength="100" id="ARE_DESC" name="ARE_DESC" title="Area Description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Region</label>
+                                                        </div>
+                                                        
+                                                            <div class="col-md-2">
+                                                                <span id="spry_lovcode">
+                                                                    <div class="input-group">
+
+                                                                        <input class="form-control" min="3" max-length="15" type="text" id="ARE_REG_CODE" name="ARE_REG_CODE" title="Code" required />
+
+                                                                        <span class="input-group-btn">
+                                                                            <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_region", "field1":"ARE_REG_CODE", "field2":"REG_NAME"}'>
+                                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                            </button>
+                                                                        </span>
+
+                                                                    </div>
+                                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                </span>
+                                                          </div>                                                        
+                                                                   
+                                                        <div class="col-md-3">
+                                                            <span id="spry_lovname">
+                                                                <input class="form-control" min="3" max-length="50" type="text" id="REG_NAME" name="REG_NAME" title="Name" />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label>
+                                                                Status
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input class="checkbox checkbox-inline pull-left" type="checkbox" name="ARE_STATUS" checked />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                        <!--Grid Buttons-->
+                                        <div class="row">
+                                            <div class="btn-block">
+                                                <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                                <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                                <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                                <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!--Setup Grid-->
+                                        <div class="row">
+                                            <table id="grdArea"></table>
+                                            <table id="grdAreaPager"></table>
+                                        </div>
+                              </div>
+
+                            </div>
+                        
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

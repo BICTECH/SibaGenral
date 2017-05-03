@@ -1,0 +1,231 @@
+﻿@{
+    ViewBag.Title = "Customer type";
+}
+<script src="~/Scripts/Page_Scripts/compulsory.fee.setup.js"></script>
+<script src="~/Scripts/Services/compulsoryfee.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryCompulsoryfees" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Compulsory Fees</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="compulsoryfeeForm" id="compulsoryfeeForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Compulsory fee details</span>
+                                        
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Code</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_code">
+                                                        <input id="FEE_CODE" class="form-control" min="1" maxlength="15" 
+                                                               type="text" name="FEE_CODE" title="Code" required>
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                        <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Name</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span id="spry_name">
+                                                        <input id="FEE_NAME" class="form-control" min="5" maxlength="50"
+                                                               type="text" name="FEE_NAME" title="Name" required>
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Description</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span id="spry_decsymbol">
+                                                        <textarea id="FEE_DESC" rows="4" cols="50" 
+                                                                   class="form-control" name="FEE_DESC" title="Customer Type Description"></textarea>
+                                                        <span class="textfieldRequiredMsg">Description is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Amount</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span id="spry_unit">
+                                                        <input id="FEE_AMOUNT" class="form-control" min="1" maxlength="5"
+                                                               type="text" name="FEE_AMOUNT" title="Prefix" required>
+                                                        <span class="textfieldRequiredMsg">Amount is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                   
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>
+                                                        Allow Modify?
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input class="checkbox checkbox-inline pull-left" type="checkbox" id="FEE_MODIFY_YN" name="FEE_MODIFY_YN" value="Y" checked/>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label>
+                                                        Allow Refund?
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input class="checkbox checkbox-inline pull-left" type="checkbox" id="FEE_REFUND_YN" name="FEE_REFUND_YN" value="Y" checked/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>
+                                                        Status?
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="checkbox checkbox-inline pull-left" type="checkbox" id="FEE_STATUS" name="FEE_STATUS" value="Y" checked/>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Default Accounts</span>
+
+
+                                        <div class="col-md-12 ">
+                                            <div class="form-group">
+
+                                                <div class="col-md-2">
+                                                    <label> Main Account</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text" maxlength="15" id="FEE_MAIN_ACCOUNT" name="FEE_MAIN_ACCOUNT" title="Main Account Code" required />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_main_account" ,"field1":"FEE_MAIN_ACCOUNT", "field2":"FEE_MAIN_ACCOUNT_NAME"}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <input class="form-control" type="text" name="FEE_MAIN_ACCOUNT_NAME" title="Main Account Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+
+                                                <div class="col-md-2">
+                                                    <label>Sub Account</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text" maxlength="15" id="FEE_SUB_ACCOUNT" name="FEE_SUB_ACCOUNT" title="Sub Ledger Code" required />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_sub_account" ,"field1":"FEE_SUB_ACCOUNT", "field2":"FEE_SUB_ACCOUNT_NAME"}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input class="form-control" type="text" name="FEE_SUB_ACCOUNT_NAME" title="Sub Ledger Name" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdCompulsoryfee"></table>
+                                    <table id="grdCompulsoryfeePager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

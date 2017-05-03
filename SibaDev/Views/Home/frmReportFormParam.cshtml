@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <!----------------- Siba References-->
+    <!-----------------General  References-->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.base.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.2.min.js"></script>
+
+    <script src="~/Scripts/jquery-1.7.2.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.8.11.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.min.js"></script>
+
+    <!--  -->
+
+    <link href="~/Content/Css/Custom/sibaStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/SibaScript/sibaUWMotor.js"></script>
+    <script src="~/Scripts/SibaScript/RetnSequenceNo.js"></script>
+    <script src="~/Scripts/SibaScript/sibaDateFunction.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            $(function () {
+
+                var dialog, form,
+
+                dialog = $("#frm_test_form").dialog({
+                    autoOpen: false,
+                    height: 550,
+                    width: 700,
+                    modal: true,
+
+                    buttons: {
+
+                        "Run report": function () {
+
+                            if ($('#txtPolDocNo').val() == "") {
+
+                                alert('Input parameters not set properly, Please check and try again')
+                            }
+
+                            else {
+
+                                window.open('frmReprotTEST', 'result', "width=900,height=1000,toolbar=0,menubar=no,status=no,resizable=yes,location=no,directories=no,scrollbars=yes");
+
+                                document.getElementById('frm_test_form').submit();
+
+
+                                //$("#frm_MotSch_form")[0].submit();
+
+                            }
+
+                        },
+
+                        "Clear": function () {
+
+                        },
+
+                        Cancel: function () {
+
+                            $(this).dialog("close");
+
+                        },
+                    }
+
+                });
+
+                $("#btnPrint").button().on("click", function () {
+
+                    dialog.dialog("open");
+
+                });
+            })
+        });
+
+    </script>
+
+    <br />
+
+
+    <button id="btnPrint" type="button" value="Print">
+
+        <img src="~/Content/Images/PrintNew.png" />
+
+    </button>
+
+    <div id="ChartDiv" style="width:600px;height:400px"></div>
+   
+    <!-- Example Form -->
+    <form action='frmReprotTEST' method='post' id="frm_test_form" target="result">
+       
+        <div style="border: 1px solid #000000; height:400px; margin-left: 10px; border-color: red; width: 95%" ; class="roundElement">
+            
+            <h4 style="border-bottom-color:red; color:blue " class="sub-header">RUN SCHEDULE </h4>
+            <br /><br />
+            <!-- Example element to pass across -->
+            <label id="lblPolSerNo " for="txtPolDocNo">Pol. Sys ID: </label>
+            <input name='txtPolDocNoPrint' value='' id="txtPolDocNoPrint" class="text ui-widget-content ui-corner-all" />
+            <br /><br />
+            
+            <br /><br /><br />
+            <hr />
+        </div>
+
+   </form>
+
+</div>

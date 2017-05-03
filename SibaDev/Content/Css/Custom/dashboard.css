@@ -1,0 +1,107 @@
+﻿/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 0px;
+  /*background-image: url('Images/blue_background.jpg');*/   
+  width: 100%;
+  background-color: #ffffff;
+}
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.containera button {         
+    background-color: #f2f2f2;
+    color: #428bca;
+    font-size: 15px;
+    text-rendering: optimizeLegibility;
+    font-weight: bold;
+    font-family: Georgia, serif;
+}
+
+.roundElement	
+{
+    border-radius: 10px;
+    background:#FFF;
+    border: 2px solid dodgerblue;
+}
+
+.effects
+{
+    position:relative;
+    box-shadow:2px 5px 5px 5px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    margin: 0px 10px 0px 10px;
+}
+
+.effects:before, .effects:after
+{
+	content:"";
+    position:absolute; 
+    z-index:-1;
+    box-shadow:0 0 20px rgba(0,0,0,0.50);
+    top:10px;
+    bottom:10px;
+    left:0;
+    right:0;
+    border-radius:100px / 10px;
+} 
+
+.effects:after
+{
+    right:10px; 
+    left:auto; 
+    transform:skew(8deg) rotate(3deg);
+}
+
+.inputs label {
+            display: inline-block;
+            width: 11em;
+            color: blue;
+            text-align: right;
+            font-size: 12px;
+        }
+
+.main {
+  padding: 10px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-top: 45px;
+    padding-right: 5px;
+    padding-left: 0px;
+  }
+}
+
+.main .page-header {
+  margin-top: 0;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}

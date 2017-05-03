@@ -1,0 +1,140 @@
+﻿@{
+    Layout = "~/Views/Shared/_AccountModule.cshtml";
+}
+<script src="~/Scripts/Accounts/page_scripts/InsuranceTxnTypes/InsAccTxnType.setup.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/InsAcctTxn.service.js"></script>
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12">
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <button type="button" class="btn btn-success" id="btnSave">
+                                    <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                </button>
+                                <button type="button" class="btn btn-danger" id="btnDelete">
+                                    <i class="fa ion-trash-b" title="Delete" aria-hidden="true"></i> Delete
+                                </button>
+                                <button type="reset" class="btn btn-primary" id="btnReset">
+                                    <i class="fa ion-loop" title="Reset" aria-hidden="true"></i> Reset
+                                </button>
+                                <button type="button" id="btnSearch" class="btn btn-info" style="float: right; margin-right: 15px">
+                                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                </button>
+                                <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px"
+                                       class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="search by Name">
+                            </div>
+                        </div>
+                    </div>
+                    <!--Header-->
+                    <div class="row form-header">
+
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Insurance Accounts Transaction</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="myForm" id="acctTxnTypeForm">
+                                    <div>
+                                        <div class="row control-group form-padding">
+
+                                            <!-- Billing Period -->
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-1">
+                                                        <label>Txn Source</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select class="form-control" id="TXN_INS_SRCE" name="TXN_INS_SRCE" title="Name" required>
+                                                            <option value="">Select Type</option>
+                                                            <option value="UW">Underwriting</option>
+                                                            <option value="RI">Reinsurance</option>
+                                                            <option value="CL">Claims</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-1">
+                                                        <label>Code</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" min="3" maxlength="40" type="text" id="TXN_CODE" name="TXN_CODE" title="City Name" required />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-1">
+                                                        <label>Name</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input class="form-control" min="3" maxlength="40" type="text" id="TXN_NAME" name="TXN_NAME" title="City Name" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-1">
+                                                        <label>Description </label>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <textarea class="form-control" min="3" maxlength="100" id="TXN_DESC" name="TXN_DESC" title="Area Description" required></textarea>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-1">
+                                                        <label>
+                                                            Status
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input class="checkbox checkbox-inline pull-left" type="checkbox" id="TXN_STATUS" name="TXN_STATUS" checked required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btnAdd" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                        <button id="btnUpdate" class="btn btn-default" type="button"><i class="fa ion-edit text-yellow"></i> Update</button>
+                                        <button id="btnRemove" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27"/> Export
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdInsAcctTxnType"></table>
+                                    <table id="grdInsAcctTxnTypePager"></table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

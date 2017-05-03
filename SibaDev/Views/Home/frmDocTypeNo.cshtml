@@ -1,0 +1,1018 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.base.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.2.min.js"></script>
+
+    <script src="~/Scripts/jquery-1.7.2.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.8.11.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.min.js"></script>
+
+    <script type="text/javascript">
+    //--- -----------------------------------Select Code  LOV ------------ -->
+        $(document).ready(function () {
+            $("#btnQueryDocType").click(function () {
+                //function findCovers() {
+
+                var GetItem = [{
+                    //paramProdCode: $("#txtProductCode").val(),
+                    paramsearchField: $("#txtSearch").val(),
+                    //paramCoverCode: $('#txtSearchCover').val()
+                }];
+
+                //alert("No data found, Check and try again");
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '/api/CreateDocTypeNo/GetCode',
+
+                    //Data to send
+
+                    data: JSON.stringify({ getcov: GetItem }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+
+                    //dataprocess: true,
+                    success: function (data) {
+
+                        //clear the grid
+                        $("#grdDocTypeNo").clearGridData();
+
+                        var Itemdata = data;
+                        //alert(data);
+
+                        if (Itemdata.length > 0) {
+                            for (var i = 0; i < Itemdata.length; i++)
+
+                                jQuery("#grdDocTypeNo").addRowData(Itemdata[i].id, Itemdata[i]);
+                        }
+                        else {
+
+                            alert("No data found, Check and try again");
+                        }
+
+                    },
+                    'error': function (error) {
+
+                        alert(JSON.stringify(error));
+                    }
+
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $("#grdDocTypeNo").jqGrid({
+                data: 'local',
+                height: 255,
+                colNames: ['ID','Document Origin', 'Journal Type', 'Office Code', 'Document Prefix', 'Year', 'Status'],
+                colModel: [
+                    { name: 'DTNO_SYS_ID', hidden: true, index: 'DTNO_SYS_ID', width: 100 },
+                    { name: 'DTNO_DTY_ORGN', index: 'DTNO_DTY_ORGN', width: 300 },
+                    { name: 'DTNO_JRNL_TYPE', index: 'DTNO_JRNL_TYPE', width: 200 },
+                    { name: 'DTNO_OFFICE_CODE', index: 'DTNO_OFFICE_CODE', width: 150 },
+                    { name: 'DTNO_DOC_PREFIX', index: 'DTNO_DOC_PREFIX', width: 200 },
+                    { name: 'DTNO_FYEAR', index: 'DTNO_FYEAR', width: 100 },
+                    { name: 'DTNO_STATUS', index: 'DTNO_STATUS', width: 100 },
+
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdDocTypeNo');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var DtnId = DescCellData = grid.jqGrid('getCell', sel_id, 'DTNO_SYS_ID');
+                    var Dtyorgn = DescCellData1 = grid.jqGrid('getCell', sel_id, 'DTNO_DTY_ORGN');
+                    var JrnlType = DescCellData2 = grid.jqGrid('getCell', sel_id, 'DTNO_JRNL_TYPE');
+                    var OfficeCode = DescCellData3 = grid.jqGrid('getCell', sel_id, 'DTNO_OFFICE_CODE');
+                    var Docprefix = DescCellData4 = grid.jqGrid('getCell', sel_id, 'DTNO_DOC_PREFIX');
+                    var Fyear = DescCellData5 = grid.jqGrid('getCell', sel_id, 'DTNO_FYEAR');
+                    var Status = DescCellData6 = grid.jqGrid('getCell', sel_id, 'DTNO_STATUS');
+
+
+                    //$("#txtDtyOrgn").val(DTNO_DTY_ORGN);
+                    $("#txtDtyOrgn").val(Dtyorgn);
+                    $("#txtJrnlType").val(JrnlType);
+                    $("#txtOfficeCode").val(OfficeCode);
+                    $("#txtDocPrefix").val(Docprefix);
+                    $("#txtFyear").val(Fyear);
+
+                    $("#txtID").val(DtnId);
+                    $("#txtStatus").val(1);
+
+                },
+
+
+                rowNum: 50,
+                rowList: [50, 75, 100],
+                pager: '#grdPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadnoce: true,
+                ignoreCase: true,
+                caption: "Document Type No List",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                scrollingRows: true,
+                multiselect: false
+            });
+            jQuery("#grdDocTypeNo").jqGrid('navGrid', '#grdPager',
+                { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdDocTypeNo").jqGrid('filterToolbar',
+                  { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdDocTypeNo").jqGrid('bindKeys');
+        });
+
+    //--- -----------------------------------Save  ------------ -->
+            function btnSaveDocType() {
+                    // Declare the variables and get values into the variables
+                    //Note: veriable names should much with object/entity names in the model object
+                var DocTypeData = [{
+                    DTNO_DTY_ORGN: $("#txtDtyOrgn").val(),
+                    DTNO_JRNL_TYPE: $("#txtJrnlType").val(),
+                    DTNO_OFFICE_CODE: $("#txtOfficeCode").val(),
+                    DTNO_DOC_PREFIX: $("#txtDocPrefix").val(),
+                    DTNO_FYEAR: $("#txtFyear").val(),
+                    DTNO_STATUS: ($("#chkStatus").is(':checked')) ? 'Y' : 'N',
+                    DTNO_SYS_ID: $("#txtID").val(),
+
+                    }]
+                    var Type = "";
+                    var Url = "";
+                    //alert(JSON.stringify(DocTypeData));
+                    //calling ajax function to post data
+                    if ($('#txtStatus').val() == 0) {
+
+                        Url = '/api/CreateDocTypeNo/PostDocTypeNo';
+                        Type = 'POST';
+                        alert("Saved Successfully");
+
+                    } else if ($('#txtStatus').val() == 1) {
+                        Url = '/api/UpdateDocTypeNo';
+                        Type = 'POST';
+                        alert("Updated Successfully");
+                    }
+                    $.ajax({
+
+                        type: Type,
+                        url: Url,
+                        //convert data into JSON string format
+                        data: JSON.stringify({ DocTypeNoData: DocTypeData }),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+
+                        ///call feed back of the action
+                        'success': function (data) {
+
+                            $('#txtStatus').val(1);
+                        },
+                        'error': function (error) {
+
+                            $('#txtStatus').val(0);
+                        }
+
+                    });
+            };
+
+
+        //--- -----------------------------------Delete Company ------------ -->
+            function btnDeleteDocTypeNo() {
+                    // Declare the variables and get values into the variables
+                    //Note: veriable names should much with object/entity names in the model object
+
+                    var delData = [{
+                        DTNO_DTY_ORGN: $("#txtDtyOrgn").val(),
+                        DTNO_JRNL_TYPE: $("#txtJrnlType").val(),
+                        DTNO_OFFICE_CODE: $("#txtOfficeCode").val(),
+                        DTNO_DOC_PREFIX: $("#txtDocPrefix").val(),
+                        DTNO_FYEAR: $("#txtFyear").val(),
+                        DTNO_STATUS: ($("#chkStatus").is(':checked')) ? 'Y' : 'N',
+                        DTNO_SYS_ID: $("#txtID").val(),
+                    }];
+
+
+                    alert(JSON.stringify(delData));
+                    //calling ajax function to post data
+                    $.ajax({
+
+                        url: 'api/DeleteDocTypeNo',
+                        type: 'DELETE',
+                        //convert data into JSON string format
+                        data: JSON.stringify({ DocTypeNoData: delData }),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+
+                        //call feed back of the action
+                        'success': function (data) {
+                            alert("Deleted Successfully");
+
+                            var grid = $('#grdDocTypeNo');
+
+                            var row_id = grid.jqGrid('getGridParam', 'selrow');
+
+                            var Code = grid.jqGrid('getCell', row_id, 'DTNO_DTY_ORGN');
+
+                            grid.jqGrid('delRowData', row_id);
+                        },
+                        'error': function (error) {
+                            alert("Error occurred");
+                        }
+
+                    });
+                };
+            
+
+        ////Save Dialog box==========================================================================
+
+        $(function () {
+            var dialog, form,
+            Savedialog = $("#dlgCode-form").dialog({
+                autoOpen: false,
+                height: 300,
+                width: 500,
+                modal: true,
+
+                buttons: {
+                    "YES": function () {
+
+                        $(this).dialog("close");
+
+                        btnSaveDocType();
+
+                    },
+
+                    "NO": function () {
+
+                        $(this).dialog("close");
+
+                    },
+                }
+
+            });
+
+            //open the dialog form TO SAVE
+            $("#btnSave").button().on("click", function () {
+                Savedialog.dialog("open");
+
+            });
+
+        });
+
+
+        ////Delete Dialog box==========================================================================
+
+        $(function () {
+            var dialog, form,
+            Deletedialog = $("#dlgCode-form").dialog({
+                autoOpen: false,
+                height: 300,
+                width: 500,
+                modal: true,
+
+                buttons: {
+                    "YES": function () {
+
+                        $(this).dialog("close");
+
+                        btnDeleteDocTypeNo();
+                    },
+
+                    "NO": function () {
+
+                        $(this).dialog("close");
+
+                    },
+                }
+
+            });
+
+            //open the dialog form TO SAVE
+            $("#btnDelete").button().on("click", function () {
+                Deletedialog.dialog("open");
+
+            });
+
+        });
+
+
+        //-- --------------------------------Diaglog form for Jrnl Type ---------------------- -->
+        //<!-- LOV for Codes -->
+        $(function () {
+            var dialog, form,
+            dialog = $("#dialog-Jrnl").dialog({
+                autoOpen: false,
+                height: 550,
+                width: 700,
+                modal: true,
+
+                buttons: {
+                    "OK": function () {
+                        if ($("#txtJrnlType").val() == "") {
+                            alert("No value selected, check and try again")
+                        }
+                        else {
+
+                            $(this).dialog("close");
+                        }
+                    },
+
+                    "Clear": function () {
+                        $("#txtJrnlType").val("");
+                        $("#txtJrnlType1").val("");
+                    },
+
+                    Cancel: function () {
+                        $(this).dialog("close");
+                        $("#txtJrnlType").val("");
+                        $("#txtJrnlType1").val("");
+                    },
+                }
+
+            });
+
+            //open the dialog form
+            $("#btnSelJrnlType").button().on("click", function () {
+                dialog.dialog("open");
+            });
+
+        });
+
+        //--- -----------------------------------SelectCode  LOV Jrnl Type------------ -->
+
+        //-------------function to find Jrnl Types
+        $(document).ready(function () {
+            $("#btnQueryJrnlType").click(function () {
+                //function findCovers() {
+
+                //if ($('#txtSearchCover').val() == "") {
+                //    alert("The cover code cannot be null, search by name")
+                //}
+                //else {
+
+                var CoverData = [{
+                    //paramProdCode: $("#txtProductCode").val(),
+                    paramsearchField: $("#txtSearchJrnlType").val(),
+                    //paramCoverCode: $('#txtSearchCover').val()
+                }];
+
+                //alert("No data found, Check and try again");
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '/api/CreateCovers/GetCoverName',
+
+                    //Data to send
+
+                    data: JSON.stringify({ getcov: CoverData }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+
+                    //dataprocess: true,
+                    success: function (data) {
+
+                        //clear the grid
+                        $("#grdJrnlType").clearGridData();
+
+                        var Covdata = data;
+                        //alert(data);
+
+                        if (Covdata.length > 0) {
+                            for (var i = 0; i < Covdata.length; i++)
+
+                                jQuery("#grdJrnlType").addRowData(Covdata[i].id, Covdata[i]);
+                        }
+                        else {
+
+                            alert("No data found, Check and try again");
+                        }
+
+                    },
+                    'error': function (error) {
+
+                        alert(JSON.stringify(error));
+                    }
+
+                });
+                //}
+            });
+        });
+
+        $(document).ready(function () {
+            $("#grdJrnlType").jqGrid({
+                data: 'local',
+                colNames: ['Type', 'Decription'],
+                colModel: [
+                    { name: 'DTY_DOC_TYPE', index: 'DTY_DOC_TYPE', width: 100 },
+                    { name: 'DTY_DOC_DESC', index: 'DTY_DOC_DESC', width: 300 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdJrnlType');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var Id = grid.jqGrid('getCell', sel_id, 'DTY_DOC_TYPE');
+                    var Code = DescCellData = grid.jqGrid('getCell', sel_id, 'DTY_DOC_DESC');
+                    $("#txtJrnlType").val(Id);
+                    $("#txtJrnlType1").val(Code);
+                },
+
+                rowNum: 50,
+                rowList: [50, 75, 150],
+                pager: '#grdPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Journal Type list",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdJrnlType").jqGrid('navGrid', '#grdPager',
+                { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdJrnlType").jqGrid('filterToolbar',
+             { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdJrnlType").jqGrid('bindKeys');
+        });
+
+
+        //-- --------------------------------Diaglog form for Office ---------------------- -->
+        //<!-- LOV for  -->
+        $(function () {
+            var dialog, form,
+            dialog = $("#dialog-Office").dialog({
+                autoOpen: false,
+                height: 550,
+                width: 700,
+                modal: true,
+
+                buttons: {
+                    "OK": function () {
+                        if ($("#txtOfficeCode").val() == "") {
+                            alert("No value selected, check and try again")
+                        }
+                        else {
+
+                            $(this).dialog("close");
+                        }
+                    },
+
+                    "Clear": function () {
+                        $("#txtOfficeCode").val("");
+                        $("#txtOfficeCode1").val("");
+                    },
+
+                    Cancel: function () {
+                        $(this).dialog("close");
+                        $("#txtOfficeCode").val("");
+                        $("#txtOfficeCode1").val("");
+                    },
+                }
+
+            });
+
+            //open the dialog form
+            $("#btnSelOfficeCode").button().on("click", function () {
+                dialog.dialog("open");
+            });
+
+        });
+
+        //--- -----------------------------------SelectCode  LOV Office------------ -->
+
+        //-------------function to find Office
+        $(document).ready(function () {
+            $("#btnQueryOfficeCode").click(function () {
+                
+
+                var CoverData = [{
+                    //paramProdCode: $("#txtProductCode").val(),
+                    paramsearchField: $("#txtSearchOfficeCode").val(),
+                    //paramCoverCode: $('#txtSearchCover').val()
+                }];
+
+                //alert("No data found, Check and try again");
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '/api/CreateOffice/GetName',
+
+                    //Data to send
+
+                    data: JSON.stringify({ getcov: CoverData }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+
+                    //dataprocess: true,
+                    success: function (data) {
+
+                        //clear the grid
+                        $("#grdOfficeCode").clearGridData();
+
+                        var Covdata = data;
+                        //alert(data);
+
+                        if (Covdata.length > 0) {
+                            for (var i = 0; i < Covdata.length; i++)
+
+                                jQuery("#grdOfficeCode").addRowData(Covdata[i].id, Covdata[i]);
+                        }
+                        else {
+
+                            alert("No data found, Check and try again");
+                        }
+
+                    },
+                    'error': function (error) {
+
+                        alert(JSON.stringify(error));
+                    }
+
+                });
+                //}
+            });
+        });
+
+        $(document).ready(function () {
+            $("#grdOfficeCode").jqGrid({
+                data: 'local',
+                colNames: ['Code', ' Name'],
+                colModel: [
+                    { name: 'OFF_CODE', index: 'OFF_CODE', width: 100 },
+                    { name: 'OFF_NAME', index: 'OFF_NAME', width: 300 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdOfficeCode');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var Id = grid.jqGrid('getCell', sel_id, 'OFF_CODE');
+                    var Code = DescCellData = grid.jqGrid('getCell', sel_id, 'OFF_NAME');
+                    $("#txtOfficeCode").val(Id);
+                    $("#txtOfficeCode1").val(Code);
+                },
+
+                rowNum: 50,
+                rowList: [50, 75, 150],
+                pager: '#grdPager',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                loadonce: true,
+                ignoreCase: true,
+                caption: "Office list",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdOfficeCode").jqGrid('navGrid', '#grdPager',
+                { search: true, edit: false, add: false, del: false });
+
+            jQuery("#grdOfficeCode").jqGrid('filterToolbar',
+             { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            jQuery("#grdOfficeCode").jqGrid('bindKeys');
+        });
+
+    </script>
+
+    <!-- dialog form Save-->
+    <div id="dlgCode-form" title="Save Data">
+        <form id="">
+            <div style="color: red">
+                Alert Message
+            </div>
+            <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+            <!-- -->
+            <div style="color: fuchsia">
+                Are you sure you want to save ?
+            </div>
+        </form>
+    </div>
+
+    <!-- dialog form Delete-->
+    <div id="dlgCode-form" title="Save Data">
+        <form id="">
+            <div style="color: red">
+                Alert Message
+            </div>
+            <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+            <!-- -->
+            <div style="color: fuchsia">
+                Are you sure you want to delete selected row ?
+            </div>
+        </form>
+    </div>
+
+
+    <!-- Form Controls -->
+    <script>
+            //Taps Layout function call using Jquery
+            $(function () {
+                $("#tabs").tabs({
+                    beforeLoad: function (event, ui) {
+                        ui.jqXHR.fail(function () {
+                            ui.panel.html(
+                              "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+                              "If this wouldn't be a demo.");
+                        });
+                    }
+                });
+            });
+
+            $(function () {
+              //  $("#tabs").resizable();
+                $("#tabs").height(1700);
+                //$("#tabs").draggable();
+
+            });
+
+
+
+        //Numeric Value input for Sum insured
+
+            $(document).ready(function () {
+
+                $("#txtSI").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+
+            //Numeric Value input
+            $(document).ready(function () {
+
+                $("#txtProdSysID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+            //Numeric Value input for Covers sys ID
+            $(document).ready(function () {
+
+                $("#txtCoverSysID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+            //Numeric Value input for Product Covers sys ID
+            $(document).ready(function () {
+
+                $("#txtFKProdID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+
+            //Date picker -->
+            $(function () {
+                $("#dtPostedDate").datepicker({
+                    showOn: "button",
+                    buttonImage: "~/Content/Images/datePicker.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select"
+                });
+            });
+
+
+            //Date picker -->
+            //Start date
+            $(function () {
+                $("#dtModifiedDate").datepicker({
+                    showOn: "button",
+                    buttonImage: "~/Content/Images/datePicker.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select"
+                });
+            });
+            //end date
+            $(function () {
+                $("#dtDob2").datepicker({
+                    showOn: "button",
+                    buttonImage: "Image/datePicker.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select"
+
+                });
+
+            });
+
+
+    </script>
+
+    <!-- Adding a style-->
+    <style>
+        .divleft {
+            background-color: Gray;
+            width: 40%;
+            height: 20px;
+            float: left;
+        }
+
+        .divrihgt {
+            background-color: red;
+            width: 60%;
+            height: 20px;
+            float: left;
+        }
+
+        .divcontainer {
+            width: 100%;
+        }
+
+        div.card {
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            line-height: 1.5em;
+        }
+
+        div.Covers {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        div.FormMenu {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        label {
+            display: inline-block;
+            width: 11em;
+            color: blue;
+            text-align: right;
+            font-size: 12px;
+        }
+
+        errmsg {
+            color: red;
+        }
+
+        .fwm_button {
+            color: white;
+            font-weight: bold;
+            background-color: #6699cc;
+            border: 2px outset;
+            border-top-color: #aaccff;
+            border-left-color: #aaccff;
+            border-right-color: #003366;
+            border-bottom-color: #003366;
+            width: 100px;
+        }
+
+        .Select_button {
+            color: lightseagreen;
+            font-weight: bold;
+            width: 3%;
+            height: 30px;
+        }
+
+        .inputCode {
+            height: 30px;
+            width: 30px;
+            text-align: right;
+        }
+
+        .checkboxx-inline {
+            display: inline-block;
+            padding-left: 10px;
+            padding-right: 45px;
+            margin-bottom: 0;
+            font-weight: normal;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+            .checkboxx input[type="checkbox"], .checkboxx-inline input[type="checkbox"] {
+                float: none;
+                margin-left: -10px;
+                margin-right: 10px;
+            }
+
+            .checkboxx-inline + .checkboxx-inline {
+                margin-top: 0;
+                margin-left: 10px;
+            }
+
+        .checkboxx label {
+            display: inline;
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        label.required:after {
+            content: " *";
+            color: red;
+        }
+
+        .containera button {
+            margin-bottom: 10px;
+            width: 85px;
+            height: 31px;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            padding-top: 5px;
+            background-color: #f2f2f2;
+            color: #428bca;
+            font-size: 15px;
+            text-rendering: optimizeLegibility;
+            font-weight: bolder;
+            font-family: Georgia, serif;
+        }
+
+        .roundElement {
+            border-radius: 10px;
+        }
+    </style>
+
+
+    <div class="card">
+
+        <form name="form1" id="form2">
+
+            <div id="tabs">
+                <div style="border: 1px solid #000000; border-color: gray; width: 100%" class="roundElement">
+
+                    <div class="containera" style="text-align: center; padding-top: 10px; margin-right: 10px">
+
+
+                        <button type="button" class="btn btn-default" id="btnSave">
+                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                        </button>
+                        &nbsp;
+                        &nbsp;
+                        <button type="button" class="btn btn-default" id="btnDelete">
+                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+                        &nbsp;
+                        &nbsp;
+                        <button type="reset" class="btn btn-default">
+                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                        </button>
+
+
+                        <button type="button" class="btn btn-default" style="float: right" id="btnQueryDocType">
+                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                        </button>
+
+                        <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search">
+                    </div>
+
+                </div>
+
+                <ul>
+                    <li><a href="#tabs-1">Document Type No Setups</a></li>
+                </ul>
+
+                <div id="tabs-1">
+
+                    <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+
+                    <div>
+                        <input id="txtID" style="width:10%; height: 30px " hidden class="text ui-widget-content ui-corner-all" type="text" name="ID" title="">
+                        <input id="txtStatus" style="width:10%; height: 30px " hidden value="0" class="text ui-widget-content ui-corner-all" type="text" name="ID" title="">
+
+                        <section>
+                            <label id="lblDtyOrgn" for="txtDtyOrgn" class="required"> Document Orign</label>
+                            <input id="txtDtyOrgn" style="width:10%; height: 30px " min="1" maxlength="3" class="text ui-widget-content ui-corner-all" type="text" name="txtDtyOrgn" title="">
+
+                        </section>
+                        <br />
+                        <section>
+                            <label id="lblJrnlType" for="txtJrnlType" class="required" style="">Journal Type</label>
+                            <input id="txtJrnlType" style="width:17%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtJrnlType" title="">
+                            <button type="button" class="btn btn-default" id="btnSelJrnlType" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                           <input id="txtJrnlType1" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtJrnlType1" title="">
+                        </section>
+                        <br />
+                        <section>
+                            <label id="lblOfficeCode" for="txtOfficeCode" class="required">Office Code</label>
+                            <input id="txtOfficeCode" style="width:17%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtOfficeCode" title="">
+                            <button type="button" class="btn btn-default" id="btnSelOfficeCode" style="height:30px">
+                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                            </button>
+                            <input id="txtOfficeCode1" style="width:27%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtOfficeCode1" title="">
+                       </section>
+                        <br />
+                        <section>
+                            <label id="lblDocPrefix" for="txtDocPrefix" class="required">Document Prefix</label>
+                            <input id="txtDocPrefix" style="width:17%; height: 30px " min="1" maxlength="4" class="text ui-widget-content ui-corner-all" type="text" name="txtDocPrefix" title="">
+                            
+                            <label id="lblFyear" for="txtFyear" class="required" style="">Year</label>
+                            <input id="txtFyear" style="width:17%; height: 30px " min="1" maxlength="8" class="text ui-widget-content ui-corner-all" type="text" name="txtFyear" title="">
+                        </section>
+                        <br />
+                        <section>
+                            <label id="lblStaus" for="chkStaus">Status</label>
+                            <input id="chkStatus" type="checkbox" checked="checked" value="">
+                        </section>
+                        <br />
+                        
+
+                        <h4 style="border-bottom-color:cornflowerblue" class="sub-header"></h4>
+
+                    </div>
+
+
+                    <div>
+                        <table id="grdDocTypeNo"></table>
+                        <table id="grdPager"></table>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+
+    </div>
+
+    <!-----------------------Jrnl Type-------------------->
+
+    <div id="dialog-Jrnl" title="Get">
+        <form>
+            <div>
+                <input id="txtSearchJrnlType" placeholder="Search by name" class="text ui-widget-content ui-corner-all" type="text" style="width: 20%" name="" title="">
+                <button type="button" class="btn btn-default" id="btnQueryJrnlType">
+                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                </button>
+            </div>
+            <h4 style="border-bottom-color: red" class="sub-header"></h4>
+            <!-- LOV Grid and pager-->
+            <div>
+                <table id="grdJrnlType"></table>
+                <table id="grdPager"></table>
+            </div>
+        </form>
+    </div>
+
+    <!-----------------------Office Code-------------------->
+
+    <div id="dialog-Office" title="Get">
+        <form>
+            <div>
+                <input id="txtSearchOfficeCode" placeholder="Search by name" class="text ui-widget-content ui-corner-all" type="text" style="width: 20%" name="" title="">
+                <button type="button" class="btn btn-default" id="btnQueryOfficeCode">
+                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                </button>
+            </div>
+            <h4 style="border-bottom-color: red" class="sub-header"></h4>
+            <!-- LOV Grid and pager-->
+            <div>
+                <table id="grdOfficeCode"></table>
+                <table id="grdPager"></table>
+            </div>
+        </form>
+    </div>
+
+</div>

@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "Exchange rate";
+}
+<script src="~/Scripts/Page_Scripts/exchange.rate.setup.js"></script>
+<script src="~/Scripts/Services/exchangerate.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryExrate" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Exchange Rate Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="exrateForm" id="exrateForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+
+                                      <div class="row">
+                                          <div class="col-md-12">
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-2">
+                                                          <label class="required">Code</label>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                          <span id="spry_code">
+                                                              <input id="EXR_CODE" class="form-control" min="3" maxlength="15" type="text" name="EXR_CODE" title="Code" required>
+                                                              <span class="textfieldRequiredMsg">Code is required.</span>
+                                                              <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                          </span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-2">
+                                                          <label class="required">Base Currency</label>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                          <div class="input-group">
+                                                              <input class="form-control" min="3" max-length="15" type="text" id="EXR_BASE_CURRENCY" name="EXR_BASE_CURRENCY" title="Currency" required />
+
+                                                              <span class="input-group-btn">
+                                                                  <span id="spry_basecurr">
+                                                                      <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_base_currency", "field1":"EXR_BASE_CURRENCY", "field2":"EXR_BASE_CURRENCY_NAME"}'>
+                                                                          <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                      </button>
+                                                                      <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                                  </span>
+                                                              </span>
+
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                          <span id="spry_baserate">
+                                                              <input class="form-control" min="3" max-length="50" type="text" id="EXR_BASE_RATE" name="EXR_BASE_RATE" title="Rate" required />
+                                                              <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                          </span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-2">
+                                                          <label class="required">Fx Currency</label>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                          <div class="input-group">
+                                                              <input class="form-control" min="3" max-length="15" type="text" id="EXR_FX_CURRENCY" name="EXR_FX_CURRENCY" title="Fx Currency" required />
+                                                              <span class="input-group-btn">
+                                                                  <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_base_currency", "field1":"EXR_FX_CURRENCY", "field2":"EXR_BASE_CURRENCY_NAME"}'>
+                                                                      <i class="fa fa-arrow-circle-down" title="Select" aria-hidden="true"></i>
+                                                                  </button>
+                                                              </span>
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                          <span id="spry_fxrate">
+                                                              <input class="form-control" min="3" max-length="50" type="text" id="EXR_FX_RATE" name="EXR_FX_RATE" title="Rate" required />
+                                                              <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                          </span>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-2">
+                                                          <label class="required">From Date</label>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                          <div class="input-group">
+                                                              <input class="form-control" type="text" id="EXR_FROM_DATE" name="EXR_FROM_DATE" title="To Date" required />
+                                                              <span class="input-group-btn">
+                                                                  <button type="button" class="btn btn-default">
+                                                                      <i class="fa fa-calendar" title="Select" aria-hidden="true"></i>
+                                                                  </button>
+                                                              </span>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-2">
+                                                          <label class="required">To date</label>
+                                                      </div>
+                                                      <div class="col-md-2">
+                                                          <div class="input-group">
+                                                              <input class="form-control" type="text" id="EXR_TO_DATE" name="EXR_TO_DATE" title="To Date" required />
+                                                              <span class="input-group-btn">
+                                                                  <button type="button" class="btn btn-default">
+                                                                      <i class="fa fa-calendar" title="Select" aria-hidden="true"></i>
+                                                                  </button>
+                                                              </span>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                              <div class="row">
+                                                  <div class="form-group">
+                                                      <div class="col-md-2">
+                                                          <label>
+                                                              Status
+                                                          </label>
+                                                      </div>
+                                                      <div class="col-md-3">
+                                                          <input class="checkbox checkbox-inline pull-left" type="checkbox" id="EXR_STATUS" name="CIT_STATUS" checked />
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdExrate"></table>
+                                    <table id="grdExratePager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">      
+       
+    </script>
+</div>

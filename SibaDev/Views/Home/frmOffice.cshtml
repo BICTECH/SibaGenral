@@ -1,0 +1,271 @@
+﻿@{
+    ViewBag.Title = "Office";
+}
+<script src="~/Scripts/Page_Scripts/office.setup.js"></script>
+<script src="~/Scripts/Services/office.service.js"></script>
+<script src="~/Scripts/Services/company.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryOffice" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Office Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="officeForm" id="officeForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label class="required">Code</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_code">
+                                                                <input class="form-control" min="3" maxlength="15" type="text" id="OFF_CODE" name="OFF_CODE" title="Office Code" required />
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMaxCharsMsg">Code must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label class="required">Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_name">
+                                                                <input class="form-control" min="3" type="text" id="OFF_NAME" name="OFF_NAME" title="Office Name" required />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label>Description </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <textarea class="form-control" min="3" id="OFF_DESC" name="OFF_DESC" title="Office Description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label>Channel</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input class="form-control" min="3" type="text" id="OFF_CHANEL" name="OFF_CHANEL" title="Office Channel" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label class="required">Address</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <textarea class="form-control" min="3" id="OFF_ADDRESS1" name="OFF_ADDRESS1" title="Office Address" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label class="required"> Location</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <textarea class="form-control" min="3" id="OFF_PHYSICAL_LOCAT" name="OFF_PHYSICAL_LOCAT" title="Office Physical Location" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                         
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label class="required">Phone</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <span id="spry_phone">
+                                                                <input class="form-control" min="3" max-length="20" type="number" id="OFF_PHONE" name="OFF_PHONE" title="Office Phone" required />
+                                                                <span class="textfieldRequiredMsg">Phone Number is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label>Mobile</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <input class="form-control" min="3" max-length="20" type="number" id="OFF_MOBILE" name="OFF_MOBILE" title="Office Mobile" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label class="required">Fax</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <input class="form-control" min="3" max-length="20" type="number" id="OFF_FAX" name="OFF_FAX" title="Office Fax" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label class="required">E-Mail</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <span id="spry_email">
+                                                                <input class="form-control" min="3" max-length="50" type="text" id="OFF_EMAIL" name="OFF_EMAIL" title="Office E-Mail" required />
+                                                                <span class="textfieldRequiredMsg">Email is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Please enter a valid email (user@domain.com).</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label class="required">Manager</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <input class="form-control" min="3" max-length="20" type="text" id="OFF_MANAGER" name="OFF_MANAGER" title="Office Manager" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label class="required">Company</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_lovcode">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="20" type="text" id="OFF_CMP_CODE" name="OFF_CMP_CODE" placeholder="Code" required />
+
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_company", "field1":"OFF_CMP_CODE", "field2":"OFF_CMP_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <span id="spry_lovname">
+                                                                <input class="form-control" min="3" max-length="20" type="text" id="OFF_CMP_NAME" name="OFF_CMP_NAME" placeholder="Name" />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4">
+                                                            <label>
+                                                                Status
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <input class="checkbox checkbox-inline pull-left" type="checkbox" name="OFF_STATUS" checked />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdOffice"></table>
+                                    <table id="grdOfficePager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

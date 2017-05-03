@@ -1,0 +1,339 @@
+﻿@{
+    ViewBag.Title = "Discount & Loading";
+}
+
+<script src="~/Scripts/Page_Scripts/discount.loading.setup.js"></script>
+<script src="~/Scripts/Services/discountloading.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryDiscountLoading" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Discount Loading Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="discountloadingForm" id="discountloadingForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Type</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="sprytf_type">
+                                                                <select id="LDI_TYPE" name="LDI_TYPE" class="btn btn-default dropdown-toggle" required>
+                                                                    <option value="">--Select Type--</option>
+                                                                    <option value="D">Discount</option>
+                                                                    <option value="L">Loading</option>
+                                                                </select>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @*<div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>Category</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" id="LDI_CATG" name="LDI_CATG" title="Company Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                        <i class="fa fa-sort-down" title="Select"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="LDI_NAME" title="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Code</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_code">
+                                                                <input id="LDI_CODE" class="form-control" min="3" maxlength="15" type="text" name="LDI_CODE" title="Code" required>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_name">
+                                                                <input id="LDI_NAME" class="form-control" min="3" maxlength="50" type="text"
+                                                                       name="LDI_NAME" title="Name" required>
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                                <span class="textfieldMinCharsMsg">Name must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Description</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_desc">
+                                                                <textarea id="LDI_DESC" rows="2" cols="10" maxlength="100"
+                                                                          class="form-control" type="text" name="LDI_DESC" title="Description"></textarea>
+                                                                <span class="textfieldRequiredMsg">Description is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>     
+                                                
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label>
+                                                                Status
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input class="checkbox checkbox-inline pull-left" type="checkbox" id="LDI_STATUS" name="LDI_STATUS" checked />
+                                                        </div>
+                                                    </div>
+                                                </div>    
+
+                                            </div>
+
+                                            <div class="col-md-6">
+
+                                                <div class="row control-group form-padding">
+                                                    <span class="control-grp-lbl text-danger">Amount</span>
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                <label class="required">Amount</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <span id="spry_amount">
+                                                                    <div class="input-group">
+                                                                        <input class="form-control" min="1" max-length="10" type="number" id="LDI_DEFAULT_AMT"
+                                                                               name="LDI_DEFAULT_AMT" title="Money" required />
+                                                                        <span class="input-group-btn">
+                                                                            <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                                <i class="fa fa-money" title="Select"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                    <span class="textfieldRequiredMsg">Default Amount is required.</span>
+                                                                    <span class="textfieldInvalidFormatMsg">Default Amount must be integers</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                <label class="required">Minimum</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <span id="spry_minamount">
+                                                                    <div class="input-group">
+                                                                        <input class="form-control" min="1" max-length="10" type="number" id="LDI_MIN_AMT"
+                                                                               name="LDI_MIN_AMT" title="Money" required />
+                                                                        <span class="input-group-btn">
+                                                                            <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                                <i class="fa fa-money" title="Select"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                    <span class="textfieldRequiredMsg">Min amount is required.</span>
+                                                                    <span class="textfieldInvalidFormatMsg">Min amount must be integers</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                <label class="required">Maximum</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <span id="spry_maxamount">
+                                                                    <div class="input-group">
+                                                                        <input class="form-control" min="1" max-length="10" type="number" id="LDI_MAX_AMT"
+                                                                               name="LDI_MAX_AMT" title="Money" required />
+                                                                        <span class="input-group-btn">
+                                                                            <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                                <i class="fa fa-money" title="Select"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                    <span class="textfieldRequiredMsg">Max amount is required.</span>
+                                                                    <span class="textfieldInvalidFormatMsg">Max amount must be integers</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row control-group form-padding">
+                                                    <span class="control-grp-lbl text-danger">Percentage</span>
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                <label class="required">Default</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <span id="spry_perc">
+                                                                    <div class="input-group">
+                                                                        <input class="form-control" min="1" max-length="3" type="number" id="LDI_DEFAULT_PERC"
+                                                                               name="LDI_DEFAULT_PERC" title="Code" required />
+                                                                        <span class="input-group-btn">
+                                                                            <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                                <i class="fa fa-percent" title="Select"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                    <span class="textfieldRequiredMsg">Default Percentage is required.</span>
+                                                                    <span class="textfieldInvalidFormatMsg">Default Percentage  must be integer</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                <label class="required">Minimum</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <span id="spry_minperc">
+                                                                    <div class="input-group">
+                                                                        <input id="LDI_MIN_PERC" class="form-control" min="1" maxlength="3" type="number"
+                                                                               name="LDI_MIN_PERC" title="" required />
+                                                                        <span class="input-group-btn">
+                                                                            <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                                <i class="fa fa-percent" title="Select"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                    <span class="textfieldRequiredMsg">Min Percentage is required.</span>
+                                                                    <span class="textfieldInvalidFormatMsg">Min Percentage must be integers</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <div class="col-md-3">
+                                                                <label class="required">Maximum</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <span id="spry_maxperc">
+                                                                    <div class="input-group">
+                                                                        <input id="LDI_MAX_PERC" class="form-control" min="1" maxlength="3" type="number"
+                                                                               name="LDI_MAX_PERC" title="" required />
+                                                                        <span class="input-group-btn">
+                                                                            <button type="button" class="btn btn-default" id="btnSelCover" style="width: 40px">
+                                                                                <i class="fa fa-percent" title="Select"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                    </div>
+                                                                    <span class="textfieldRequiredMsg">Max Percentage is required.</span>
+                                                                    <span class="textfieldInvalidFormatMsg">Max Percentage must be integers</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>                                             
+
+                                            </div>
+                                        
+                                       </div>
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdDiscountLoading"></table>
+                                    <table id="grdDiscountLoadingPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

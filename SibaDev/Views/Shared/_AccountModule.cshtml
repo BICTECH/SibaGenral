@@ -1,0 +1,792 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> Siba | General</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!-- shared styles -->
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <!-- Bootstrap 3.3.6 -->
+    @*<link href="~/Content/libs/bootstrap/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+    <!-- Font Awesome-->
+    <link href="~/Content/Images/font-awesome-4.6.2/font-awesome-4.6.2/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Dashboard styles -->
+    <link href="~/Content/Css/Custom/dashboard.css" rel="stylesheet" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link href="~/Content/Css/Custom/AdminLTE.min.css" rel="stylesheet" />
+    <!-- Layout skin-->
+    <link href="~/Content/Css/Custom/_all-skins.min.css" rel="stylesheet" />
+    <!-- Jquery grid style-->
+    <link href="~/Content/Jquery/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.base.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+    @*<link href="~/Content/libs/bootstrap/bootstrap-datetimepicker-standalone.css" rel="stylesheet" />*@
+
+
+    <!-- jQuery with jQuery libraries -->
+    <script src="~/Scripts/Libraries/SibaScript/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/Libraries/jquery-ui/jquery-ui-1.12.0.min.js"></script>
+    <script src="~/Scripts/Libraries/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/Libraries/jqgrid/jquery.jqGrid.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="~/Scripts/Libraries/SibaScript/moment.min.js"></script>
+    <!--Linq Reference-->
+    @*<script src="~/Scripts/Libraries/LinqJS/jquery.linq.min.js"></script>
+    <script src="~/Scripts/Libraries/LinqJS/linq.min.js"></script>*@
+    <!-- Service manager -->
+    <script src="~/Scripts/Services/service.manager.js"></script>
+
+    <!-- Utility manager -->
+    <script src="~/Scripts/Utilities/util_manager.js"></script>
+
+    <script src="~/Scripts/Libraries/Bootstrap/bootstrap.min.js"></script>
+    <script src="~/Scripts/Libraries/Bootstrap/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/Libraries/Bootstrap/bootstrap-notify.min.js"></script>
+
+    <!-- Utilities -->
+    <script src="~/Scripts/Utilities/ajax_utils.js"></script>
+    <script src="~/Scripts/Utilities/form_utils.js"></script>
+    <script src="~/Scripts/Utilities/jq.grid.utility.js"></script>
+    <script src="~/Scripts/Utilities/excel.util.js"></script>
+    <script src="~/Scripts/Utilities/lov.util.js"></script>
+    <script src="~/Scripts/Utilities/date.time.utils.js"></script>
+    <script src="~/Scripts/Utilities/growl.utility.js"></script>
+    <script src="~/Scripts/Utilities/modal.utility.js"></script>
+    <script src="~/Scripts/Utilities/datepicker.util.js"></script>
+    <script src="~/Scripts/Utilities/md5.util.js"></script>
+    <script src="~/Scripts/Utilities/validation.util.js"></script>
+    <script src="~/Scripts/Utilities/date.difference.utils.js"></script>
+
+    <script src="~/Scripts/Libraries/SibaScript/getSequenceNo.js"></script>
+
+    <!-- Form validation script-->
+    <link href="~/Content/Spryval/textfieldvalidation/SpryValidationTextField.css" rel="stylesheet" />
+    <script src="~/Content/Spryval/textfieldvalidation/SpryValidationTextField.js"></script>
+    <script src="~/Scripts/Libraries/SibaScript/Form.Validation.js"></script>
+
+    <!--user visual - Busy -->
+    <script src="~/Scripts/Libraries/spinner/BusySpinner.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta name="description" content="The description of my page" />
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="http://www.bictechnologies.com" target="_blank" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>BI</b>CT</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Siba</b>General</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-fixed-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+
+                <a class="navbar-brand" href="" target="_blank">
+                    <span><img src="" class="app-logo" alt="" /></span>
+                    <span class="app-logo-text"><b>SIBA</b>  </span>
+                    <span class="app-logo-text1">GENERAL</span>
+                </a>
+
+                <!---->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+
+                        <li class="header text-center">
+                            <a href="~/Home/dashboard">
+
+                                <i class="fa fa-dashboard fa-2x" style="color:aqua"></i>
+                                <span class="hidden-xs" style="color:aqua">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <!-- Tasks: style can be found in dropdown.less -->
+                        <li id="logOut" class="dropdown tasks-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-laptop fa fa-2x"></i>
+                                <span class="hidden-xs">Sign out</span>
+                            </a>
+                        </li>
+                        <!--User profile New-->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="~/Content/Images/toni.png" class="user-image" alt="User Image">
+                                <span class="hidden-xs">Administrator </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="~/Content/Images/toni.png" class="img-circle fa fa-2x" alt="User Image">
+                                    <p>
+                                        Toni JC Bakawu - Administrator
+
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body">
+
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right" id="btnSignOut">
+                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu">
+                    <li class="header text-center">
+                        <a href="~/Home/Index"><i class="fa fa-home fa fa-2x"></i></a>
+
+                    </li>
+
+                    <li class="treeview sidebaricon">
+                        <a href="#">
+                            <i class="fa fa-cog"></i> <span>Settings</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-down pull-right"></i>
+                            </span>
+                        </a>
+
+                        <ul class="treeview-menu">
+
+                            <!-- Account Masters -->
+                            <li class="treeview sidebaricon">
+                                <a href="#">
+                                    <i class="fa fa-pencil-square-o"></i> <span>Account Masters</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-down pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="~/AccountHome/frmAccountOrigin"><i class="fa fa-map-o"></i> Accounts Origin </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="~/AccountHome/frmAcctsCategory"><i class="fa fa-map-o"></i>Accounts Category </a>
+                                    </li>
+                                    <li>
+                                        <a href="~/AccountHome/frmInsAcctTxnTypes"><i class="fa fa-map-o"></i>Accts Transaction Types </a>
+                                    </li>
+                                    <li>
+                                        <a href="~/AccountHome/frmInsuranceAcctIntegration"><i class="fa fa-map-o"></i>Accounts Integrations</a>
+                                    </li>
+                                    <li>
+                                        <a href="~/AccountHome/frmMainAccontSetup"><i class="fa fa-map-o"></i>Main Account </a>
+                                    </li>
+                                    <li>
+                                        <a href="~/AccountHome/frmSubAccontSetup"><i class="fa fa-map-o"></i>Sub Accounts</a>
+                                    </li>
+                                    <li>
+                                        <a href="~/AccountHome/frmPaymentMode"><i class="fa fa-map-o"></i>Sub Accounts</a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="~/AccountHome/frmServiceTax"><i class="fa fa-map-o"></i> Service Tax </a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="~/AccountHome/frmTxnDocGeneration"><i class="fa fa-map-o"></i>Document Types Generation</a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <!-- People -->
+                    <li class="treeview sidebaricon1">
+                        <a href="#">
+                            <i class="fa fa-file-text fa-fw"></i>
+                            <span>Accounts Transactions</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-down pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="~/AccountHome/AccountsReceipts"><i class="fa fa-file-text"></i>Receivables</a>
+                            </li>
+
+                            <li>
+                                <a href="~/AccountHome/AccountsPayments"><i class="fa fa-file-text"></i>Payables</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    
+                    <!-- Reinsurance -->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-file-text"></i> <span>Accounts Processing</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-down pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-user-plus"></i>Month End processing
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-down pull-right"></i>
+                                    </span>
+                                </a>
+
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="#"><i class="fa fa-umbrella"></i>Risk Level</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-umbrella"></i>Location Level </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-umbrella"></i>Policy Level </a>
+                                    </li>
+                                </ul>
+
+                            </li>
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-file-text"></i> <span>Ennd of Year Processing</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-down pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                        <a href="#"><i class="fa fa-umbrella"></i>Risk Level</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-umbrella"></i>Location Level </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-umbrella"></i>Policy Level </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-money"></i>
+                            <span>Reports</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-down pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="#"><i class="fa fa-users"></i> Client Settlement</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-user-plus"></i> Unpaid Policies</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-user-plus"></i> Un-Earned Premium</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Work Space -->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-dashboard"></i>
+                            <span> Workspace</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-down pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="#"><i class="fa fa-calculator"></i> Pending Tasks </a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-money"></i> Over due Task </a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-money"></i> Create Task </a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-money"></i> Manage Documents </a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-money"></i> Document Printing </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header"></section>
+            <section class="content">
+
+                @RenderBody()
+            </section>
+
+            <!--log out Notification Modal -->
+            <!--Warning Message Modal-->
+            <div class="modal fade" id="logoutModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header" style="background-color: goldenrod">
+                            <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                            <i class="fa fa-warning  pull-left " style="font-size: 30px; color: yellow"></i>
+                            <strong style="font-size: 20px; color: white; font-family: Arial">Warning Message !</strong>
+                        </div>
+
+                        <div class="modal-body" style="padding: 40px 50px;">
+
+                            <h4 id="textLogOut" style="color: black" class="text-center"></h4>
+
+                        </div>
+
+                        <div class="modal-footer" style="background-color: rgba(0, 0, 0, .1)">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="col-md-8">
+
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+
+                                            <div class="col-md-6">
+                                                <button type="button" id="btnLogOut" class="btn btn-info pull-right">Yes</button>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Alert Message Modal-->
+            <div class="modal fade" id="AlertMssgeModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header" style="background-color:deepskyblue ">
+                            <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                            <i class="fa fa-info-circle  pull-left " style="font-size: 30px; color: white"></i>
+                            <strong style="font-size: 20px; color: white; font-family: Arial">Alert Message !</strong>
+                        </div>
+
+                        <div class="modal-body" style="padding: 40px 50px;">
+
+                            <h4 id="textAlertMssge" style="color: black" class="text-center"></h4>
+
+                        </div>
+
+                        <div class="modal-footer" style="background-color: rgba(0, 0, 0, .1)">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="col-md-8">
+
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+
+
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!--Success MEssage Modal-->
+            <div class="modal fade" id="successMsgeModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color: green; color:#ffffff">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h2><i class="fa ion-checkmark"></i> Success</h2>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="modal-body" style="padding: 40px 50px;">
+                            <p id="textSuccessMssge"></p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger btn-default pull-right" data-dismiss="modal">
+                                <span class="fa fa-remove"></span> Ok
+                            </button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Warning Message Modal-->
+            <div class="modal fade" id="warningMssgeModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header" style="background-color: goldenrod">
+                            <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                            <i class="fa fa-warning  pull-left " style="font-size: 30px; color: yellow"></i>
+                            <strong style="font-size: 20px; color: white; font-family: Arial">Warning Message !</strong>
+                        </div>
+
+                        <div class="modal-body" style="padding: 40px 50px;">
+
+                            <h4 id="textWarningMssge" style="color: black" class="text-center"></h4>
+
+                        </div>
+
+                        <div class="modal-footer" style="background-color: rgba(0, 0, 0, .1)">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="col-md-8">
+
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+
+                                            <div class="col-md-6">
+                                                <button type="button" id="btnOkWarning" class="btn btn-info pull-right">Yes</button>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Information Message Modal-->
+            <div class="modal fade" id="infoMssgeModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header" style="background-color: darkseagreen">
+                            <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                            <i class="fa fa-info-circle  pull-left " style="font-size: 30px; color: white"></i>
+                            <strong style="font-size: 20px; color: white; font-family: Arial">Info Message !</strong>
+                        </div>
+
+                        <div class="modal-body" style="padding: 40px 50px;">
+
+                            <h4 id="textInfoMessage" style="color: black" class="text-center"></h4>
+
+                        </div>
+
+                        <div class="modal-footer" style="background-color: rgba(0, 0, 0, .1)">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="col-md-8">
+
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+
+                                            <div class="col-md-6">
+                                                <button type="button" id="btnOkInfo" class="btn btn-info pull-right">Yes</button>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal ui-accordion fade" id="myLOVModal" role="dialog" data-backdrop="static" data-keyboard="true">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header modal-header-success">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" style="text-align: center">LOV Modal</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-1">
+                                        <label>Search:</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input class="text ui-widget-content ui-corner-all" style="margin-left: 10px; height: 30px; width: 70%; text-align: center" type="text" title="" placeholder="Search by Name" />
+                                        <button type="button" class="btn btn-default" id="btnLovSearch">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <table id="grdLOV"></table>
+                                <table id="grdLOVPager"></table>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btn-modal-ok" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                            <button id="btn-modal-close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--Information Message Modal-->
+            <div class="modal fade" id="errorMssgeModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header" style="background-color:darkseagreen ">
+                            <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                            <i class="fa fa-info-circle  pull-left " style="font-size: 30px; color:white "></i>
+                            <strong style="font-size: 20px; color: white; font-family: Arial">Info Message !</strong>
+                        </div>
+
+                        <div class="modal-body" style="padding: 40px 50px;">
+
+                            <h4 id="textErrorMssge" style="color: black" class="text-center"></h4>
+
+                        </div>
+
+                        <div class="modal-footer" style="background-color: rgba(0, 0, 0, .1)">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="col-md-8">
+
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <div class="form-group">
+
+                                            <div class="col-md-6">
+                                                <button type="button" id="btnOkInfo" class="btn btn-info pull-right">Yes</button>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- Main content -->
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+             immediately after the control sidebar -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+
+            </div>
+            <strong>Copyright &copy; 2016 <a href="">BIC Technologies</a>.</strong> All rights
+            reserved.
+        </footer>
+
+    </div>
+
+    <script>
+                $(document).ready(function () {
+
+
+                    //Dragable initialisation
+                    $('.modal.draggable>.modal-dialog').draggable({
+                        //cursor: 'move',
+                        handle: '.modal-header'
+
+                    });
+
+                 $('.modal.draggable>.modal-dialog>.modal-content>.modal-header').css('cursor', 'move');
+
+
+
+                 //logout from icon
+                    $('#logOut').click(function (e) {
+
+
+                        $("#logoutModal").modal();
+
+                        var message = "Are you sure you want to log out ?";
+
+                        $('#textLogOut').text(message);
+
+                    });
+
+                    //Log out from User profile
+                    $('#btnSignOut').click(function (e) {
+
+
+                        $("#logoutModal").modal();
+
+                        var message = "Are you sure you want to log out ?";
+
+                        $('#textLogOut').text(message);
+
+                    });
+
+                    $('#btnSignOut').click(function (e) {
+
+
+                        $("#logoutModal").modal();
+
+                        var message = "Are you sure you want to log out ?";
+
+                        $('#textLogOut').text(message);
+
+                    });
+
+
+
+                    $('#btnLogOut').click(function (e) {
+
+                        $("#logoutModal").modal('hide');
+
+                        location.href = '@Url.Content("~/Home/login")';
+
+                    });
+
+                });
+    </script>
+    <!-- Bootstrap 3.3.6 -->
+    @*<script src="~/Scripts/jquery.min.js"></script>*@
+    <!-- Morris.js charts -->
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>*@
+    @*<script src="~/Scripts/libs/template/morris.min.js"></script>*@
+    <!-- Sparkline -->
+    <script src="~/Scripts/Libraries/SibaScript/jquery.sparkline.min.js"></script>
+    <!-- jvectormap -->
+    <script src="~/Scripts/Libraries/SibaScript/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/Scripts/Libraries/SibaScript/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="~/Scripts/Libraries/SibaScript/jquery.knob.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="~/Scripts/Libraries/SibaScript/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="~/Scripts/Libraries/SibaScript/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/Scripts/Libraries/SibaScript/fastclick.js"></script>
+    <!-- AdminLTE App -->
+
+    <script src="~/Scripts/Libraries/SibaScript/app.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/Scripts/Libraries/SibaScript/dashboard.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/Scripts/Libraries/SibaScript/demo.js"></script>
+
+</body>
+
+</html>

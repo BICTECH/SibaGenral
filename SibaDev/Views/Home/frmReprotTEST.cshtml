@@ -1,0 +1,270 @@
+﻿
+@{
+    Layout = null;
+
+}
+
+<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+<link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery.ui.base.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.7.2.min.js"></script>
+
+<script src="~/Scripts/jquery-1.7.2.js"></script>
+
+<script src="~/Scripts/jquery-ui-1.8.11.js"></script>
+<script src="~/Scripts/i18n/grid.locale-en.js"></script>
+<script src="~/Scripts/jquery.jqGrid.min.js"></script>
+
+<script src="~/Scripts/JQuery/jquery.PrintArea.js"></script>
+
+<script>      
+    function queryMotorData(callback) {
+
+        var PolhSysID = [{
+
+            parampolhSysID: $('#txtPolDocNo').val(), //260,
+
+        }];
+
+        //alert("No data found, Check and try again");
+
+        $.ajax({
+
+            type: 'POST',
+            url: '/api/getMotorSchedule',
+
+            //Data to send
+
+            data: JSON.stringify({ sysID: PolhSysID }),
+
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+
+            success: function (data) {
+
+                if (data.length <= 0) {
+
+                    alert("No Data found, check and try again");
+                }
+                else {
+                    callback(data);
+                }
+            },
+            'error': function (error) {
+
+                callback(error);
+
+                return (error);
+                alert(JSON.stringify(error));
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+
+        queryMotorData(getDataAfterQueryCall);
+
+        function getDataAfterQueryCall(data) {
+
+            //get data for report 
+            var results = data;
+
+            if (results.length > 0) {
+
+
+                // get Policy header data from array
+                var polData = results[0].POLH_DATA;
+
+                //get vehicle data from array
+                var vehdata = results[0].VEH_DATA;
+
+                //Report header
+                jQuery("label[for='lblPolNo']").html(polData[0].POLH_DISPLAY_NO);
+                jQuery("label[for='lblPolSI']").html(polData[0].POLH_POL_SI_FC);
+                jQuery("label[for='lblPolPrem']").html(polData[0].POLH_POL_PREM_FC);
+
+                jQuery("label[for='lblfromDate']").html(polData[0].POLH_POL_START_DATE);
+                jQuery("label[for='lblToDate']").html(polData[0].POLH_POL_END_DATE);
+
+                //
+                jQuery("label[for='lblCustCode']").html(polData[0].POLH_CUST_CODE);
+
+                // Report details
+
+                $.each(vehdata, function (index, value) {
+                    var row = $("<tr><td>" + value.BOND_LOB + "</td> <td>"
+                        + value.BOND_DESCRIPTION + "</td><td>"
+                         + value.BOND_SHT_DESCRIPTION + "</td><td>"
+                          + value.BOND_INS_TYPE + "</td><td>"
+                          + value.BOND_GROUP + "</td><td>"
+                           + value.BOND_CURRENCY + "</td><td>"
+                            + value.BOND_CURRENCY_RATE + "</td><td>"
+
+                              + value.BOND_START_DATE + "</td><td>"
+                        + value.BOND_END_DATE + "</td></tr>");
+
+                    $("#vehList").append(row);
+                });
+
+
+            }
+
+            else {
+
+            }
+        }     
+             //re
+            
+
+        })
+
+        function printpage() {
+            document.getElementById('btnPrint').style.visibility = "hidden";
+            window.print();  
+        }
+
+</script>
+<style>
+    table#vehList tr:nth-child(even) {
+        background-color: #eee;
+        margin-left: auto;
+    }
+
+    table#vehList tr:nth-child(odd) {
+        background-color: #fff;
+    }
+
+    table#vehList th {
+        background-color: silver;
+        color: black;
+    }
+</style>
+
+<div>
+
+    <!-- Extract report data from form -->
+    @if (Request.Form.Count > 0)
+    {       
+
+        foreach (string rptData in Request.Form)
+        {
+            <div>
+                            
+                <!-- Get report data from form here into an input control-->
+                <input name="txtPolDocNo" type="hidden" value=@Request[rptData] id="txtPolDocNo" />
+                <input name="txtPolEndNo" type="hidden" value=@Request[rptData] id="txtPolEndNo" />
+                
+            </div>
+        }
+    }
+</div>
+
+<button id="btnPrint" type="button" value="Print"  onClick="printpage()" >
+
+    <img src="~/Content/Images/PrintNew.png" />
+
+</button>
+
+<div id="header">
+    <hr />
+    <div>
+        <table>
+
+            <tr>
+                <td style="font-size:larger; margin-left:50%">
+                    <b>
+                        Insured Code:
+                        <label for="lblCustCode" style="vertical-align: middle"></label>
+                        <br /> <br />
+                    </b>
+
+                    <b>
+                        Insured Name: <br /><br />
+                    </b>
+
+
+                    <b>
+                        Insured Address: <br /><br />
+                    </b>
+
+                    <b>
+                        Telephone: <br /><br />
+                    </b>
+
+
+                </td>
+
+            </tr>
+        </table>
+        <hr style="border-color:red" />
+
+        <table id="SchHeader" border='0'>
+
+            <tr>
+                <td style="font-size:larger; margin-left:50% ;padding: 5px;">
+                    <b>Policy Number: </b>
+                    <label for="lblPolNo" style="vertical-align: middle"></label>
+                    <br /> <br />
+                    <b> Period of Insurance: </b>
+
+                    <label for="lblfromDate" style="vertical-align: middle"></label>
+                    <label for="lblToDate" style="vertical-align: middle"></label>
+                    <br /><br />
+                    <b>   Policy SI: </b>
+
+                    <label for="lblPolSI" style="vertical-align: middle"></label>
+                    <br /><br />
+                    <b>Policy Premium: </b>
+                    <label for="lblPolPrem" style="vertical-align: middle"></label>
+                    <br />
+                </td>
+
+            </tr>
+        </table>
+
+        <br />
+
+
+    </div>
+    <hr />
+    <div>
+        <table width="100%">
+            <tr>
+                <th align="center">
+                    MOTOR COMPREHENSIVE COVER
+                </th>
+            </tr>
+
+
+        </table>
+    </div>
+    <hr />
+</div>
+
+<div id="section">
+
+    <table id="vehList">
+
+        <tr style="border:solid">
+            <th width="75px">Make</th>
+            <th width="75px">Model</th>
+            <th width="100px">Registration No.</th>
+            <th width="100px">Manufacture Year</th>
+            <th width="100px">Cubic Capacity</th>
+            <th width="100px">No. of Seats</th>
+            <th width="100px">Chasis No.</th>
+            <th width="100px">Sum Insured</th>
+            <th width="100px">Premium.</th>
+        </tr>
+    </table>
+</div>
+
+<div id="footer">
+
+</div>
+
+

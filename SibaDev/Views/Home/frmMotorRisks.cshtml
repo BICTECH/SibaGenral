@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "Motor Risk";
+}
+<script src="~/Scripts/Page_Scripts/motor.risk.setup.js"></script>
+<script src="~/Scripts/Services/motorrisk.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryMotorRisk" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Motor Risk Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="motoriskForm" id="motoriskForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Code</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_code">
+                                                                <input id="MRK_CODE" class="form-control" min="3" maxlength="15" type="text" name="MRK_CODE" title="Code">
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Name</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_name">
+                                                                <input id="MRK_NAME" class="form-control" min="1" maxlength="100" type="text"
+                                                                       name="MRK_NAME" title="Name">
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>                                                              
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Description</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_desc">
+                                                                <textarea id="MRK_DESCRIPTION" rows="4" cols="50" maxlength="100"
+                                                                          class="form-control" type="text" name="MRK_DESCRIPTION" title="Description"></textarea>
+                                                                <span class="textfieldRequiredMsg">Description is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Entitled to Drive</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_entodrive">
+                                                                <textarea id="MRK_ENT_TO_DRIVE" rows="4" cols="50" maxlength="500"
+                                                                          class="form-control" type="text" name="MRK_ENT_TO_DRIVE" title="Description"></textarea>
+                                                                <span class="textfieldRequiredMsg">Entitle to Drive is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Limit to Use</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_limituse">
+                                                                <textarea id="MRK_LIMT_USE" rows="4" cols="50" maxlength="500"
+                                                                          class="form-control" type="text" name="MRK_LIMT_USE" title="Description"></textarea>
+                                                                <span class="textfieldRequiredMsg">Limit to use is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Does not Cover</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_dncov">
+                                                                <textarea id="MRK_DOES_NOT_COV" rows="4" cols="50" maxlength="500"
+                                                                          class="form-control" type="text" name="MRK_DOES_NOT_COV" title="Does not cover"></textarea>
+                                                                <span class="textfieldRequiredMsg">Does not cover is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">O.D.E</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_ode">
+                                                                <textarea id="MRK_O_D_E" rows="4" cols="50" maxlength="500"
+                                                                          class="form-control" type="text" name="MRK_O_D_E" title="Own damage"></textarea>
+                                                                <span class="textfieldRequiredMsg">Own Damage Estimation is required.</span>                                                             
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label>
+                                                                Status
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input class="checkbox checkbox-inline pull-left" type="checkbox" id="MRK_STATUS" name="MRK_STATUS" checked required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdMotorRisk"></table>
+                                    <table id="grdMotorRiskPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

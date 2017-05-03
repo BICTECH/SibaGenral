@@ -1,0 +1,137 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+
+  $(document).ready(function () {
+                $("#myBtn").click(function () {
+                    $("#myModal").modal();
+                });
+    });
+
+
+    $(document).ready(function () {
+
+      $('#btnLogin').click(function (e)
+      {
+          if ($("#psw").val() == 'admin' && $("#usrname").val() == 'admin')
+          {
+               location.href = '@Url.Content("~/Home/Index")';
+          }
+          else
+          {
+              alert('login failed, please try again');
+          }
+      });
+
+    });
+
+    </script>
+
+
+    <style>
+        .placeholder img {
+            display: inline-block;
+            border-radius: 50%;
+        }
+
+        .modal-header, h4, .close {
+            background-color: #5cb85c;
+            color: white !important;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .modal-footer {
+            background-color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div>
+
+    </div>
+    <div style="width: 9%; height: 1200px;background-color:blue; border: 1px solid #000000; border-color: dodgerblue;  float:left" class="roundElement">
+
+        <div class="container">
+            <h2></h2>
+            <!-- Trigger the modal with a button -->
+            <div>
+                <div class="col-xs-6 col-sm-3 placeholder">
+
+                    <a href=""> <img src="~/Content/Images/user_img.jpg" style="width:70px;height:70px;border:0" class="img-responsive" alt="Generic placeholder thumbnail"></a>
+                    <h5 style="color:white">User profile</h5>
+
+                    <button type="button" style="align-self:center" class="btn btn-default btn-lg" id="myBtn">Login</button>
+
+                </div>
+            </div>
+            <hr style="align-self:flex-start" />
+            <div style="">
+
+
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding:35px 50px; background-color:blue">
+                            Login
+                        </div>
+                        <div class="modal-body" style="padding:40px 50px;">
+
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="usrname"><span class="glyphicon glyphicon-user"></span> User name</label>
+                                    <input type="text" style="border-radius: 10px" class="form-control" id="usrname" placeholder="Enter ID">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                                    <input type="password" style="border-radius: 10px" class="form-control" id="psw" placeholder="Enter password">
+                                </div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" value="" checked>Remember me</label>
+                                </div>
+                                <button type="button" id="btnLogin" style="border-radius: 10px"><span class="glyphicon glyphicon-off"></span> Login</button>
+                            </form>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" style="border-radius: 10px" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                            <p>Not a member? <a href="#">Sign Up</a></p>
+                            <p>Forgot <a href="#">Password?</a></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
+    <div style="width: 1%; background-color:dodgerblue; height: 1200px; border: 1px solid #000000; border-color: dodgerblue;  float:left" class="roundElement">
+
+    </div>
+
+    <!-- Right pane-->
+    <div style="width: 90%; height: 1200px; border: 1px solid #000000; border-color: dodgerblue;  float:right" class="roundElement">
+
+        <img src="~/Content/Images/Stanbic-Heights-in-Accra.jpg" style="width:100%;height:100%;border:0" />
+    </div>
+
+</body>
+</html>

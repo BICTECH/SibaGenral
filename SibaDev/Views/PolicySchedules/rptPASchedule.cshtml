@@ -1,0 +1,219 @@
+﻿@model SibaDev.Models.INS_UWD_POLICY_HEAD
+
+@{
+    Layout = null;
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Css/Custom/rptMotor.css" rel="stylesheet" />
+<script src="~/Scripts/Js/jquery-1.11.3.min.js"></script>
+<script src="~/Scripts/Js/bootstrap.min.js"></script>
+<link href="~/Content/Images/font-awesome-4.6.2/font-awesome-4.6.2/css/font-awesome.min.css" rel="stylesheet" />
+
+<script>
+    function printpage() {
+        document.getElementById('btnPrint').style.visibility = "hidden";
+        window.print();
+    }
+</script>
+
+    <div class="container" style="color:#000">
+        <!-------------------Ttile------------------------>
+        <!------------------------------------------------->
+        <div class="row">
+            <button id="btnPrint" type="button" value="Print" onClick="printpage()">
+                <i class="fa fa-print fa-3x" title="Delete" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10 center-block">
+                <i><p style="text-align:center;font-weight:bold;margin-top:20px;font-size:26px;">Policy  Schedule - Personal Accident</p></i>
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+
+        <!--------------Details------------------>
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+                <table width="100%" height="77" class="" style="border:1px #000 solid;">
+                    <tr valign="top" style="border:1px #000 solid;">
+                        <td width="233" height="32" valign="middle"><p><strong>Policy Issuing Branch</strong></p></td>
+                        <td width="322" valign="middle">: @Model.MS_SYS_OFFICE.OFF_NAME</td>
+                        <td width="176" align="left" valign="middle"><p><strong>Broker / Agent </strong></p></td>
+                        <td width="265" valign="middle">: @Model.MS_SYS_INTERMEDIARY.INT_OFFICIAL_NAME</td>
+                    </tr>
+                    <tr valign="top">
+                        <td height="32" valign="middle"><p><strong>Policy Number </strong></p></td>
+                        <td valign="middle">: @Model.POLH_SYS_ID</td>
+                        <td align="left" valign="middle"><p><strong>Customer code </strong></p></td>
+                        <td valign="middle">: @Model.POLH_CUST_CODE</td>
+                    </tr>
+                </table>
+
+                <!---Second Table---->
+                <table width="100%" height="363" class="tbl" style="margin-top:10px;">
+                    <tr valign="top">
+                        <td width="3%" align="center" valign="middle"><strong>1.</strong></td>
+                        <td width="32%" height="34" valign="middle"><p><strong>Name of Insured</strong></p></td>
+                        <td colspan="5" valign="middle">: @Model.MS_UDW_CUSTOMERS.CUS_OFFICIAL_NAME</td>
+                    </tr>
+                    <tr valign="top">
+                        <td align="center" valign="middle"><strong>2.</strong></td>
+                        <td height="34" valign="middle"><p><strong>Business / Profession</strong></p></td>
+                        <td colspan="5" valign="middle">: [Business]</td>
+                    </tr>
+                    <tr valign="top">
+                        <td align="center" valign="middle"><strong>3.</strong></td>
+                        <td height="34" valign="middle"><p><strong>Address of Insured</strong></p></td>
+                        <td colspan="5" valign="middle">: @Model.MS_UDW_CUSTOMERS.CUS_ADDRS1</td>
+                    </tr>
+                    <tr valign="top">
+                        <td align="center" valign="middle"><strong>4.</strong></td>
+                        <td height="34" valign="middle"><p><strong>Proposal Number</strong></strong></td>
+                        <td colspan="2" valign="middle">: @Model.POLH_SYS_ID</td>
+                        <td width="16%" valign="middle"><strong><p>Proposal Date</p></strong></td>
+                        <td colspan="2" valign="middle">: [Proposal Date]</td>
+                    </tr>
+                    <tr valign="top" style="border:none">
+                        <td rowspan="2" align="center" valign="top"><strong>5.</strong></td>
+                        <td height="67" rowspan="2" valign="top">
+                            <p>
+                                <strong>
+                                    Period of Insurance
+                                </strong>
+                            </p>
+                        </td>
+                        <td width="13%" height="24" valign="top" style="border:none"><p><strong>From</strong></p></td>
+                        <td width="12%" valign="top">@Model.POLH_POL_START_DATE.Value.Date</td>
+                        <td height="24" valign="top"><p><strong>To</strong></p></td>
+                        <td width="11%" height="24" valign="top">@Model.POLH_POL_END_DATE.Value.Date</td>
+                        <td width="13%" valign="top">[time]</td>
+                    </tr>
+                    <tr valign="top">
+                        <td height="43" colspan="5" valign="top">(i) Both days inclusive (ii) Any subsequent period for which the insured shall pay and the company shall agree to accept the renewal premium.</td>
+                    </tr>
+                    <tr valign="top">
+                        <td align="center" valign="middle"><strong>6.</strong></td>
+                        <td height="34" valign="middle"><p><strong>Gross Premium(GHC)</strong></p></td>
+                        <td colspan="5" valign="middle">: 
+                        @foreach (var be in Model.INS_UWD_RISK_COVERS)
+                        {
+                            @be.RCOV_GROSS_PREM_FC
+                        }.00
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td align="center" valign="middle"><strong>7.</strong></td>
+                        <td height="34" valign="middle"><p><strong>Loadings      (GHC)</strong></p></td>
+                        <td colspan="5" valign="middle">: @foreach (var be in Model.INS_UWD_RISK_COVERS){@be.RCOV_LOAD_FC}.00
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td align="center" valign="middle"><strong>8.</strong></td>
+                        <td height="34" valign="middle"><p><strong>Discount     (GHC)</strong></p></td>
+                        <td colspan="5" valign="middle">: 
+                            @foreach (var be in Model.INS_UWD_RISK_COVERS)
+                            {
+                                @be.RCOV_DISC_FC
+                            }.00
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td align="center" valign="middle"><strong>9.</strong></td>
+                        <td height="15" valign="middle"><p><strong>Premium Due  (GHC)</strong></p></td>
+                        <td colspan="5" valign="middle">: 
+                            @foreach (var be in Model.INS_PREMIUM_REGISTER)
+                            {
+                                @be.PR_FC_AMOUNT
+                            }.00
+                        </td>
+                    </tr>
+                </table>
+
+                <table style="margin-top:10px;"><tr><td><strong>Property Insured</strong></td></tr></table>
+                <!-------------THIRD----------------------------->
+
+                <table width="100%" height="80" class="tbl" style="margin-top:10px;">
+                   
+                    <tr valign="top">
+                        <td align="center" valign="middle">&nbsp;</td>
+                        <td height="" valign="middle"><p><strong>Description</strong></p></td>
+                        <td width="13%" align="right" valign="middle"><p><strong>Principal</strong></p></td>
+                        <td width="33%" align="right" valign="middle"><strong>Sum Insured (GHC)</strong></td>
+                        <td width="16%" align="right" valign="middle"><strong>Premium(GHC)</strong></td>
+                        <td width="16%" align="left" valign="middle"><strong>&nbsp;&nbsp;Deductibles</strong></td>
+                    </tr>
+
+                    <tr>
+                        <td height="14" align="center" valign="middle">&nbsp;</td>
+                        <td height="14" align="left" valign="middle">
+                           
+                        </td>
+                        <td height="14" align="right" valign="middle">
+                         
+                        </td>
+                        <td height="14" align="right" valign="middle">
+                            @foreach (var be in Model.INS_UDW_GENERAL_ACCIDENT)
+                            {
+                                @be.GA_SI_FC
+                            }.00
+                        </td>
+                        <td align="right" valign="middle">
+                            @foreach (var be in Model.INS_UDW_GENERAL_ACCIDENT)
+                            {
+                                @be.GA_TOT_PREM_FC
+                            }.00
+                        </td>
+                        <td valign="middle"></td>
+                    </tr>
+                    
+                </table>
+
+                <!----------------------------------------------->
+
+                <table width="100%" style="border:1px #000 solid;border-top:none;margin-top:15px;margin-bottom:15px;">
+                    <tr>
+                        <td align="center"><strong>Total Sum Insured on Policy                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            @foreach (var be in Model.INS_UWD_RISK_COVERS)
+                        {
+                            @be.RCOV_SI_FC
+                        }.00
+                        </strong></td>
+                    </tr>
+                </table>
+                <table width="100%" height="116" class="" style="margin-top:10px;border:1px #000 solid;">
+                    <tr valign="top">
+                        <td width="16%" height="32" valign="middle"><p><strong>Branch</strong></p></td>
+                        <td width="44%" valign="middle"><p>@Model.MS_SYS_OFFICE.OFF_NAME</p></td>
+                        <td width="40%" valign="middle">For and behalf of @Model.MS_SYS_COMPANY.CMP_NAME</td>
+                    </tr>
+                    <tr valign="top">
+                        <td height="32" valign="middle"><p><strong>Examined By</strong></p></td>
+                        <td valign="middle">&nbsp;</td>
+                        <td valign="middle">[examiner]</td>
+                    </tr>
+                    <tr valign="top">
+                        <td height="32" valign="middle"><p><strong>Date</strong></p></td>
+                        <td valign="middle">&nbsp;</td>
+                        <td valign="middle">[date]</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-1"></div>
+
+            <!-------------------Footer------------------->
+
+            <div class="col-sm-2"></div>
+        </div>
+
+    </div>
+
+

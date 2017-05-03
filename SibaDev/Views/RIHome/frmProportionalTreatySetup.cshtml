@@ -1,0 +1,918 @@
+﻿@{
+    ViewBag.Title = "Proportional Treaty Setup";
+}
+<script src="~/Scripts/Page_Scripts/treaty.Proportional.setup.js"></script>
+<script src="~/Scripts/Services/treaty.proportional.service.js"></script>
+
+<script src="~/Scripts/Libraries/SibaScript/getSequenceNo.js"></script>
+<script src="~/Scripts/Libraries/SibaScript/RetnSequenceNo.js"></script>
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryTreatyprop" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-header">
+                        <div class="row control-group form-padding">
+                            <div class="container" style="width: 100%">
+                                <span class="control-grp-lbl text-danger">Proportional Treaty Setup Details</span>
+
+                                <form id="proptreatyForm" name="proptreatyForm">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input class="form-control" min="3" max-length="15" type="hidden" id="TH_TTY_ID" name="TH_TTY_ID" title="Code" />
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label class="required">Treaty Code</label>
+                    </div>
+                    <div class="col-md-3">
+                        <span id="spry_code">
+                            <input id="TH_CODE" class="form-control" min="2" maxlength="15" type="text" name="TH_CODE" title="Year" required />
+                            <span class="textfieldRequiredMsg">Code is required.</span>
+                            <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label class="required">Treaty Group</label>
+                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="TH_TTY_CODE" name="TH_TTY_CODE" title="Code" required />
+
+                            <span class="input-group-btn">
+                                <span id="spry_basecurr">
+                                    <button type="button" class="btn btn_lov btn-default pull-left" id="btn_treatygrp" name="btn_treatygrp">
+                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                    </button>
+                                    <span class="textfieldRequiredMsg">Rate is required.</span>
+                                </span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <span id="spry_baserate">
+                            <input class="form-control" min="3" max-length="50" type="text" name="GP_NAME" id="GP_NAME" title="Name" />
+                            <span class="textfieldRequiredMsg">Rate is required.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label class="required">UW Year</label>
+                    </div>
+                    <div class="col-md-3">
+                        <span id="spry_code">
+                            <input id="TH_UWYR"
+                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                    type = "number" maxlength = "4" class="form-control" name="TH_UWYR" title="Year" required />
+                                    
+                            <span class="textfieldRequiredMsg">Year is required.</span>
+                            
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label class="required">Start Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        <span id="spry_name">
+                            <input id="TH_SART_DATE" class="form-control" min="5" maxlength="15"
+                                    type="text" name="TH_SART_DATE" title="Name" required />
+                            <span class="textfieldRequiredMsg">Date is required.</span>
+                        </span>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="required">End Date</label>
+                    </div>
+                    <div class="col-md-3">
+                        <span id="spry_name">
+                            <input id="TH_END_DATE" class="form-control" min="5" maxlength="15"
+                                    type="text" name="TH_END_DATE" title="Name" required />
+                            <span class="textfieldRequiredMsg">Date is required.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label class="required">Currency</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="TH_CURRENCY" name="TH_CURRENCY" title="Code" required />
+
+                            <span class="input-group-btn">
+                                <span id="spry_basecurr">
+                                    <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_currency", "field1":"TH_CURRENCY", "field2":"TH_CUR_RATE"}'>
+                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                    </button>
+                                    <span class="textfieldRequiredMsg">Rate is required.</span>
+                                </span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <span id="spry_baserate">
+                            <input class="form-control" min="3" max-length="50" type="text" name="TH_CUR_RATE" id="TH_CUR_RATE" title="Name" />
+                            <span class="textfieldRequiredMsg">Rate is required.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <label class="">Quota Share?</label>
+                    </div>
+                    <div class="col-md-2">
+                        <span id="spry_decsymbol">
+                            <select id="TH_QS_YN" name="TH_QS_YN" class="btn btn-default">
+                                <option value="">--Select Basis--</option>
+                                <option value="Y">Yes</option>
+                                <option value="N">No </option>
+                            </select>
+                            <span class="textfieldRequiredMsg">Term is required.</span>
+                        </span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="required">Share %</label>
+                    </div>
+                    <div class="col-md-2">
+                        <span id="spry_code">
+                            <input id="TH_QS_PERC" 
+                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                    type = "number" maxlength = "3"
+                                   class="form-control"  name="TH_QS_PERC" title="Code" required />
+                            <span class="textfieldRequiredMsg">Share is required.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label class="required">UW Basis</label>
+                    </div>
+                    <div class="col-md-6">
+                        <span id="spry_decsymbol">
+                            <select id="TH_UW_BASIS" name="TH_UW_BASIS" class="btn btn-default" required>
+                                <option value="">--Select Basis--</option>
+                                <option value="U">Underwriting</option>
+                                <option value="C">Clean Cut </option>
+                                <option value="C">Run Off Basis </option>
+                            </select>
+                            <span class="textfieldRequiredMsg">Term is required.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="required">Treaty Prem. Basis</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span id="spry_decsymbol">
+                                                            <select id="TH_TTY_PRME_BASIS" name="TH_TTY_PRME_BASIS" class="btn btn-default" required>
+                                                                <option value="">--Select Basis--</option>
+                                                                <option value="U">Gross Premium</option>
+                                                                <option value="C">Risk Premium </option>
+                                                            </select>
+                                                            <span class="textfieldRequiredMsg">Term is required.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label class="required">RI App. Level</label>
+                    </div>
+                    <div class="col-md-6">
+                        <span id="spry_decsymbol">
+                            <select id="TH_RI_LEVEL" name="TH_RI_LEVEL" class="btn btn-default" required>
+                                <option value="">--Select RI Level--</option>
+                                <option value="P">Policy </option>
+                                <option value="L">Location</option>
+                                <option value="R">Risk</option>
+                            </select>
+                            <span class="textfieldRequiredMsg">Term is required.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label class="required">War Treaty ?</label>
+                    </div>
+                    <div class="col-md-6">
+                        <span id="spry_decsymbol">
+                            <select id="TH_WAR_YN" name="TH_WAR_YN" class="btn btn-default" required>
+                                <option value="">--Select--</option>
+                                <option value="Y">Yes </option>
+                                <option value="N">No</option>
+                                                                    
+                            </select>
+                            <span class="textfieldRequiredMsg">Term is required.</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="hidden" class="form-control" id="TH_STATUS" name="TH_STATUS">
+                                            <input type="hidden" class="form-control" id="TH_SYS_ID" name="TH_SYS_ID">
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+                                <!-- *** -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Applicable Treaties</a></li>
+
+                            </ul>
+
+                            <div id="tabs-1">
+
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_treaty_type_Detail" class="btn btn-info" type="button"><i class="fa fa-list-ul "></i> Treaty Details</button>
+
+
+
+                                        <button type="button" id="btn_ri_company" class="btn btn-default"><i class="fa fa-recycle" aria-hidden="true"></i>RI Companies</button>
+
+                                    </div>
+                                </div>
+
+                                <div class="row control-group form-padding">
+                                    <div class="container" style="width: 100%">
+                                        <span class="control-grp-lbl text-danger">Treaty  Type</span>
+
+
+                                        <hr />
+
+                                        <div class="row">
+                                            <table id="grdTreatyType"></table>
+                                            <table id="grdTreatyTypePager"></table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Treaty Type Details Modal Dialog -->
+
+<div class="modal draggable fade " id="TreatyTypeDetailskModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <div class="row">
+                    <div class="col=md-12">
+                        <div class="col-md-4">
+                            <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Treaty type detatils</strong>
+                        </div>
+                        <div class="col-md-4" style="background-color:white;">
+                            <button id="btn_add_prop_details" type="button" class="btn btn-default"><i class="fa fa-plus-circle text-success"></i>  Add New </button>
+                            <button id="btn_update_prop_details" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update </button>
+                            <button id="" class="btn btn-default" type="reset"><i class="fa fa-trash-o text-danger"></i> Clear </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="treatypropForm" name="treatypropForm">
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width: 100%">
+                            <span class="control-grp-lbl text-danger">Treaty Details</span>
+                            <!--HIDDEN FIELDS-->
+                            <input type="hidden" id="MS_RI_PTTY_COMPANY" name="MS_RI_PTTY_COMPANY" value="[]" />
+                            <input type="hidden" id="MS_RI_PTTY_SUBCLASS" name="MS_RI_PTTY_SUBCLASS" value="[]" />
+
+
+                            <div class="row">
+                                <div class="col-md-10">
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="required">Type Code</label>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <span id="spry_baserate">
+                                                    <input class="form-control" min="3" max-length="50" type="text" name="TD_TTY_CODE" id="TD_TTY_CODE" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                </span>
+                                            </div>
+
+
+                                            <div class="col-md-1">
+                                                <label>Seq No.</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input type="number" class="form-control" id="TD_SEQ" name="TD_SEQ" />
+                                            </div>
+
+                                            <input type="hidden" class="form-control" id="TD_SYS_ID" name="TD_SYS_ID">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="required">Treaty Type</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_decsymbol">
+                                                    <select id="TD_TTY_TYPE" name="TD_TTY_TYPE" class="btn btn-default" required>
+                                                        <option value="">--Select RI Level--</option>
+                                                        <option value="OR">Own Retention </option>
+                                                        <option value="SP">Surplus</option>
+                                                        <option value="QS">Quota share</option>
+                                                        <option value="MS">Market Share</option>
+                                                        <option value="OB">Obligatory</option>
+                                                        <option value="FO">FAC Obligatory</option>
+                                                    </select>
+                                                    <span class="textfieldRequiredMsg">Arrangement Type is required.</span>
+                                                </span>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label class="required">Cession Type</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_decsymbol">
+                                                    <select id="TD_CESS_TYPE" name="TD_CESS_TYPE" class="btn btn-default" required>
+                                                        <option value="">--Select Session--</option>
+                                                        <option value="QS">Lines of Own Rentions </option>
+                                                        <option value="OR">% of Own Retention </option>
+                                                        <option value="SP">% of Risk</option>
+                                                    </select>
+                                                    <span class="textfieldRequiredMsg">Arrangement Type is required.</span>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-2">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                              
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label hidden> Own Retention</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span style="margin-left: -50px"><label> Own Retention</label></span>
+                                        <input type="number" class="form-control" id="TD_OR_LIMIT" name="TD_OR_LIMIT" required/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span style="margin-left: -50px"><label>No. of Lines</label></span>
+                                        <input type="number" class="form-control" id="TD_NO_LINES" name="TD_NO_LINES" value="0" required/>
+                                    </div>
+                                    <div class="col-md-3">                                       
+                                        <span style="margin-left: -60px"><label>Treaty Limit</label></span>
+                                        <input type="number" class="form-control" id="TD_TTY_LIMIT" name="TD_TTY_LIMIT"/>
+                                    </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width: 100%">
+                            <span class="control-grp-lbl text-danger">Additional Details</span>
+
+                            <!-- -->
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <label class="">Profit Commission</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input id="TD_PROFIT_COMM" class="form-control" min="2" maxlength="15" type="text" name="TD_PROFIT_COMM" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <label class="">Magnt Exp. Ratio</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input id="TD_MGT_EXP_RATIO" class="form-control" min="2" maxlength="15" type="text" name="TD_MGT_EXP_RATIO" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <label class="">Prem. Rsve Ratio</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input id="TD_PREM_RSVE_RATIO" class="form-control" min="2" maxlength="15" type="text" name="TD_PREM_RSVE_RATIO" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <label class="">O/S Clms Resve. Ratio</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input id="TD_OS_CLM_RSVE_RATIO" class="form-control" min="2" maxlength="15" type="text" name="TD_OS_CLM_RSVE_RATIO" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <label class="">Deposit Premium</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input id="TD_DEPOSIT_PREM" class="form-control" min="2" maxlength="15" type="text" name="TD_DEPOSIT_PREM" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <label class="">Estimated Premium</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input id="TD_EST_PREM" class="form-control" min="2" maxlength="15" type="text" name="TD_EST_PREM" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <label class="">Cash Call Limit</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input id="TD_CASH_CALL_LIMIT" class="form-control" min="2" maxlength="15" type="text" name="TD_CASH_CALL_LIMIT" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <label class=""> Claims Advice Limit</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input id="TD_CLM_ADVICE_LIMIT" class="form-control" min="2" maxlength="15" type="text" name="TD_CLM_ADVICE_LIMIT" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <label class=""> Loss C/F years </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input id="TD_LOSS_CFWD_YEARS" class="form-control" min="2" maxlength="15" type="text" name="TD_LOSS_CFWD_YEARS" title="Code" />
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Code must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </form>
+
+                <div></div>
+            </div>
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+
+                        <button id="btn_ttyDetails_OnClose" type="button" class="btn btn-primary pull right">Ok</button>
+                    </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!--Products/Subclass Details Modal Dialog -->
+
+<div class="modal draggable fade " id="SubclassModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <div class="row">
+                    <div class="col=md-12">
+                        <div class="col-md-4">
+                            <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Treaty Subclasses</strong>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="subclassForm" name="subclassForm">
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width: 100%">
+                            <span class="control-grp-lbl text-danger">Subclass Details</span>
+                                                      
+                                <div class="row">
+                                    <table id="grdSubClass"></table>
+                                    <table id="grdSubClassPager"></table>
+                                </div>
+                          
+                        </div>
+                      
+                    </div>
+                    
+                </form>
+                <!--Grid Buttons-->
+                      
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+
+                <button id="btn_Subclass_Onclose" type="button" class="btn btn-primary pull right">Ok</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!--RI Companies Details Modal Dialog -->
+
+<div class="modal draggable fade " id="RICompanyModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <div class="row">
+                    <div class="col=md-12">
+                        <div class="col-md-4">
+                            <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">RI Companies</strong>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row control-group form-padding">
+                    <div class="container" style="width: 100%">
+                        <span class="control-grp-lbl text-danger">RI Company Details</span>
+
+                        <div class="row">
+                            <form id="companyForm" name="companyForm">
+                                <input type="hidden" class="form-control" id="TCP_TD_SYS_ID" name="TCP_TD_SYS_ID" />
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="required">RI Companies</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" min="3" max-length="15" type="text" id="TCP_COMP_CODE" name="TCP_COMP_CODE" title="Code" required />
+
+                                                    <span class="input-group-btn">
+                                                        <span id="spry_basecurr">
+                                                            <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_company", "field1":"TCP_COMP_CODE", "field2":"TCP_COMP_NAME"}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                            <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                        </span>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_baserate">
+                                                    <input class="form-control" min="3" max-length="50" type="text" name="TCP_COMP_NAME" id="TCP_COMP_NAME" title="Name" />
+                                                    <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-2">
+                                                <span style="margin-left: -50px"><label> Share %</label></span>
+                                                <input class="form-control" id="TCP_TTY_SHARE" name="TCP_TTY_SHARE" 
+                                                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                                           type = "number" maxlength = "3"required />
+                                            </div>
+
+                                        <div class="col-md-2">
+                                            <span style="margin-left: -20px"><label> Commission %</label></span>
+                                            <input type="number" class="form-control" id="TCP_TTY_COMM" name="TCP_TTY_COMM" required />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <span style="margin-left: -50px"><label> Leader ?</label></span>
+                                            <select id="TCP_LEADER_YN" name="TCP_LEADER_YN" class="btn btn-default" required>
+                                                <option value="">--Select--</option>
+                                                <option value="Y">Yes </option>
+                                                <option value="N">No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <span style="margin-left: -50px"><label> RI Tax %</label></span>
+                                            <input type="number" class="form-control" id="TCP_TTY_TAX" name="TCP_TTY_TAX" required />
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>
+                                                Status?
+                                                <input class="checkbox-inline " type="checkbox" name="TCP_STATUS" id="TCP_STATUS" checked />
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <!--Grid Buttons-->
+                    <div class="row control-group form-padding">
+                        <div class="row">
+                            <div class="btn-block">
+                                <button id="btn_add_treatycomp" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                <button id="btn_update_treatycomp" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                <button id="btn_remove_treatycomp" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table id="grdRICompany"></table>
+                            <table id="grdRICompanyPager"></table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+
+                <button id="companyOk" type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                <button id="companyClose" type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!--RI Search Results -->
+
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="mySearchResultModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Products Search Result</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <table id="grdSearchResults"></table>
+                        <table id="grdSearchResultsPager"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="search-ok" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    <button id="search-close" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Sub Class Search Results -->
+
+<div class="modal draggable ui-accordion fade" id="treatygroupModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header modal-header-success">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="text-align: center">LOV Modal</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-1">
+                            <label>Search:</label>
+                        </div>
+                        <div class="col-md-10">
+                            <input class="text ui-widget-content ui-corner-all" style="margin-left: 10px; height: 30px; width: 70%; text-align: center" type="text" title="" id="treatySearch" name="treatySearch" placeholder="Search by Name" />
+                            <button type="button" class="btn btn-default" id="btnQueryTreaty" name="btnQueryTreaty">
+                                <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <table id="gridtreatygrp"></table>
+                    <table id="gridtreatygrpPager"></table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

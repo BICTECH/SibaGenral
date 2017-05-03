@@ -1,0 +1,450 @@
+﻿@{
+    ViewBag.Title = "Intermediary";
+}
+<script src="~/Scripts/Page_Scripts/intermediary.setup.js"></script>
+<script src="~/Scripts/Services/intermediary.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryIntermediary" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Intermediary Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <div class="row">
+                                    <h4 style="border-bottom-color:red; color:black;" class="sub-header">Fill the form below</h4>
+                                    <form name="intermediaryForm" id="intermediaryForm">
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Code</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_code">
+                                                                <input class="form-control" min="3" maxlength="15" type="text" id="INT_CODE" name="INT_CODE" title="Intermediary Code" required />
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                                <span class="textfieldMaxCharsMsg">Code must specify at least 15 characters.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Company</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_lovcode">
+                                                                <div class="input-group">
+
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="INT_CMP_CODE" name="INT_CMP_CODE" title="Company Code" required />
+
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_company", "field1":"INT_CMP_CODE", "field2":"CMP_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <span id="spry_lovname">
+                                                                <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" title="Company Name" required />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Branch</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_lovcode1">
+                                                                <div class="input-group">
+
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="INT_OFF_CODE" name="INT_OFF_CODE" title="Office Code" required />
+
+                                                                    <div class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_office", "field1":"INT_OFF_CODE", "field2":"OFF_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <span id="spry_lovname1">
+                                                                <input class="form-control" min="3" max-length="50" type="text" name="OFF_NAME" title="Office Name" required />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Official Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_name">
+                                                                <input class="form-control" min="3" maxlength="40" type="text" id="INT_OFFICIAL_NAME" name="INT_OFFICIAL_NAME" title="Intermediary Official Name" required />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Postal Addrs</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <textarea class="form-control" min="3" maxlength="40" id="INT_POSTAL_ADDRS" name="INT_POSTAL_ADDRS" title="Intermediary Postal Address" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Home Addrs</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <textarea class="form-control" min="3" maxlength="40" id="INT_HOME_ADDRS" name="INT_HOME_ADDRS" title="Intermediary Home Address" required></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Phone No.</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_phone">
+                                                                <input class="form-control" min="3" maxlength="20" type="number" id="INT_PHONE1" name="INT_PHONE1" title="Intermediary Phone #" required />
+                                                                <span class="textfieldRequiredMsg">Phone number is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Mobile No.</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input class="form-control" min="3" maxlength="20" type="number" id="INT_MOBILE" name="INT_MOBILE" title="Intermediary Mobile #" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Email</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_email">
+                                                                <input class="form-control" min="3" maxlength="20" type="email" id="INT_EMAIL" name="INT_EMAIL" title="Intermediary Email" required />
+                                                                <span class="textfieldRequiredMsg">Email is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Please enter a valid email (user@domain.com).</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>Fax</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input class="form-control" min="3" maxlength="20" type="number" id="INT_FAX" name="INT_FAX" title="Intermediary Fax" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>Area Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input class="form-control" min="3" maxlength="30" type="text" id="INT_AREA_NAME" name="INT_AREA_NAME" title="Intermediary Area Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>
+                                                                Status
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input class="checkbox checkbox-inline pull-left" type="checkbox" name="INT_STATUS" checked />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Contact Persons</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_cperson">
+                                                                <textarea class="form-control" min="3" maxlength="100" id="INT_CONTACT_PERS" name="INT_CONTACT_PERS" title="Intermediary Contact Persons" required></textarea>
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Account Number</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_bankaccno">
+                                                                <input class="form-control" min="3" maxlength="20" type="number" id="INT_BANK_NUMBER" name="INT_BANK_NUMBER" title="Intermediary Bank Number" required />
+                                                                <span class="textfieldRequiredMsg">Account number is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Bank Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_bankname">
+                                                                <input class="form-control" min="3" maxlength="20" type="text" id="INT_BANK_NAME" name="INT_BANK_NAME" title="Intermediary Bank Name" required />
+                                                                <span class="textfieldRequiredMsg">Bank name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Bank Branch</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_bankbranch">
+                                                                <input class="form-control" min="3" maxlength="20" type="text" id="INT_BANK_BRANCH" name="INT_BANK_BRANCH" title="Intermediary Bank Branch" required />
+                                                                <span class="textfieldRequiredMsg">Bank branch is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">City Name</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input class="form-control" min="3" maxlength="20" type="text" id="INT_CITY_NAME" name="INT_CITY_NAME" title="Intermediary City Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Gender</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <select name="INT_GENDER" id="INT_GENDER" class="form-control">
+                                                                <option value=""> -- Select Gender -- </option>
+                                                                <option value="M">Male</option>
+                                                                <option value="F">Female</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">ID Type 1</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_idtype">
+                                                                <select name="INT_ID1_TYPE" id="INT_ID1_TYPE" class="form-control">
+                                                                    <option value=""> -- Select ID -- </option>
+                                                                    <option value="Voters">Voter's Card</option>
+                                                                    <option value="Drivers">Driver's Licence</option>
+                                                                    <option value="Passport">Passport</option>
+                                                                    <option value="National ID">National ID</option>
+                                                                </select>
+                                                                <span class="textfieldRequiredMsg">ID is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">ID Type 1 No.</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <span id="spry_idno">
+                                                                <input type="number" name="INT_ID1_NO" id="INT_ID1_NO" min="3" max="10" class="form-control" title="Intermediary ID 1 No." />
+                                                                <span class="textfieldRequiredMsg">ID Number is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>ID Type 2</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <select name="INT_ID2_TYPE" id="INT_ID2_TYPE" class="form-control">
+                                                                <option value=""> -- Select ID -- </option>
+                                                                <option value="Voters">Voter's Card</option>
+                                                                <option value="Drivers">Driver's Licence</option>
+                                                                <option value="Passport">Passport</option>
+                                                                <option value="National ID">National ID</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>ID Type 2 No.</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="number" name="INT_ID2_NO" id="INT_ID2_NO" min="3" max="10" class="form-control" title="Intermediary ID 2 No." />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>Region No.</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="text" name="INT_REG_NO" id="INT_REG_NO" min="3" max-length="30" class="form-control" title="Intermediary Region No." />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label>Tin No.</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <input type="text" name="INT_TIN_NO" id="INT_TIN_NO" min="3" max-length="25" class="form-control" title="Intermediary Tin No." />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                    <h4 style="border-bottom-color:red; color:black;" class="sub-header"></h4>
+                                </div>
+                      
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/excel-icon-15.png" alt="Down Load" height="30" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdIntermediary"></table>
+                                    <table id="grdIntermediaryPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,677 @@
+﻿@{
+    ViewBag.Title = "Claim Estimation Setup";
+}
+
+<script src="~/Scripts/Claims/Claim_Scripts/claim.bond.estimation.js"></script>
+<script src="~/Scripts/Claims/Claim_Services/claim.bond.estimation.service.js"></script>
+<script src="~/Scripts/Libraries/SibaScript/getSequenceNo.js"></script>
+<script src="~/Scripts/Libraries/SibaScript/RetnSequenceNo.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btn_Delete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryClaim" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-header">
+                        <div class="row control-group form-padding">
+                            <div class="container" style="width:100%">
+                                <span class="control-grp-lbl text-danger">Claim Estimation Setup Details</span>
+
+                                <form id="clmEstimateForm" name="clmEstimateForm">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input class="form-control" min="3" max-length="15" type="hidden" id="CLM_SYS_ID" name="CLM_SYS_ID" title="Code" />
+                                            <input class="form-control" min="3" max-length="15" type="hidden" id="CLM_STATUS" name="CLM_STATUS" title="Code" />
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="required">Processing Office</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="CLM_OFF_CODE" name="CLM_OFF_CODE" title="Code" required />
+
+                                                            <span class="input-group-btn">
+                                                                <span id="spry_basecurr">
+                                                                    <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_office", "field1":"CLM_OFF_CODE", "field2":"OFF_NAME"}'>
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <span class="textfieldRequiredMsg">Office is required.</span>
+                                                                </span>
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <span id="spry_baserate">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="OFF_NAME" id="OFF_NAME" title="Name" />
+                                                            <span class="textfieldRequiredMsg">Office Name is required.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+
+                                                    <div class="col-md-3">
+                                                        <label class="required">Policy Number</label>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="CLM_POLH_SYS_ID" name="CLM_POLH_SYS_ID" title="Policy No." required />
+
+                                                            <span class="input-group-btn">
+                                                                <span id="spry_basecurr">
+                                                                    <button type="button" class="btn btn_lov btn-default pull-left" id="btn_Polh_lov" name="btn_Polh_lov">
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <span class="textfieldRequiredMsg">Policy ID is required.</span>
+                                                                </span>
+                                                            </span>
+                                                            <input class="form-control" min="3" max-length="15" type="hidden" id="POLH_CUST_CODE" name="POLH_CUST_CODE" />
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="required">Loss Date</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <span id="spry_name">
+                                                            <input id="CLM_LOSS_DATE" class="form-control"
+                                                                   type="text" name="CLM_LOSS_DATE" title="Name" required />
+                                                            <span class="textfieldRequiredMsg">Date is required.</span>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <label class="required">Disc Date</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <span id="spry_name">
+                                                            <input id="CLM_DISC_DATE" class="form-control"
+                                                                   type="text" name="CLM_DISC_DATE" title="Name" required />
+                                                            <span class="textfieldRequiredMsg">Date is required.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="required">Reported Date</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <span id="spry_name">
+                                                            <input id="CLM_REP_DATE" class="form-control"
+                                                                   type="text" name="CLM_REP_DATE" title="Name" required />
+                                                            <span class="textfieldRequiredMsg">Date is required.</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="required">Txn Date</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <span id="spry_name">
+                                                            <input id="CLM_TXN_DATE" class="form-control"
+                                                                   type="text" name="CLM_TXN_DATE" title="Name" required />
+                                                            <span class="textfieldRequiredMsg">Date is required.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="required">Cause of Loss</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="CLM_LOSS_CODE" name="CLM_LOSS_CODE" title="Code" required />
+
+                                                            <span class="input-group-btn">
+                                                                <span id="spry_basecurr">
+                                                                    <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_loss", "field1":"CLM_LOSS_CODE", "field2":"CLM_CAUSE_NAME"}'>
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                                </span>
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <span id="spry_baserate">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CLM_CAUSE_NAME" id="CLM_CAUSE_NAME" title="Name" />
+                                                            <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="required">Place of Loss</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <textarea class="form-control" id="CLM_LOSS_PLACE" name="CLM_LOSS_PLACE" title="Place of Loss" required></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="required">Claims Remarks</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <textarea class="form-control" id="CLM_REMARKS" name="CLM_REMARKS" title="Claim Remarks" required></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="required">Claim Number</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <span id="spry_baserate">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CLM_N0" id="CLM_N0" required title="Name" />
+                                                            <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="required">Client</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <span id="spry_baserate">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CLM_CLT_CODE" id="CLM_CLT_CODE" readonly title="" />
+                                                            <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <span id="spry_baserate">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CLM_CLT_NAME" id="CLM_CLT_NAME" readonly title="Name" />
+                                                            <span class="textfieldRequiredMsg">Name is required.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="">Time Bared?</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input class="checkbox checkbox-inline pull-left" type="checkbox" id="CLM_TIME_BRD" name="CLM_TIME_BRD" />
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="">Warranty Breached?</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <input class="checkbox checkbox-inline pull-left" type="checkbox" id="CLM_WART_BRCH" name="CLM_WART_BRCH" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="">Repudiate Claim?</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <input class="checkbox checkbox-inline pull-left" type="checkbox" id="CLM_RPDT" name="CLM_RPDT" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="">CAT Claim?</label>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <input class="checkbox checkbox-inline pull-left" type="checkbox" id="CLM_CAT" name="CLM_CAT" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <label class="">CAT Event</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="input-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="CLM_CAT_EVNT_CODE" name="CLM_CAT_EVNT_CODE" title="Code" disabled />
+
+                                                            <span class="input-group-btn">
+                                                                <span id="spry_basecurr">
+                                                                    <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_catastrophy", "field1":"CLM_CAT_EVNT_CODE", "field2":"CLM_CAT_NAME"}'>
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                                </span>
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <span id="spry_baserate">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CLM_CAT_NAME" id="CLM_CAT_NAME" title="Name" disabled />
+                                                            <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <input type="hidden" class="form-control" id="CLM_STATUS" name="CLM_STATUS">
+                                            <input type="hidden" class="form-control" id="CLM_SYS_ID" name="CLM_SYS_ID">
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+                                <!-- *** -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Risk Details</a></li>
+                                <li><a href="#tabs-2">Estimate Details</a></li>
+                                <li><a href="#tabs-3">Claims Documents</a></li>
+                            </ul>
+                            <div id="tabs-1">
+
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_Risk_Detail" class="btn btn-info" type="button"><i class="fa fa-list-ul "></i> Get risk</button>
+                                        <button id="btn_remove_veh_risk" name="btn_remove_veh_risk" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove Risk</button>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <table id="grdRiskDtls"></table>
+                                    <table id="grdRiskDtlsPager"></table>
+                                </div>
+                            </div>
+
+                            <div id="tabs-2">
+                                <!--horizontal Headings-->
+
+                                <div class="row">
+
+                                    <form id="clmEstDtlsForm" name="clmEstDtlsForm">
+                                        <div class="col-md-1">
+
+                                        </div>
+                                        <div class="col-md-10">
+
+                                            <div class="row">
+                                                <div class="form-group">
+
+                                                    <div class="col-md-3">
+                                                        <span style="margin-left: -34px;"><label style="color: blue">Estimate Code</label></span>
+                                                        <div class="input-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="CLM_EST_TYPE" name="CLM_EST_TYPE" title="" required />
+                                                            <span class="input-group-btn">
+                                                                <span id="spry_basecurr">
+                                                                    <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_est_type", "field1":"CLM_EST_TYPE", "field2":"CLM_EST_NAME"}'>
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                    <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <span style="margin-left: -144px;"><label style="color: blue">Name</label></span>
+                                                        <input class="form-control pull-left" type="text" id="CLM_EST_NAME" name="CLM_EST_NAME" title="" required />
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-3">
+                                                        <span style="margin-left: -24px;"><label style="color: blue">Estimate Amount</label></span>
+                                                        <input class="form-control pull-left" type="number" id="CLM_EST_AMT" name="CLM_EST_AMT" title="Estimate Amount" required />
+
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <span style="margin-left: -44px;"><label style="color: blue">O/S Amount</label></span>
+                                                        <input class="form-control pull-left" type="number" id="CLM_EST_OS_AMT" name="CLM_EST_OS_AMT" title="O/S Amount" />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <hr />
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_est" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_est" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_est" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button id="btn_clm_expense" class="btn btn-info" type="button"><i class="fa fa-list-ul "></i> Claim Expense</button>
+
+                                        <button id="btn_clm_process" class="btn btn-info" type="button"><i class="fa fa-list-ul "></i> Process Estimate</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <table id="grdEstimatesDtls"></table>
+                                    <table id="grdEstimatesDtlsPager"></table>
+                                </div>
+                            </div>
+
+                            <div id="tabs-3">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--Claim Risk Details Dialog -->
+
+    <div class="modal draggable fade " id="ClaimRiskDetailskModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                    <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                    <div class="row">
+                        <div class="col=md-12">
+                            <div class="col-md-4">
+                                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Risk detatils</strong>
+                            </div>
+                            <div class="col-md-4" style="background-color:white;">
+                                <button id="btn_add_veh_risk" type="button" class="btn btn-default"><i class="fa fa-plus-circle text-success"></i>  Add New </button>
+                                <button id="btn_update_veh_risk" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update </button>
+                                <button id="" class="btn btn-default" type="reset"><i class="fa fa-trash-o text-danger"></i> Clear </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+                    <form id="riskForm" name="riskForm">
+
+                        <div class="row control-group form-padding">
+                            <div class="container" style="width: 100%">
+                                <span class="control-grp-lbl text-danger">Claim Risk Details</span>
+
+                                <div class="row">
+                                    <table id="grdPolRisk"></table>
+                                    <table id="grdPolRiskPager"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+                <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+
+                    <button id="btn_Risk_Onclose" type="button" class="btn btn-primary pull right">Ok</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--Claim Expense Details Dialog -->
+
+    <div class="modal draggable fade " id="ClaimExpDetailskModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                    <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                    <div class="row">
+                        <div class="col=md-12">
+                            <div class="col-md-4">
+                                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Claim Expense detatils</strong>
+                            </div>
+                            <div class="col-md-4" style="background-color:white;">
+                                <button id="btn_add_expense" type="button" class="btn btn-default"><i class="fa fa-plus-circle text-success"></i>  Add New </button>
+                                <button id="btn_update_expense" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update </button>
+                                <button id="" class="btn btn-default" type="reset"><i class="fa fa-trash-o text-danger"></i> Clear </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width: 100%">
+                            <span class="control-grp-lbl text-danger">Claim Expense Details</span>
+                            <form id="clmExpenseForm" name="clmExpenseForm">
+                                <input class="form-control" min="3" max-length="15" type="hidden" id="CLM_EXP_CLM_EST_SYS_ID" name="CLM_EXP_CLM_EST_SYS_ID" title="" />
+                                <input class="form-control" min="3" max-length="15" type="hidden" id="CLM_EXP_CLM_EST_TYPE" name="CLM_EXP_CLM_EST_TYPE" title="" />
+
+                                <div class="row">
+                                    <div class="form-group">
+
+                                        <div class="col-md-3">
+                                            <span style="margin-left: -64px;"><label style="color: blue">Expense Type</label></span>
+                                            <div class="input-group">
+                                                <input class="form-control" min="3" max-length="15" type="text" id="CLM_EXP_CODE" name="CLM_EXP_CODE" title="Code" required />
+
+                                                <span class="input-group-btn">
+                                                    <span id="spry_basecurr">
+                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_expense", "field1":"CLM_EXP_CODE", "field2":"CLM_EXP_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                        <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                    </span>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span style="margin-left: -74px;"><label style="color: blue">Name</label></span>
+                                            <span id="spry_baserate">
+                                                <input class="form-control" min="3" max-length="50" type="text" name="CLM_EXP_NAME" id="CLM_EXP_NAME" title="Name" />
+                                                <span class="textfieldRequiredMsg">Rate is required.</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <span style="margin-left: -44px;"><label style="color: blue">Amount</label></span>
+                                            <span id="spry_baserate">
+                                                <input class="form-control" min="3" max-length="50" type="number" name="CLM_EXP_COST" id="CLM_EXP_COST" required title="Name" />
+                                                <span class="textfieldRequiredMsg">Rate is required.</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                            </form>
+                            <div class="row">
+                                <table id="grdClmExpense"></table>
+                                <table id="grdClmExpensePager"></table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+
+                    <button id="btn_Exp_Onclose" type="button" class="btn btn-primary pull right">Ok</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--  Policy Modal -->
+
+    <div class="modal draggable ui-accordion fade" id="policyLovModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="text-align: center">LOV Modal</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-1">
+                                <label>Search:</label>
+                            </div>
+                            <div class="col-md-10">
+                                <input class="text ui-widget-content ui-corner-all" style="margin-left: 10px; height: 30px; width: 70%; text-align: center" type="text" id="txtPolhSearch" title="" placeholder="Search by ID" />
+                                <button type="button" class="btn btn-default" id="btnQueryPolh" name="btnQueryPolh">
+                                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <table id="gridPolh"></table>
+                        <table id="gridPolhPager"></table>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Search Modal -->
+
+    <div class="container">
+        <div class="modal draggable ui-accordion fade" id="mySearchResultModal" role="dialog" data-backdrop="static" data-keyboard="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-success">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Tariff Search Result</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <table id="grdSearchResults"></table>
+                            <table id="grdSearchResultsPager"></table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="search-ok" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                        <button id="search-close" type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+

@@ -1,0 +1,137 @@
+﻿
+@{
+    Layout = null;
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Css/Custom/rptMotor.css" rel="stylesheet" />
+<script src="~/Scripts/Js/jquery-1.11.3.min.js"></script>
+<script src="~/Scripts/Js/bootstrap.min.js"></script>
+<link href="~/Content/Images/font-awesome-4.6.2/font-awesome-4.6.2/css/font-awesome.min.css" rel="stylesheet" />
+
+<script>
+    function printpage() {
+        document.getElementById('btnPrint').style.visibility = "hidden";
+        window.print();
+    }
+</script>
+
+<div class="row">
+    <button id="btnPrint" type="button" value="Print" onClick="printpage()">
+        <i class="fa fa-print fa-3x" title="Delete" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="book">
+    <div class="page">
+        <div class="subpage">
+
+            <div class="col-md-12">
+                <table style="width: 100%; text-align:center;" class="motor_detail">
+                    <tr>
+                        <td style="width: 50%; border-right:1px solid black;"><p style="text-align:center;"><img src="~/Content/Images/plain-backgrounds.jpg" /></p></td>
+                        <td style="width: 50%; text-align:center; font-size:medium; font-family:'Lucida Sans'">
+                            <p style="text-align:center;font-weight:400; font-size:x-large">MULTI INSURANCE COMPANY</p>
+                            <p>DR MENSAH AVENUE</p>
+                            <p>MANHYIA PALACE RD</p>
+                            <p>P.O.BOX 3433</p>
+                            <p>MANHYIA, KUMASI</p>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <p style="text-align:center;font-weight:700; font-size:x-large">MOTOR PRIVATE COMPREHENSIVE</p>
+
+                <table style="width:100%;" class="table table-bordered">
+                    <tr>
+                        <td style="width: 30%" colspan="2"> <b>Issue Date of Policy</b></td>
+                        <td> 31 March 2017</td>
+                        <td> <b>Policy No.:</b> 232</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 30%" colspan="2"> <b>Date of Proposal and Declaration</b></td>
+                        <td colspan="2"> </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%" colspan="2">
+                            <span style="float:right">Insured Code</span><br />
+                            <span style="float:right">Insured Name</span><br />
+                            <span><b>Policy Holder</b> </span>
+                            <span style="float:right">Insured Address</span><br />
+                            <span style="float:right">Business/Occupation</span><br />
+                            <span style="float:right">Broker/Agent</span><br />
+                        </td>
+                        <td colspan="2" style="font-family:'Trebuchet MS';">
+                            <span style="float:left">ID00811</span><br />
+                            <span style="float:left">KWAME NHYIRA ASEMPA</span><br />
+                            <span style="float:left">OFORIKROM STREET ADJACENT NIB, P.O.BOX 122 KUMASI </span><br />
+                            <span style="float:left">CONSULTANT</span><br />
+                            <span style="float:left">LIAM INSURANCE BROKERS</span><br />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%;" rowspan="4" colspan="2" class="tvertical">
+                            <p style="margin-top: 80px"><b>Policy Details</b></p>
+                        </td>
+                        <td colspan="2"> <b>Policy Number:</b>  MULTI-MPC-1-2017 </td>
+                    </tr>
+
+                    <tr>
+                        @*  <td style="width: 30%" colspan="2"> <b>Policy Details</b></td>*@
+                        <td><b>From:</b>  21 May 2017</td>
+                        <td><b>To:</b> 21 May 2018 </td>
+                    </tr>
+
+                    <tr>
+                        @*  <td style="width: 30%" colspan="2"> </td>*@
+                        <td colspan="2" style="font-family:'Trebuchet MS';">
+                            (1) Both Days Inclusive <br />
+                            (2)Any subsequent period for which the insured shall
+                            pay and the Company shall agree to accept a renewal premium.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        @*  <td style="width: 30%" colspan="2"> </td>*@
+                        <td colspan="2">
+                            <b>Cover:</b> <span style="font-family:'Trebuchet MS';">Motor Private Comprehensive</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%" colspan="2"> <b>Premium Details</b></td>
+                        <td colspan="2">
+                            Basic Premium:  <b>3,100.00</b> <br />
+                            <span style="margin-left:80px">NIC:  <b>15.00</b></span><br />
+                            <span><b>Premium(GH):</b>   <b>3,115.00</b></span>
+                        </td>
+
+                    </tr>
+
+                </table>
+
+                <p style="text-align:center;font-weight:700; font-size:medium">RISK DETAILS</p>
+
+                <table height="116" class="" style="width: 100%; margin-top:20px;border-top:2px #000 solid;border-bottom:2px #000 solid;">
+                    <tr valign="top" style="margin-top: 50px;">
+                        <td width="70%" valign="middle"><strong>Branch:</strong> <br /> </td>
+
+                        <td width="70%" valign="middle"><strong>FOR AND BEHALF OF MULTI INSURANCE LIMITED:</strong> <br /> </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <td height="32" valign="middle"><p><strong>Examined By.......................................................................</strong></p></td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+ 
+</div>

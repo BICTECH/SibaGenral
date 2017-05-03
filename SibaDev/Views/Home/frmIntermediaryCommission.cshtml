@@ -1,0 +1,504 @@
+﻿@{
+    ViewBag.Title = "Intermediary Commission";
+}
+
+<script src="~/Scripts/Page_Scripts/intermediary.commission.setup.js"></script>
+<script src="~/Scripts/Services/intermediarycommission.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryIntermcomm" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Commissions</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                           
+                                <form id="intermcommForm" name="intermcommForm">
+                                    <div class="form-group">
+
+                                        <div class="row">
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label class="required">Intermediary</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="COM_INT_CODE" name="COM_INT_CODE" placeholder="Code" required />
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_intermediary", "field1":"COM_INT_CODE", "field2":"COM_INT_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input class="form-control" min="3" max-length="50" type="text" id="COM_INT_NAME" name="COM_INT_NAME" placeholder="Name" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <hr />
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label>Product</label>
+                                                <div class="input-group">
+                                                    <input class="form-control" min="3" max-length="15" type="text" id="COM_PROD_CODE" name="COM_PROD_CODE" required />
+                                                    <span class="input-group-btn">
+                                                        @*<span id="spry_basecurr">*@
+                                                            <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_product", "field1":"COM_PROD_CODE", "field2":"COM_PROD_NAME"}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                            @*<span class="textfieldRequiredMsg">Code is required.</span>
+                                                        </span>*@
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Product Name</label>
+                                                <input type="text" class="form-control" id="COM_PROD_NAME" name="COM_PROD_NAME" />
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label>Default Comm. </label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <input type="checkbox" id="" style="" class="checkbox-inline" name="" placeholder="Search from DB">
+                                                    </span>
+                                                    <input class="form-control" min="3" max-length="15" type="number" id="COM_DFT_PERC" name="COM_DFT_PERC" />
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-percent" title="Select" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>New Comm.</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <input type="checkbox" id="" style="" class="checkbox-inline" name="" placeholder="Search from DB">
+                                                    </span>
+                                                    <input class="form-control" min="3" max-length="15" type="number" id="COM_NEW_PERC" name="COM_NEW_PERC" />
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-percent" title="Select" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label>Renewal Comm.</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <input type="checkbox" id="" style="" class="checkbox-inline" name="" placeholder="Search from DB">
+                                                    </span>
+                                                    <input class="form-control" min="3" max-length="15" type="number" id="COM_RENEWAL_PERC" name="COM_RENEWAL_PERC" />
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-percent" title="Select" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label>Endorse Comm.</label>
+
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <input type="checkbox" id="" style="" class="checkbox-inline" name="" placeholder="Search from DB">
+                                                    </span>
+                                                    <input class="form-control" min="1" max-length="15" type="number" id="COM_ENDORSE_PERC" name="COM_ENDORSE_PERC" />
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-percent" title="Select" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label>From Date </label>
+                                                <input class="form-control" min="1" type="text" id="COM_FROM_DATE" name="COM_FROM_DATE" />
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label>To Date </label>
+                                                <input class="form-control" min="1" type="text" id="COM_TO_DATE" name="COM_TO_DATE" />
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label>Status </label>
+                                                <input type="checkbox" checked="checked" id="COM_STATUS" style="float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" name="COM_STATUS" placeholder="Search from DB">
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <hr />
+                                <div class="row">
+                                    <div class="btn-block">
+                                        &nbsp;
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add </button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                                        <button type="reset" class="btn btn-default"> <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset </button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-risk-accessories-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/excel-icon-15.png" alt="Down Load" height="30" width="27" /> Export
+                                        </button>
+                                        &nbsp;
+                                    </div>
+                                </div>
+
+
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdIntercomm"></table>
+                                    <table id="grdIntercommPager"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Motor Risk Modal -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="productRiskModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"> Motor Risk</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger">Motor Risk</span>
+
+                            <form id="coverdiscloadingForm" name="coverdiscloadingForm" class="form">
+                                <div class="form-group">
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="required">Motor Risk</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input class="form-control" min="3" max-length="15" type="text" name="TFF_MRK_CODE" placeholder="Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_motor_risk", "field1":"TFF_MRK_CODE", "field2":"TFF_MRK_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input class="form-control" min="3" max-length="50" type="text" name="TFF_MRK_NAME" placeholder="Name" required />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button id="btn_add_coverdisloading" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add </button>
+                    <button type="reset" class="btn btn-default"> <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset </button>
+
+
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Motor Risks Covers Modal -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"> Cover Discount/Loading</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger">Cover Discount/Loading</span>
+
+                            <form id="coverdiscloadingForm" name="coverdiscloadingForm" class="form">
+                                <div class="form-group">
+                                    <div class="row">
+
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="required">Cover</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" min="3" max-length="15" type="text" id="TFF_CVR_CODE" name="TFF_CVR_CODE" placeholder="Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_cover", "field1":"TFF_CVR_CODE", "field2":"TFF_CVR__NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="form-control" min="3" max-length="50" type="text" name="TFF_CVR__NAME" placeholder="Name" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="btn-block">
+                            &nbsp;
+                            <button id="btn_add_coverdisloading" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add </button>
+                            <button id="btn_update_coverdisloading" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                            <button id="btn_remove_coverdisloadings" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                            <button type="reset" class="btn btn-default"> <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset </button>
+
+                            <button type="button" class="btn btn-default pull-right dialog-btn" id="export-risk-excess-btn" title="Export Grid data to Excel">
+                                <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                            </button>
+                            &nbsp;
+                        </div>
+                    </div>
+
+                    <div>
+                        <table id="grdCoverDiscloading"></table>
+                        <table id="grdCoverDiscloadingPager"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Motor Risks Covers Modal-->
+
+<div class="modal draggable fade" id="riskCoversModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Motor Risks Covers</strong>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row control-group form-padding">
+                    <div class="container" style="width:100%">
+                        <span class="control-grp-lbl text-danger">Cover settings</span>
+
+                        <div class="row">
+
+                            <form id="coverForm" name="coverForm" class="form">
+                                <div class="form-group" style="margin-left: 6px">
+
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <label>Cover </label>
+
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <div class="input-group">
+                                                <input class="form-control" min="3" max-length="15" type="text" id="RCOV_CODE" name="RCOV_CODE" placeholder="Code" required />
+                                                <span class="input-group-btn">
+                                                    <span id="spry_basecurr">
+                                                        <span id="spry_basecurr">
+                                                            <button type="button" class="btn btn_lov btn-default pull-left" id="btnAddNewCover">
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                            <span class="textfieldRequiredMsg">Code is required.</span>
+                                                        </span>
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+
+                                            <input type="text" class="form-control" id="RCOV_NAME" name="RCOV_NAME" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>
+                                                Defaulted ?
+                                            </label>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input class="checkbox-inline " type="checkbox" name="PDT_RI_LEVEL" value="Y" />
+                                        </div>
+
+                                    </div>
+
+                                    <h4 style="border-bottom-color:red" class="sub-header"> </h4>
+                                    <!-- -->
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label>Deft. Sum Insured</label>
+                                            <input type="number" class="form-control" id="RCOV_SI_FC" name="RCOV_SI_FC" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Deft. Rate</label>
+                                            <input type="number" class="form-control" id="RCOV_RATE" name="RCOV_RATE" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Min. Rate </label>
+                                            <input type="number" class="form-control" id="RCOV_GROSS_PREM_FC" name="RCOV_GROSS_PREM_FC" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Max. Rate</label>
+                                            <input type="number" class="form-control" id="RCOV_NET_PREM_FC" name="RCOV_NET_PREM_FC" value="0.00" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>Deft. Premium</label>
+                                            <input type="number" class="form-control" id="RCOV_SI_FC" name="RCOV_SI_FC" value="0.00" />
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label>Min. Seats</label>
+                                            <input type="number" class="form-control" id="RCOV_RATE" name="RCOV_RATE" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>per Seat Premium</label>
+                                            <input type="number" class="form-control" id="RCOV_RATE" name="RCOV_RATE" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Min. Age</label>
+                                            <input type="number" class="form-control" id="RCOV_GROSS_PREM_FC" name="RCOV_GROSS_PREM_FC" value="0.00" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Age Load %</label>
+                                            <input type="number" class="form-control" id="RCOV_NET_PREM_FC" name="RCOV_NET_PREM_FC" value="0.00" />
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>Excess Load %</label>
+                                            <input type="number" class="form-control" id="RCOV_NET_PREM_FC" name="RCOV_NET_PREM_FC" value="0.00" />
+                                        </div>
+
+                                    </div>
+                                    <h4 style="border-bottom-color:red" class="sub-header"> </h4>
+
+                                </div>
+                            </form>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="btn-block">
+                                <button id="btn_add_cover" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add Cover</button>
+                                <button id="btn_update_cover" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                <button id="btn_remove_cover" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                                <button id="btn_reset_cover" type="reset" class="btn btn-default"> <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset </button>
+
+                                <button type="button" class="btn btn-default pull-right dialog-btn" id="export-cover-btn" title="Export Grid data to Excel">
+                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <table id="gridCovers"></table>
+                            <table id="gridCoversPager"></table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+                <button type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

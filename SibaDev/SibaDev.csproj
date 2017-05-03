@@ -1,0 +1,1423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{03461D37-EA4A-49C9-8385-648B09581645}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SibaDev</RootNamespace>
+    <AssemblyName>SibaDev</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GemBox.Spreadsheet, Version=41.3.30.1000, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <HintPath>..\packages\GemBox.Spreadsheet.41.3.30.1000\lib\net30\GemBox.Spreadsheet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.Log4NetAppender, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Log4NetAppender.2.2.0\lib\net45\Microsoft.ApplicationInsights.Log4NetAppender.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.1.2400\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.12.1.2400\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="obj\Release\__testMsDeployConnection__\" />
+    <Folder Include="Scraps\" />
+    <Folder Include="Views\Policies\" />
+    <Folder Include="Views\PolicyGa\" />
+    <Folder Include="Views\PolicyMotor\" />
+    <Folder Include="Views\PolicyPa\" />
+    <Folder Include="Views\PolicyTravel\" />
+    <Folder Include="Views\ProductsRiskCovers\" />
+    <Folder Include="Views\TreatyArrangement\" />
+    <Folder Include="Views\TreatyProportional\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FontAwesomeBundleConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
+    <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageAreaRegistration.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\CollectionModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ComplexTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\DictionaryModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\EnumValueDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\IModelDocumentationProvider.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\KeyValuePairModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelDescriptionGenerator.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameAttribute.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ModelNameHelper.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterAnnotation.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\ParameterDescription.cs" />
+    <Compile Include="Areas\HelpPage\ModelDescriptions\SimpleTypeModelDescription.cs" />
+    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
+    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AcceptancetypeController.cs" />
+    <Compile Include="Controllers\AccountModule\AccountHome.cs" />
+    <Compile Include="Controllers\AccountModule\AccountOriginController.cs" />
+    <Compile Include="Controllers\AccountModule\AcctCategoryController.cs" />
+    <Compile Include="Controllers\AccountModule\AcctIntegrationController.cs" />
+    <Compile Include="Controllers\AccountModule\AcctTxnDocumentController.cs" />
+    <Compile Include="Controllers\AccountModule\HomeController - Copy.cs" />
+    <Compile Include="Controllers\AccountModule\InsAcctTxnController.cs" />
+    <Compile Include="Controllers\AccountModule\MainAccountController.cs" />
+    <Compile Include="Controllers\AccountModule\OpenEntryController.cs" />
+    <Compile Include="Controllers\AccountModule\PaymentController.cs" />
+    <Compile Include="Controllers\AccountModule\PolicyApprovalController.cs" />
+    <Compile Include="Controllers\AccountModule\ReceiptsController.cs" />
+    <Compile Include="Controllers\AccountModule\ServiceTaxController.cs" />
+    <Compile Include="Controllers\AccountModule\SubAccountController.cs" />
+    <Compile Include="Controllers\AccountPeriodController.cs" />
+    <Compile Include="Controllers\AgencyCommissionController.cs" />
+    <Compile Include="Controllers\AreaController.cs" />
+    <Compile Include="Controllers\ChannelController.cs" />
+    <Compile Include="Controllers\Claims\ClaimCatastropicEventController.cs" />
+    <Compile Include="Controllers\Claims\ClaimCauseLossController.cs" />
+    <Compile Include="Controllers\Claims\ClaimEstimationTravelController.cs" />
+    <Compile Include="Controllers\Claims\ClaimEstimationFireController.cs" />
+    <Compile Include="Controllers\Claims\ClaimEstimationBondController.cs" />
+    <Compile Include="Controllers\Claims\ClaimEstimationController.cs" />
+    <Compile Include="Controllers\Claims\ClaimEstimationTypeController.cs" />
+    <Compile Include="Controllers\clsProcessRuslts.cs" />
+    <Compile Include="Controllers\ClassBusinessController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\ConfirmationController.cs" />
+    <Compile Include="Controllers\deftSequenceNoController.cs" />
+    <Compile Include="Controllers\InsuranceSourceController.cs" />
+    <Compile Include="Controllers\FireEqZoneController.cs" />
+    <Compile Include="Controllers\FireRiskController.cs" />
+    <Compile Include="Controllers\EndorsementsController.cs" />
+    <Compile Include="Controllers\MakeController.cs" />
+    <Compile Include="Controllers\MotorRiskFeeController .cs" />
+    <Compile Include="Controllers\CompulsoryFeeController.cs" />
+    <Compile Include="Controllers\ConditionClausesController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
+    <Compile Include="Controllers\CoverController.cs" />
+    <Compile Include="Controllers\CurrencyController.cs" />
+    <Compile Include="Controllers\CustomerCategoryController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\CustomerTypesController.cs" />
+    <Compile Include="Controllers\DiscountLoadingController.cs" />
+    <Compile Include="Controllers\ExchangeRateController.cs" />
+    <Compile Include="Controllers\getDocumentsTypesController.cs" />
+    <Compile Include="Controllers\getMotorScheduleController.cs" />
+    <Compile Include="Controllers\getSequenceNoController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IntermediaryCommissionController.cs" />
+    <Compile Include="Controllers\IntermediaryController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\MakeModelController.cs" />
+    <Compile Include="Controllers\MotorRiskController.cs" />
+    <Compile Include="Controllers\MotorTariffController.cs" />
+    <Compile Include="Controllers\OccupancyController.cs" />
+    <Compile Include="Controllers\OfficeController.cs" />
+    <Compile Include="Controllers\PaymentModeController.cs" />
+    <Compile Include="Controllers\PolicyFireController.cs" />
+    <Compile Include="Controllers\PolicyGaController.cs" />
+    <Compile Include="Controllers\PolicyMotorController.cs" />
+    <Compile Include="Controllers\PolicyBondController.cs" />
+    <Compile Include="Controllers\PolicyPaController.cs" />
+    <Compile Include="Controllers\PolicySchedulesController.cs" />
+    <Compile Include="Controllers\PolicyTravelController.cs" />
+    <Compile Include="Controllers\MotorRisksCoversController.cs" />
+    <Compile Include="Controllers\PremiumTariffController.cs" />
+    <Compile Include="Controllers\NoClaimDiscountController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ClaimsHomeController.cs" />
+    <Compile Include="Controllers\ProductRiskFeeController.cs" />
+    <Compile Include="Controllers\ReInsurance\ReInsuranceController.cs" />
+    <Compile Include="Controllers\RIHomeController.cs" />
+    <Compile Include="Controllers\RIModule\FacPlacementController.cs" />
+    <Compile Include="Controllers\RIModule\TreatyArrangementController.cs" />
+    <Compile Include="Controllers\RisksCoversController.cs" />
+    <Compile Include="Controllers\RegionsController.cs" />
+    <Compile Include="Controllers\SourceBusinessController.cs" />
+    <Compile Include="Controllers\StaticReportController.cs" />
+    <Compile Include="Controllers\TransactionStructureController.cs" />
+    <Compile Include="Controllers\TreatyGroupController.cs" />
+    <Compile Include="Controllers\TreatyProportionalController.cs" />
+    <Compile Include="Controllers\updateCoversController.cs" />
+    <Compile Include="Controllers\UpdateProductController.cs" />
+    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="JSON Templates\MotorRisksCoversJSON.cs" />
+    <Compile Include="JSON Templates\InterInsComLOV.cs" />
+    <Compile Include="JSON Templates\PolicyApprovalJson.cs" />
+    <Compile Include="JSON Templates\ProductsRisksFeesJSON.cs" />
+    <Compile Include="JSON Templates\ProductsRisksCoversJSON.cs" />
+    <Compile Include="JSON Templates\ReceiptsJson.cs" />
+    <Compile Include="JSON Templates\RisksCoversJSON.cs" />
+    <Compile Include="JSON Templates\RisksCoversLovJSON.cs" />
+    <Compile Include="JSON Templates\MotorRisksJSON.cs" />
+    <Compile Include="JSON Templates\MotorPremiumTarrifJSON.cs" />
+    <Compile Include="Libs\ReInsurance\ReInsuranceModule.cs" />
+    <Compile Include="Models\Claim_Models\ClaimCatastropicEventMdl.cs" />
+    <Compile Include="Models\Claim_Models\ClaimCauseLossMdl.cs" />
+    <Compile Include="Models\Claim_Models\ClaimEstimationTravelMdl.cs" />
+    <Compile Include="Models\Claim_Models\ClaimEstimationFireMdl.cs" />
+    <Compile Include="Models\Claim_Models\ClaimEstimationBondMdl.cs" />
+    <Compile Include="Models\Claim_Models\ClaimEstimationMdl.cs" />
+    <Compile Include="Models\Claim_Models\ClaimEstimationTypeMdl.cs" />
+    <Compile Include="Models\CLM_EST_BONDS_RISK_DTLS.cs" />
+    <Compile Include="Models\CLM_EST_DTLS.cs" />
+    <Compile Include="Models\CLM_EST_EXPENSE.cs" />
+    <Compile Include="Models\CLM_EST_FIRE_RISK_DTLS.cs" />
+    <Compile Include="Models\CLM_EST_HEAD.cs" />
+    <Compile Include="Models\CLM_EST_RISK_DTLS.cs" />
+    <Compile Include="Models\CLM_EST_TRAVEL_RISK_DTLS.cs" />
+    <Compile Include="Models\Entities_Models\PolicyApprovalMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountGLDetailMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountGLMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountGlOpenEntryMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountOriginMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountPaymentAccountDetailMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountPaymentDetailMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountPaymentMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountReceiptDetailsMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountReceiptsAccountDetailsMdl.cs" />
+    <Compile Include="Models\AccountsModel\AccountReceiptsMdl.cs" />
+    <Compile Include="Models\Entities_Models\InsuranceSourceMdl.cs" />
+    <Compile Include="Models\Entities_Models\FireEqZoneMdl.cs" />
+    <Compile Include="Models\Entities_Models\FireRiskMdl.cs" />
+    <Compile Include="Models\Entities_Models\EndorsementsMdl.cs" />
+    <Compile Include="Models\AccountsModel\acctCategoryMdl.cs" />
+    <Compile Include="Models\AccountsModel\acctIntegrationMdl.cs" />
+    <Compile Include="Models\AccountsModel\accTxnTypeMdl.cs" />
+    <Compile Include="Models\AccountsModel\InsuranceLedgerMdl.cs" />
+    <Compile Include="Models\AccountsModel\MainAccountMdl.cs" />
+    <Compile Include="Models\AccountsModel\OpenEntryMdl.cs" />
+    <Compile Include="Models\AccountsModel\PaymentModeMdl.cs" />
+    <Compile Include="Models\AccountsModel\ServiceTaxMdl.cs" />
+    <Compile Include="Models\AccountsModel\SubAccountMdl.cs" />
+    <Compile Include="Models\AccountsModel\TxnDocAccessRightsMdl.cs" />
+    <Compile Include="Models\AccountsModel\TxnDocAdvancedPropsMdl.cs" />
+    <Compile Include="Models\AccountsModel\TxnDocMdl.cs" />
+    <Compile Include="Models\AccountsModel\TxnDocNoGenerationMdl.cs" />
+    <Compile Include="Models\AccountsModel\TxntDocDefAcntsMdl.cs" />
+    <Compile Include="Models\ACCT_GL_DETAIL.cs" />
+    <Compile Include="Models\ACCT_GL_HEAD.cs" />
+    <Compile Include="Models\ACCT_OPEN_ENTRY_MATCH_DETL.cs" />
+    <Compile Include="Models\ACCT_TXN_OPEN_ENTRY.cs" />
+    <Compile Include="Models\clsMotorTariffCoverPremium.cs" />
+    <Compile Include="Models\Entities_Models\ChannelMdl.cs" />
+    <Compile Include="Models\Entities_Models\MakeMdl.cs" />
+    <Compile Include="Models\Entities_Models\MotorRiskFeeMdl.cs" />
+    <Compile Include="Models\Entities_Models\CompulsoryFeeMdl.cs" />
+    <Compile Include="Models\Entities_Models\CustomerCategoryMdl.cs" />
+    <Compile Include="Models\Entities_Models\IntermediaryCommissionMdl.cs" />
+    <Compile Include="Models\Entities_Models\AreaMdl.cs" />
+    <Compile Include="Models\Entities_Models\ClassBusinessMdl.cs" />
+    <Compile Include="Models\Entities_Models\CompulsoryFeesMdl.cs" />
+    <Compile Include="Models\Entities_Models\LocationMdl.cs" />
+    <Compile Include="Models\Entities_Models\MotorRisksCoversMdl.cs" />
+    <Compile Include="Models\Entities_Models\MotorTarrifMdl.cs" />
+    <Compile Include="Models\CoverPremiumCalculationMdl.cs" />
+    <Compile Include="Models\Entities_Models\AccountPeriodMdl.cs" />
+    <Compile Include="Models\Entities_Models\CustomerMdl.cs" />
+    <Compile Include="Models\Entities_Models\OccupancyMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyBondMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyFeesMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyGAMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyHeader.cs" />
+    <Compile Include="Models\Entities_Models\InsuranceLedger.cs" />
+    <Compile Include="Models\Entities_Models\NoClaimDiscountMdl.cs" />
+    <Compile Include="Models\Entities_Models\ProductRiskFeeMdl.cs" />
+    <Compile Include="Models\History_Entities\INS_UDW_HBONDS.cs" />
+    <Compile Include="Models\History_Entities\INS_UDW_HTRAVEL_RISK.cs" />
+    <Compile Include="Models\History_Entities\INS_UDW_HTRAVEL_RISK_HEAD.cs" />
+    <Compile Include="Models\History_Entities\INS_UWD_HFIRE_LOCINT.cs" />
+    <Compile Include="Models\History_Entities\INS_UWD_HFIRE_LOCRISK.cs" />
+    <Compile Include="Models\History_Entities\Model2.cs" />
+    <Compile Include="Models\INS_RI_FAC_HEAD.cs" />
+    <Compile Include="Models\INS_RI_FAC_INWARD.cs" />
+    <Compile Include="Models\INS_RI_FAC_INW_COMPANY.cs" />
+    <Compile Include="Models\INS_RI_FAC_OUTWARD.cs" />
+    <Compile Include="Models\INS_RI_TTY_ALLOCATION.cs" />
+    <Compile Include="Models\INS_RI_TTY_HEAD.cs" />
+    <Compile Include="Models\INS_RI_TTY_SHARE.cs" />
+    <Compile Include="Models\INS_UDW_BOND_FEES.cs" />
+    <Compile Include="Models\INS_UDW_FIRE_FEES.cs" />
+    <Compile Include="Models\INS_UDW_TRAVEL_FEES.cs" />
+    <Compile Include="Models\Model1.cs" />
+    <Compile Include="Models\MS_CLM_CAT_EVENT.cs" />
+    <Compile Include="Models\MS_CLM_CAUSE_LOSS.cs" />
+    <Compile Include="Models\MS_CLM_EST_TYPE.cs" />
+    <Compile Include="Models\MS_NCD_BASIS.cs" />
+    <Compile Include="Models\MS_NCD_DTLS.cs" />
+    <Compile Include="Models\MS_PRODUCT_RISK_FEES.cs" />
+    <Compile Include="Models\ReportsModel\PolicyBondReportMdl.cs" />
+    <Compile Include="Models\ReportsModel\PolicyFireReportMdl.cs" />
+    <Compile Include="Models\ReportsModel\PolicyMotorReportMdl.cs" />
+    <Compile Include="Models\ReportsModel\PolicyTravelReportMdl.cs" />
+    <Compile Include="Models\ReportsModel\PolicyHeaderMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyPremiumRegisterMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyRiskCovers.cs" />
+    <Compile Include="Models\Entities_Models\MotorTariffMdl.cs" />
+    <Compile Include="Models\Entities_Models\RegionMdl.cs" />
+    <Compile Include="Models\Entities_Models\RisksCoversMdl.cs" />
+    <Compile Include="Models\Entities_Models\ShortPeriodMdl.cs" />
+    <Compile Include="Models\Entities_Models\ShortPeriodRatesMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyFireMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyMotorMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyPaMdl.cs" />
+    <Compile Include="Models\Entities_Models\PolicyTravelMdl.cs" />
+    <Compile Include="Models\Entities_Models\ProductMdl.cs" />
+    <Compile Include="Models\Entities_Models\TransactionStructureMdl.cs" />
+    <Compile Include="Models\Entities_Models\CompanyMdl.cs" />
+    <Compile Include="Models\Entities_Models\ConditionsClausesMdl.cs" />
+    <Compile Include="Models\Entities_Models\CountryMdl.cs" />
+    <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Entities_Models\AcceptanceTypeMdl.cs" />
+    <Compile Include="Models\Entities_Models\CoverMdl.cs" />
+    <Compile Include="Models\Entities_Models\AgencyCommissionMdl.cs" />
+    <Compile Include="Models\Entities_Models\CustomerTypesMdl.cs" />
+    <Compile Include="Models\Entities_Models\PremiumTariffMdl.cs" />
+    <Compile Include="Models\Entities_Models\MotorRiskMdl.cs" />
+    <Compile Include="Models\Entities_Models\MakeModelMdl.cs" />
+    <Compile Include="Models\Entities_Models\DiscountLoadingMdl.cs" />
+    <Compile Include="Models\Entities_Models\ExchangerateMdl.cs" />
+    <Compile Include="Models\Entities_Models\CurrencyMdl.cs" />
+    <Compile Include="Models\Entities_Models\IntermediaryMdl.cs" />
+    <Compile Include="Models\Entities_Models\OfficeMdl.cs" />
+    <Compile Include="Models\Entities_Models\SourceBusinessMdl.cs" />
+    <Compile Include="Models\Entities_Models\Model.cs" />
+    <Compile Include="Models\clsRiskCovers.cs" />
+    <Compile Include="Models\Entities_Models\TravelTariffMdl.cs" />
+    <Compile Include="Models\Entities_Models\TreatyGroupMdl.cs" />
+    <Compile Include="Models\Entities_Models\TreatyProportionalMdl.cs" />
+    <Compile Include="Models\History_Entities\INS_UDW_HCOVER_DISCLOAD.cs" />
+    <Compile Include="Models\History_Entities\INS_UDW_HPOL_FEES.cs" />
+    <Compile Include="Models\History_Entities\INS_UDW_HRISK_DISCLOAD.cs" />
+    <Compile Include="Models\History_Entities\INS_UDW_HRISK_EXCESS.cs" />
+    <Compile Include="Models\History_Entities\INS_UDW_HVEHICLE_FEES.cs" />
+    <Compile Include="Models\History_Entities\INS_UWD_HINTERMEDIARY_COMM.cs" />
+    <Compile Include="Models\History_Entities\INS_UWD_HPOLICY_HEAD.cs" />
+    <Compile Include="Models\History_Entities\INS_UWD_HRISK_COVERS.cs" />
+    <Compile Include="Models\History_Entities\INS_UWD_HVEHICLE_RISK.cs" />
+    <Compile Include="Models\History_Entities\Model1.cs" />
+    <Compile Include="Models\History_Models\CoverDiscountLoadMdl.cs" />
+    <Compile Include="Models\History_Models\CoverHistoryMdl.cs" />
+    <Compile Include="Models\History_Models\RiskDiscountLoadHistoryMdl.cs" />
+    <Compile Include="Models\History_Models\PolicyFeesHistoryMdl.cs" />
+    <Compile Include="Models\History_Models\RiskExcessHistoryMdl.cs" />
+    <Compile Include="Models\History_Models\VehicleFeesHistoryMdl.cs" />
+    <Compile Include="Models\History_Models\IntermediaryCommissionHistoryMdl.cs" />
+    <Compile Include="Models\History_Models\PolicyHistoryMdl.cs" />
+    <Compile Include="Models\History_Models\RiskHistoryMdl.cs" />
+    <Compile Include="Models\INSURANCE_LEDGER.cs" />
+    <Compile Include="Models\INSURANCE_SUB_LEDGER.cs" />
+    <Compile Include="Models\INS_GA_ASSET_ALL_RISK.cs" />
+    <Compile Include="Models\INS_GA_ASSET_TRANSIT.cs" />
+    <Compile Include="Models\INS_GA_PROF_INDEMNITY.cs" />
+    <Compile Include="Models\INS_PREMIUM_REGISTER.cs" />
+    <Compile Include="Models\INS_UDW_AGENCY_COMM.cs" />
+    <Compile Include="Models\INS_UDW_BONDS.cs" />
+    <Compile Include="Models\INS_UDW_BUSINESS_SOURCE.cs" />
+    <Compile Include="Models\INS_UDW_CARCON_INTEREST.cs" />
+    <Compile Include="Models\INS_UDW_CAR_INTEREST.cs" />
+    <Compile Include="Models\INS_UDW_CAR_LOSS_OF_PROFIT.cs" />
+    <Compile Include="Models\INS_UDW_CAR_THIRD_PARTY_LOSS.cs" />
+    <Compile Include="Models\INS_UDW_COVER_DISCLOAD.cs" />
+    <Compile Include="Models\INS_UDW_COVER_EXCESS.cs" />
+    <Compile Include="Models\INS_UDW_CPM_INTEREST.cs" />
+    <Compile Include="Models\INS_UDW_EAR_CPM_INTEREST.cs" />
+    <Compile Include="Models\INS_UDW_EAR_INTEREST.cs" />
+    <Compile Include="Models\INS_UDW_EAR_PERIOD_DATES.cs" />
+    <Compile Include="Models\INS_UDW_EAR_THIRD_PARTY_LOSS.cs" />
+    <Compile Include="Models\INS_UDW_ENGINEER.cs" />
+    <Compile Include="Models\INS_UDW_FIRE_LOCINT_COVER.cs" />
+    <Compile Include="Models\INS_UDW_FIRE_LOCINT_DISCLOAD.cs" />
+    <Compile Include="Models\INS_UDW_FIRE_LOCINT_EXCESS.cs" />
+    <Compile Include="Models\INS_UDW_FIRE_LOCRISK_COVER.cs" />
+    <Compile Include="Models\INS_UDW_FIRE_LOCRISK_EXCESS.cs" />
+    <Compile Include="Models\INS_UDW_GENERAL_ACCIDENT.cs" />
+    <Compile Include="Models\INS_UDW_INSUR_SOURCE.cs" />
+    <Compile Include="Models\INS_UDW_LIABILITY.cs" />
+    <Compile Include="Models\INS_UDW_PA_GROUP_NAMED.cs" />
+    <Compile Include="Models\INS_UDW_PA_GROUP_UNAMED.cs" />
+    <Compile Include="Models\INS_UDW_PA_INDIVIDUAL.cs" />
+    <Compile Include="Models\INS_UDW_PERSONAL_ACCIDENT.cs" />
+    <Compile Include="Models\INS_UDW_POLICY_DISCLOAD.cs" />
+    <Compile Include="Models\INS_UDW_POLICY_EXCESS.cs" />
+    <Compile Include="Models\INS_UDW_POL_FEES.cs" />
+    <Compile Include="Models\INS_UDW_PROPOSAL_NUM_GEN.cs" />
+    <Compile Include="Models\INS_UDW_RISK_ACCESSORIES.cs" />
+    <Compile Include="Models\INS_UDW_RISK_DISCLOAD.cs" />
+    <Compile Include="Models\INS_UDW_RISK_EXCESS.cs" />
+    <Compile Include="Models\INS_UDW_SHORT_PERIOD.cs" />
+    <Compile Include="Models\INS_UDW_TRAVEL_RISK.cs" />
+    <Compile Include="Models\INS_UDW_TRAVEL_RISK_HEAD.cs" />
+    <Compile Include="Models\INS_UDW_TRAVEL_TARIFF.cs" />
+    <Compile Include="Models\INS_UDW_VEHICLE_FEES.cs" />
+    <Compile Include="Models\INS_UWD_FIRE_LOCINT.cs" />
+    <Compile Include="Models\INS_UWD_FIRE_LOCRISK.cs" />
+    <Compile Include="Models\INS_UWD_INTERMEDIARY_COMM.cs" />
+    <Compile Include="Models\INS_UWD_POLICY_HEAD.cs" />
+    <Compile Include="Models\INS_UWD_RISK_COVERS.cs" />
+    <Compile Include="Models\INS_UWD_VEHICLE_RISK.cs" />
+    <Compile Include="Models\MST_SYS_DOCUMENT_TYPE_NO.cs" />
+    <Compile Include="Models\MS_UDW_MAKE.cs" />
+    <Compile Include="Models\MST_UWD_PRODUCT.cs" />
+    <Compile Include="Models\MST_UWD_PRODUCT_COND_CLAUSES.cs" />
+    <Compile Include="Models\MST_UWD_PRODUCT_COVERS.cs" />
+    <Compile Include="Models\MST_UWD_PRODUCT_LOAD_DISCOUNT.cs" />
+    <Compile Include="Models\MST_UWD_VEHICLE_RISK.cs" />
+    <Compile Include="Models\MS_ACCTS_INTEGRATION.cs" />
+    <Compile Include="Models\MS_ACCT_CATEGORY.cs" />
+    <Compile Include="Models\MS_ACCT_DOC_ORIGIN.cs" />
+    <Compile Include="Models\MS_ACCT_INS_TXN_TYPE.cs" />
+    <Compile Include="Models\MS_ACCT_MAIN_ACCOUNT.cs" />
+    <Compile Include="Models\MS_ACCT_PAYMNT_ACNT_DTLS.cs" />
+    <Compile Include="Models\MS_ACCT_PAYMNT_DTLS.cs" />
+    <Compile Include="Models\MS_ACCT_RCPT_ACNT_DTLS.cs" />
+    <Compile Include="Models\MS_ACCT_RECEIPTS_DTLS.cs" />
+    <Compile Include="Models\MS_ACCT_SERVICE_TAX.cs" />
+    <Compile Include="Models\MS_ACCT_SUB_ACCOUNT.cs" />
+    <Compile Include="Models\MS_ACCT_SUB_CURRERNCY.cs" />
+    <Compile Include="Models\MS_ACCT_SUB_MAIN_ACCOUNT.cs" />
+    <Compile Include="Models\MS_ACCT_TXN_DOC.cs" />
+    <Compile Include="Models\MS_ACT_DEF_ACNTS.cs" />
+    <Compile Include="Models\MS_ACT_DOC_NO_GEN.cs" />
+    <Compile Include="Models\MS_ACT_PAYMENTS_HEAD.cs" />
+    <Compile Include="Models\MS_ACT_PAYMNT_CONFIRMATION_LOG.cs" />
+    <Compile Include="Models\MS_ACT_RCPT_CONFIRMATION_LOG.cs" />
+    <Compile Include="Models\MS_ACT_RECEIPTS_HEAD.cs" />
+    <Compile Include="Models\MS_ACT_TXN_DOC_ACCS_RGHTS.cs" />
+    <Compile Include="Models\MS_ACT_TXN_DOC_ADV_PROPS.cs" />
+    <Compile Include="Models\MS_COMPULSORY_FEES.cs" />
+    <Compile Include="Models\MS_CUSTOMER_CATEGORY.cs" />
+    <Compile Include="Models\MS_INSURANCE_SOURCE.cs" />
+    <Compile Include="Models\MS_INS_CURRENCY.cs" />
+    <Compile Include="Models\MS_INTERMEDIARY_COMM.cs" />
+    <Compile Include="Models\MS_MAIN_ACCT_COMPANY.cs" />
+    <Compile Include="Models\MS_MAIN_ACCT_CURRENCY.cs" />
+    <Compile Include="Models\MS_MOTOR_PROD.cs" />
+    <Compile Include="Models\MS_MOTOR_PROD_RISK.cs" />
+    <Compile Include="Models\MS_MOTOR_RISK_COVER.cs" />
+    <Compile Include="Models\MS_MOTOR_RISK_FEES.cs" />
+    <Compile Include="Models\MS_NCD_RISKS.cs" />
+    <Compile Include="Models\MS_NO_CLAIM_DISCOUNT.cs" />
+    <Compile Include="Models\MS_RI_GROUP_DETL.cs" />
+    <Compile Include="Models\MS_RI_GROUP_HEAD.cs" />
+    <Compile Include="Models\MS_RI_PTTY_COMPANY.cs" />
+    <Compile Include="Models\MS_RI_PTTY_DETL.cs" />
+    <Compile Include="Models\MS_RI_PTTY_HEAD.cs" />
+    <Compile Include="Models\MS_RI_PTTY_SUBCLASS.cs" />
+    <Compile Include="Models\MS_SYS_ACCEPTANCE_TYPES.cs" />
+    <Compile Include="Models\MS_SYS_ACCOUNT_PERIODS.cs" />
+    <Compile Include="Models\MS_SYS_AREA.cs" />
+    <Compile Include="Models\MS_SYS_CHANNEL.cs" />
+    <Compile Include="Models\MS_SYS_CITY.cs" />
+    <Compile Include="Models\MS_SYS_COMPANY.cs" />
+    <Compile Include="Models\MS_SYS_CONDS_CLAUSES.cs" />
+    <Compile Include="Models\MS_SYS_COUNTRY.cs" />
+    <Compile Include="Models\MS_SYS_CUST_TYPES.cs" />
+    <Compile Include="Models\MS_SYS_DOCUMENTS_TYPE_NO_TYPES.cs" />
+    <Compile Include="Models\MS_SYS_DOCUMENT_TYPES.cs" />
+    <Compile Include="Models\MS_SYS_DOC_CURRENCY.cs" />
+    <Compile Include="Models\MS_SYS_EQZONE.cs" />
+    <Compile Include="Models\MS_SYS_EXCHANGE_RATES.cs" />
+    <Compile Include="Models\MS_SYS_FIRE_RISK.cs" />
+    <Compile Include="Models\MS_SYS_INTERMEDIARY.cs" />
+    <Compile Include="Models\MS_SYS_LOADINGS_DISCOUNTS.cs" />
+    <Compile Include="Models\MS_SYS_LOCATION.cs" />
+    <Compile Include="Models\MS_SYS_OCCUPANCY.cs" />
+    <Compile Include="Models\MS_SYS_OFFICE.cs" />
+    <Compile Include="Models\MS_SYS_PAYMNT_MODE.cs" />
+    <Compile Include="Models\MS_SYS_RATINGS_DEPENDENCY.cs" />
+    <Compile Include="Models\MS_SYS_REGIONS.cs" />
+    <Compile Include="Models\MS_SYS_SOURCE_BUSINESS.cs" />
+    <Compile Include="Models\MS_SYS_USERS.cs" />
+    <Compile Include="Models\MS_UDW_AGENCY_COMMISSION.cs" />
+    <Compile Include="Models\MS_UDW_CLASS_OF_BUSINESS.cs" />
+    <Compile Include="Models\MS_UDW_COVERS.cs" />
+    <Compile Include="Models\MS_UDW_CUSTOMERS.cs" />
+    <Compile Include="Models\MS_UDW_ENDORSEMENTS.cs" />
+    <Compile Include="Models\MS_UDW_ENDORSEMENTS_TYPE.cs" />
+    <Compile Include="Models\MS_UDW_INTERMEDIARY_COMM.cs" />
+    <Compile Include="Models\MS_UDW_MAKE_MODEL.cs" />
+    <Compile Include="Models\MS_UDW_MOTOR_RISK.cs" />
+    <Compile Include="Models\MS_UDW_POLICY_HEAD.cs" />
+    <Compile Include="Models\MS_UDW_PREM_TARRIFS.cs" />
+    <Compile Include="Models\MS_UDW_RATES.cs" />
+    <Compile Include="Models\MS_UDW_SHORT_PERIOD.cs" />
+    <Compile Include="Models\MS_UDW_TRANSACTION_STRUCTURE.cs" />
+    <Compile Include="Models\MS_UDW_TRAVEL_RISK.cs" />
+    <Compile Include="Models\procCntx.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>procCntx.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\procCntx.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>procCntx.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\procCntx.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>procCntx.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RI_Models\FacPlacementMdl.cs" />
+    <Compile Include="Models\RI_Models\TreatyArrangementMdl.cs" />
+    <Compile Include="Models\SibaModel.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="System Contants\SystemContants.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\GemBox.Spreadsheet.dll" />
+    <Content Include="bin\LinqToExcel.dll" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
+    <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
+    <Content Include="bin\Microsoft.AI.PerfCounterCollector.dll" />
+    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.dll" />
+    <Content Include="bin\Microsoft.AI.Web.dll" />
+    <Content Include="bin\Microsoft.AI.WindowsServer.dll" />
+    <Content Include="bin\Microsoft.ApplicationInsights.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Oracle.ManagedDataAccess.dll" />
+    <Content Include="bin\Oracle.ManagedDataAccess.EntityFramework.dll" />
+    <Content Include="bin\Remotion.Data.Linq.dll" />
+    <Content Include="bin\Remotion.dll" />
+    <Content Include="bin\Remotion.Interfaces.dll" />
+    <Content Include="bin\roslyn\csc.exe" />
+    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\vbc.exe" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\SibaDev.dll" />
+    <Content Include="bin\SibaDev.pdb" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\WebActivatorEx.dll" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="Content\bootstrap-datetimepicker-standalone.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Css\Custom\AdminLTE.min.css" />
+    <Content Include="Content\Css\Custom\blue.css" />
+    <Content Include="Content\Css\Custom\dashboard.css" />
+    <Content Include="Content\Css\Custom\frmFrame.css" />
+    <Content Include="Content\Css\Custom\rptMotor.css" />
+    <Content Include="Content\Css\Custom\sibaStyle.css" />
+    <Content Include="Content\Css\Custom\Site.css" />
+    <Content Include="Content\Css\Custom\_all-skins.min.css" />
+    <Content Include="Content\dashboard.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\add.png" />
+    <Content Include="Content\Images\ajax-loader-Siba.gif" />
+    <Content Include="Content\Images\Aviation.jpg" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-blue-1.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-blue-2.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-blue-3.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-blue-4.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-blue-5.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-blue-6.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-white-1.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-white-2.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-white-3.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-white-4.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-white-5.png" />
+    <Content Include="Content\Images\bict_icons\icon-BIC-white-6.png" />
+    <Content Include="Content\Images\bond.png" />
+    <Content Include="Content\Images\calendar-icon.png" />
+    <Content Include="Content\Images\calendar-icon1.png" />
+    <Content Include="Content\Images\car-accident-claims.jpg" />
+    <Content Include="Content\Images\cash pament.jpg" />
+    <Content Include="Content\Images\datePicker.gif" />
+    <Content Include="Content\Images\delete.png" />
+    <Content Include="Content\Images\Edit.png" />
+    <Content Include="Content\Images\engeneering.jpg" />
+    <Content Include="Content\Images\Excell_DownLoad.png" />
+    <Content Include="Content\Images\Excell_Upload.png" />
+    <Content Include="Content\Images\fireInsurance.jpg" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\css\font-awesome.css" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\css\font-awesome.min.css" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\HELP-US-OUT.txt" />
+    <Content Include="Content\Images\Home_Owners.png" />
+    <Content Include="Content\Images\liability.jpg" />
+    <Content Include="Content\Images\marineInsurance.jpg" />
+    <Content Include="Content\Images\Motor_Comprehensive.png" />
+    <Content Include="Content\Images\Motor_insurance.png" />
+    <Content Include="Content\Images\Motor_TP.png" />
+    <Content Include="Content\Images\Motor_TP_FT.png" />
+    <Content Include="Content\Images\PA_insurance.png" />
+    <Content Include="Content\Images\plain-backgrounds.jpg" />
+    <Content Include="Content\Images\PrintNew.png" />
+    <Content Include="Content\Images\settings1.png" />
+    <Content Include="Content\Images\toni.png" />
+    <Content Include="Content\Images\Travel Insurance.png" />
+    <Content Include="Content\Images\user_img.jpg" />
+    <Content Include="Content\Images\view_new.png" />
+    <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
+    <Content Include="Content\Jquery\jquery-ui-1.9.2.custom.css" />
+    <Content Include="Content\Jquery\jquery-ui.css" />
+    <Content Include="Content\Jquery\ui.jqgrid.css" />
+    <Content Include="Content\sidebar_menu.js" />
+    <Content Include="Content\Spryval\textfieldvalidation\SpryValidationTextField.css" />
+    <Content Include="Content\Spryval\textfieldvalidation\SpryValidationTextField.js" />
+    <Content Include="Content\StyleSheet1.css" />
+    <Content Include="Content\theme.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\simple-sidebar.css" />
+    <Content Include="Content\toggleSidebar.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Models\procCntx.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>procCntx.edmx</DependentUpon>
+      <LastGenOutput>procCntx.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\procCntx.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>procCntx.edmx</DependentUpon>
+      <LastGenOutput>procCntx.cs</LastGenOutput>
+    </Content>
+    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="obj\Debug\SibaDev.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\SibaDev.dll" />
+    <Content Include="obj\Debug\SibaDev.pdb" />
+    <Content Include="Scripts\Accounts\AcctServices\account.origin.service.js" />
+    <Content Include="Scripts\Accounts\AcctServices\AcctCategory.service.js" />
+    <Content Include="Scripts\Accounts\AcctServices\AcctIntegration.service.js" />
+    <Content Include="Scripts\Accounts\AcctServices\InsAcctTxn.service.js" />
+    <Content Include="Scripts\Accounts\AcctServices\MainAccount.service.js" />
+    <Content Include="Scripts\Accounts\AcctServices\payment.service.js" />
+    <Content Include="Scripts\Accounts\AcctServices\receipts.service.js" />
+    <Content Include="Scripts\Accounts\AcctServices\service.tax.service.js" />
+    <Content Include="Scripts\Accounts\AcctServices\SubAccount.service.js" />
+    <Content Include="Scripts\Accounts\AcctServices\TxnDoc.service.js" />
+    <Content Include="Scripts\Accounts\page_scripts\AccountOrigin\accont.origin.setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\AccountsReceivables\AcctPayments.Setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\AccountsReceivables\AcctReceipts.Setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\AcctCategory\AcctCategory.setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\AcctsIntegration\AcctsIntegration.setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\InsuranceTxnTypes\InsAccTxnType.setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\MainAccounts\MainAcount.setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\paymentmode\payment.mode.setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\SubAccounts\SubAcount.setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\tax\account.service.tax.setup.js" />
+    <Content Include="Scripts\Accounts\page_scripts\TxnDocNo\TxnDocNo.setup.js" />
+    <Content Include="Scripts\Claims\Claim_Scripts\claim.cat.event.js" />
+    <Content Include="Scripts\Claims\Claim_Scripts\claim.cause.loss.js" />
+    <Content Include="Scripts\Claims\Claim_Scripts\claim.estimate.type.js" />
+    <Content Include="Scripts\Claims\Claim_Scripts\claim.bond.estimation.js" />
+    <Content Include="Scripts\Claims\Claim_Scripts\claim.fire.estimation.js" />
+    <Content Include="Scripts\Claims\Claim_Scripts\claim.travel.estimation.js" />
+    <Content Include="Scripts\Claims\Claim_Scripts\Claims.Settlement.setup.js" />
+    <Content Include="Scripts\Claims\Claim_Services\claim.cat.event.service.js" />
+    <Content Include="Scripts\Claims\Claim_Services\claim.cause.loss.service.js" />
+    <Content Include="Scripts\Claims\Claim_Services\claim.estimate.type.service.js" />
+    <Content Include="Scripts\Claims\Claim_Services\claim.bond.estimation.service.js" />
+    <Content Include="Scripts\Claims\Claim_Services\claim.estimation.service.js" />
+    <Content Include="Scripts\Claims\Claim_Services\claim.fire.estimation.service.js" />
+    <Content Include="Scripts\Claims\Claim_Services\claim.travel.estimation.service.js" />
+    <Content Include="Scripts\Libraries\Bootstrap\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\Libraries\Bootstrap\bootstrap-notify.js" />
+    <Content Include="Scripts\Libraries\Bootstrap\bootstrap-notify.min.js" />
+    <Content Include="Scripts\Libraries\Bootstrap\bootstrap.js" />
+    <Content Include="Scripts\Libraries\Bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-ar.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-bg.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-bg1251.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-cat.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-cn.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-cs.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-da.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-de.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-dk.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-el.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-en.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-es.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-fa.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-fi.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-fr.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-gl.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-he.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-hr.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-hr1250.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-hu.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-id.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-is.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-it.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-ja.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-kr.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-lt.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-mne.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-nl.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-no.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-pl.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-pt-br.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-pt.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-ro.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-ru.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-sk.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-sr-latin.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-sr.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-sv.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-th.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-tr.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-tw.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-ua.js" />
+    <Content Include="Scripts\Libraries\i18n\grid.locale-vi.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-ar.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-bg.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-bg1251.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-cat.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-cn.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-cs.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-da.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-de.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-dk.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-el.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-en.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-es.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-fa.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-fi.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-fr.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-gl.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-he.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-hr.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-hr1250.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-hu.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-id.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-is.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-it.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-ja.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-kr.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-lt.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-mne.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-nl.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-no.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-pl.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-pt-br.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-pt.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-ro.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-ru.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-sk.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-sr-latin.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-sr.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-sv.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-th.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-tr.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-tw.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-ua.js" />
+    <Content Include="Scripts\Libraries\jqgrid\i18n\grid.locale-vi.js" />
+    <Content Include="Scripts\Libraries\jqgrid\jquery.jqGrid.js" />
+    <Content Include="Scripts\Libraries\jqgrid\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\Libraries\jqgrid\jquery.jqGrid.src.js" />
+    <Content Include="Scripts\Libraries\jquery-ui\jquery-ui-1.12.0.js" />
+    <Content Include="Scripts\Libraries\jquery-ui\jquery-ui-1.12.0.min.js" />
+    <Content Include="Scripts\Libraries\Jquery\jquery-1.10.2.js" />
+    <Content Include="Scripts\Libraries\Jquery\jquery-1.8.3.js" />
+    <Content Include="Scripts\Libraries\Jquery\jquery-ui-1.11.4.js" />
+    <Content Include="Scripts\Libraries\Jquery\jquery-ui-1.9.2.customs.js" />
+    <Content Include="Scripts\Libraries\Jquery\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\Libraries\Jquery\jqxgrid.selection.js" />
+    <Content Include="Scripts\Libraries\LinqJS\jquery.linq.min.js" />
+    <Content Include="Scripts\Libraries\LinqJS\linq.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\app.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\bootstrap3-wysihtml5.all.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\dashboard.js" />
+    <Content Include="Scripts\Libraries\SibaScript\demo.js" />
+    <Content Include="Scripts\Libraries\SibaScript\fastclick.js" />
+    <Content Include="Scripts\Libraries\SibaScript\Form.Validation.js" />
+    <Content Include="Scripts\Libraries\SibaScript\getSequence.js" />
+    <Content Include="Scripts\Libraries\SibaScript\getSequenceNo.js" />
+    <Content Include="Scripts\Libraries\SibaScript\jquery-1.12.4.js" />
+    <Content Include="Scripts\Libraries\SibaScript\jquery-1.12.4.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\jquery-2.2.3.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="Scripts\Libraries\SibaScript\jquery.knob.js" />
+    <Content Include="Scripts\Libraries\SibaScript\jquery.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\jquery.sparkline.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\moment.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\morris.min.js" />
+    <Content Include="Scripts\Libraries\SibaScript\RetnSequenceNo.js" />
+    <Content Include="Scripts\Libraries\SibaScript\sibaDateFunction.js" />
+    <Content Include="Scripts\Libraries\SibaScript\sibaScript.js" />
+    <Content Include="Scripts\Libraries\SibaScript\sibaUWMotor.js" />
+    <Content Include="Scripts\Libraries\SibaScript\sidebar_menu.js" />
+    <Content Include="Scripts\Libraries\spinner\BusySpinner.js" />
+    <Content Include="Scripts\Libraries\spinner\spinner.js" />
+    <Content Include="Scripts\Libraries\spinner\spinner.min.js" />
+    <Content Include="Scripts\Libraries\template\ai.0.15.0-build58334.js" />
+    <Content Include="Scripts\Libraries\template\ai.0.15.0-build58334.min.js" />
+    <Content Include="Scripts\Libraries\template\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\Libraries\template\bootstrap-notify.js" />
+    <Content Include="Scripts\Libraries\template\bootstrap-notify.min.js" />
+    <Content Include="Scripts\Libraries\template\bootstrap.js" />
+    <Content Include="Scripts\Libraries\template\bootstrap.min.js" />
+    <Content Include="bin\SibaDev.dll.config" />
+    <EntityDeploy Include="Models\procCntx.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>procCntx.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\procCntx.edmx.diagram">
+      <DependentUpon>procCntx.edmx</DependentUpon>
+    </Content>
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\SibaDev.csprojResolveAssemblyReference.cache" />
+    <Content Include="ApplicationInsights.config" />
+    <None Include="Properties\PublishProfiles\SibaGen.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Scripts\Libraries\template\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Libraries\template\jquery-1.10.2.js" />
+    <Content Include="Scripts\Libraries\template\jquery-1.10.2.min.js" />
+    <None Include="Scripts\Libraries\template\jquery-1.7.2.intellisense.js" />
+    <Content Include="Scripts\Libraries\template\jquery-1.7.2.js" />
+    <Content Include="Scripts\Libraries\template\jquery-1.7.2.min.js" />
+    <Content Include="Scripts\Libraries\template\jquery-ui-1.8.11.js" />
+    <Content Include="Scripts\Libraries\template\jquery-ui-1.8.11.min.js" />
+    <Content Include="Scripts\Libraries\template\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\Libraries\template\jquery.jqGrid.src.js" />
+    <None Include="Scripts\Libraries\template\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Libraries\template\jquery.validate.js" />
+    <Content Include="Scripts\Libraries\template\jquery.validate.min.js" />
+    <Content Include="Scripts\Libraries\template\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\Libraries\template\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Libraries\template\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Libraries\template\respond.js" />
+    <Content Include="Scripts\Libraries\template\respond.min.js" />
+    <Content Include="Scripts\Claims\Claim_Scripts\claim.estimation.js" />
+    <Content Include="Scripts\Page_Scripts\channel.setup.js" />
+    <Content Include="Scripts\Page_Scripts\class.business.setup.js" />
+    <Content Include="Scripts\Page_Scripts\acceptance.type.setup.js" />
+    <Content Include="Scripts\Page_Scripts\account.period.setup.js" />
+    <Content Include="Scripts\Page_Scripts\agency.commission.setup.js" />
+    <Content Include="Scripts\Page_Scripts\Area.Setup.js" />
+    <Content Include="Scripts\Page_Scripts\bondreport.js" />
+    <Content Include="Scripts\Page_Scripts\company.setup.js" />
+    <Content Include="Scripts\Page_Scripts\compulsory.fee.setup.js" />
+    <Content Include="Scripts\Page_Scripts\condition.clauses.product.js" />
+    <Content Include="Scripts\Page_Scripts\condition.clauses.setup.js" />
+    <Content Include="Scripts\Page_Scripts\country.setup.js" />
+    <Content Include="Scripts\Page_Scripts\cover.setup.js" />
+    <Content Include="Scripts\Page_Scripts\currency.setup.js" />
+    <Content Include="Scripts\Page_Scripts\customer.setup.js" />
+    <Content Include="Scripts\Page_Scripts\customer.types.setup.js" />
+    <Content Include="Scripts\Page_Scripts\customerCategory.setup.js" />
+    <Content Include="Scripts\Page_Scripts\discount.loading.setup.js" />
+    <Content Include="Scripts\Page_Scripts\endorsemain.setup.js" />
+    <Content Include="Scripts\Page_Scripts\endorsetype.setup.js" />
+    <Content Include="Scripts\Page_Scripts\exchange.rate.setup.js" />
+    <Content Include="Scripts\Page_Scripts\fire.eq.zone.setup.js" />
+    <Content Include="Scripts\Page_Scripts\fire.interest.risk.setup.js" />
+    <Content Include="Scripts\Page_Scripts\insurance.source.setup.js" />
+    <Content Include="Scripts\Page_Scripts\intermediary.commission.setup.js" />
+    <Content Include="Scripts\Page_Scripts\intermediary.setup.js" />
+    <Content Include="Scripts\Page_Scripts\intermediary.types.setup.js" />
+    <Content Include="Scripts\Page_Scripts\motor.make.setup.js" />
+    <Content Include="Scripts\Page_Scripts\location.setup.js" />
+    <Content Include="Scripts\Page_Scripts\make.model.setup.js" />
+    <Content Include="Scripts\Page_Scripts\motor.risk.fee.setup.js" />
+    <Content Include="Scripts\Page_Scripts\motor.risk.setup.js" />
+    <Content Include="Scripts\Page_Scripts\Motor.tariff.setup.js" />
+    <Content Include="Scripts\Page_Scripts\motorncd.setup.js" />
+    <Content Include="Scripts\Page_Scripts\occupancy.setup.js" />
+    <Content Include="Scripts\Page_Scripts\product.risk.fees.js" />
+    <Content Include="Scripts\Reinsurance\RI_Scripts\facplacement.setup.js" />
+    <Content Include="Scripts\Page_Scripts\short.period.setup.js" />
+    <Content Include="Scripts\Page_Scripts\testing.js" />
+    <Content Include="Scripts\Page_Scripts\travel.tariff.setup.js" />
+    <Content Include="Scripts\Page_Scripts\treaty.group.setup.js" />
+    <Content Include="Scripts\Page_Scripts\treaty.Proportional.setup.js" />
+    <Content Include="Scripts\Page_Scripts\treaty.arrangement.setup.js" />
+    <Content Include="Scripts\Page_Scripts\office.setup.js" />
+    <Content Include="Scripts\Page_Scripts\policy.bond.js" />
+    <Content Include="Scripts\Page_Scripts\policy.engineering.js" />
+    <Content Include="Scripts\Page_Scripts\policy.fire.js" />
+    <Content Include="Scripts\Page_Scripts\policy.ga.js" />
+    <Content Include="Scripts\Page_Scripts\policy.motor.setup.js" />
+    <Content Include="Scripts\Page_Scripts\policy.pa.js" />
+    <Content Include="Scripts\Page_Scripts\policy.travel.js" />
+    <Content Include="Scripts\Page_Scripts\premium.tariff.setup.js" />
+    <Content Include="Scripts\Page_Scripts\product.save.js" />
+    <Content Include="Scripts\Page_Scripts\products.setup.js" />
+    <Content Include="Scripts\Page_Scripts\region.setup.js" />
+    <Content Include="Scripts\Page_Scripts\Source.Business.Setup.js" />
+    <Content Include="Areas\HelpPage\Views\Web.config" />
+    <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\SimpleTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ModelDescriptionLink.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\KeyValuePairModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\EnumTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\DictionaryModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ComplexTypeModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\fonts\FontAwesome.otf" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\animated.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\bordered-pulled.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\core.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\fixed-width.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\font-awesome.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\icons.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\larger.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\list.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\mixins.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\path.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\rotated-flipped.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\screen-reader.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\stacked.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\less\variables.less" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\font-awesome.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_animated.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_bordered-pulled.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_core.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_fixed-width.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_icons.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_larger.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_list.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_mixins.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_path.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_rotated-flipped.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_screen-reader.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_stacked.scss" />
+    <Content Include="Content\Images\font-awesome-4.6.2\font-awesome-4.6.2\scss\_variables.scss" />
+    <Content Include="Scripts\Libraries\template\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\Page_Scripts\transaction.structure.setup.js" />
+    <Content Include="Scripts\Page_Scripts\users.setup.js" />
+    <Content Include="Scripts\Reinsurance\RI_Services\facplacement.service.js" />
+    <Content Include="Scripts\Services\channel.service.js" />
+    <Content Include="Scripts\Services\classbusiness.service.js" />
+    <Content Include="Scripts\Services\acceptancetype.service.js" />
+    <Content Include="Scripts\Services\accountperiod.service.js" />
+    <Content Include="Scripts\Services\agencycommission.service.js" />
+    <Content Include="Scripts\Services\area.service.js" />
+    <Content Include="Scripts\Services\bondreport.service.js" />
+    <Content Include="Scripts\Services\company.service.js" />
+    <Content Include="Scripts\Services\fire.eq.zone.service.js" />
+    <Content Include="Scripts\Services\fire.interest.risk.service.js" />
+    <Content Include="Scripts\Services\insurance.source.service.js" />
+    <Content Include="Scripts\Services\deftSequenceNo.service.js" />
+    <Content Include="Scripts\Services\intermediary.types.service.js" />
+    <Content Include="Scripts\Services\motor.make.service.js" />
+    <Content Include="Scripts\Services\motorriskfee.service.js" />
+    <Content Include="Scripts\Services\compulsoryfee.service.js" />
+    <Content Include="Scripts\Services\conditionsclauses.service.js" />
+    <Content Include="Scripts\Services\country.service.js" />
+    <Content Include="Scripts\Services\cover.service.js" />
+    <Content Include="Scripts\Services\currency.service.js" />
+    <Content Include="Scripts\Services\customercategory.service.js" />
+    <Content Include="Scripts\Services\customers.service.js" />
+    <Content Include="Scripts\Services\customertypes.service.js" />
+    <Content Include="Scripts\Services\discountloading.service.js" />
+    <Content Include="Scripts\Services\documenttypeno.service.js" />
+    <Content Include="Scripts\Services\exchangerate.service.js" />
+    <Content Include="Scripts\Services\intermediary.service.js" />
+    <Content Include="Scripts\Services\intermediarycommission.service.js" />
+    <Content Include="Scripts\Services\location.service.js" />
+    <Content Include="Scripts\Services\makemodel.service.js" />
+    <Content Include="Scripts\Services\motorrisk.service.js" />
+    <Content Include="Scripts\Services\motortariff.service.js" />
+    <Content Include="Scripts\Services\occupancy.service.js" />
+    <Content Include="Scripts\Services\endorsements.service.js" />
+    <Content Include="Scripts\Services\office.service.js" />
+    <Content Include="Scripts\Services\payment.mode.service.js" />
+    <Content Include="Scripts\Services\policy.approval.service.js" />
+    <Content Include="Scripts\Services\policy.bonds.service.js" />
+    <Content Include="Scripts\Services\policy.engineering.service.js" />
+    <Content Include="Scripts\Services\policy.fire.service.js" />
+    <Content Include="Scripts\Services\policy.ga.service.js" />
+    <Content Include="Scripts\Services\policy.motor.service.js" />
+    <Content Include="Scripts\Services\policy.pa.service.js" />
+    <Content Include="Scripts\Services\policy.travel.service.js" />
+    <Content Include="Scripts\Services\premiumtariff.service.js" />
+    <Content Include="Scripts\Services\motor.ncd.service.js" />
+    <Content Include="Scripts\Services\product.service.js" />
+    <Content Include="Scripts\Services\productriskfees.js" />
+    <Content Include="Scripts\Services\region.service.js" />
+    <Content Include="Scripts\Services\service.manager.js" />
+    <Content Include="Scripts\Services\shortperiod.service.js" />
+    <Content Include="Scripts\Services\sourcebusiness.service.js" />
+    <Content Include="Scripts\Services\transactionstructure.service.js" />
+    <Content Include="Scripts\Services\traveltariff.service.js" />
+    <Content Include="Scripts\Services\treaty.group.service.js" />
+    <Content Include="Scripts\Services\treaty.proportional.service.js" />
+    <Content Include="Scripts\Services\treatyarrangement.service.js" />
+    <Content Include="Scripts\Services\user.service.js" />
+    <Content Include="Scripts\Utilities\ajax_utils.js" />
+    <Content Include="Scripts\Utilities\cover.change.util.js" />
+    <Content Include="Scripts\Utilities\date.difference.utils.js" />
+    <Content Include="Scripts\Utilities\date.time.utils.js" />
+    <Content Include="Scripts\Utilities\datepicker.util.js" />
+    <Content Include="Scripts\Utilities\excel.util.js" />
+    <Content Include="Scripts\Utilities\form_utils.js" />
+    <Content Include="Scripts\Utilities\growl.utility.js" />
+    <Content Include="Scripts\Utilities\jq.grid.utility.js" />
+    <Content Include="Scripts\Utilities\lov.util.js" />
+    <Content Include="Scripts\Utilities\md5.util.js" />
+    <Content Include="Scripts\Utilities\modal.utility.js" />
+    <Content Include="Scripts\Utilities\search.util.js" />
+    <Content Include="Scripts\Utilities\storage.util.js" />
+    <Content Include="Scripts\Utilities\user.management.utils.js" />
+    <Content Include="Scripts\Utilities\util_manager.js" />
+    <Content Include="Scripts\Utilities\validation.util.js" />
+    <Content Include="Views\Home\calendar-icon.png" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\dashboard.cshtml" />
+    <Content Include="Views\Home\frmCountry.cshtml" />
+    <Content Include="Views\Home\frmCompany.cshtml" />
+    <Content Include="Views\Home\frmTestCover.cshtml" />
+    <Content Include="Views\Home\frmTestMotorRisk.cshtml" />
+    <Content Include="Views\Home\frmTestPremiumTariff.cshtml" />
+    <Content Include="Views\Home\frmTestProduct.cshtml" />
+    <Content Include="Views\Home\frmUnUnderwrting.cshtml" />
+    <Content Include="Views\Home\frmCover.cshtml" />
+    <Content Include="Views\Home\frmProduct.cshtml" />
+    <Content Include="Views\Home\frmMotorRisks.cshtml" />
+    <Content Include="Views\Home\frmPremiumTariff.cshtml" />
+    <Content Include="Views\Home\frmCustomers.cshtml" />
+    <Content Include="Views\Home\frmIntermediary.cshtml" />
+    <Content Include="Views\Home\frmUsers.cshtml" />
+    <Content Include="Views\Home\testing.cshtml" />
+    <Content Include="Views\Home\frmUwMotor2.cshtml" />
+    <Content Include="Views\Home\frmSourceOfBusiness.cshtml" />
+    <Content Include="Views\Home\frmCurrencyRates.cshtml" />
+    <Content Include="Views\Home\frmShortPeriod.cshtml" />
+    <Content Include="Views\Home\frmTransactionStructure.cshtml" />
+    <Content Include="Views\Home\frmNamingPrefix.cshtml" />
+    <Content Include="Views\Home\frmMakeModel.cshtml" />
+    <Content Include="Views\Home\frmDiscountLoading.cshtml" />
+    <Content Include="Views\Home\frmConditionClauses.cshtml" />
+    <Content Include="Views\Home\frmRatingDependences.cshtml" />
+    <Content Include="Views\Home\frmOffice.cshtml" />
+    <Content Include="Views\Home\login.cshtml" />
+    <Content Include="Views\Home\frmUwMotorUAT.cshtml" />
+    <Content Include="Views\Home\frmAcceptanceTypes.cshtml" />
+    <Content Include="Views\Home\frmExchangeRate.cshtml" />
+    <Content Include="Views\Home\frmtestcodes.cshtml" />
+    <Content Include="Views\Home\frmDocTypeNo.cshtml" />
+    <Content Include="Views\Home\frmAcctPrd.cshtml" />
+    <Content Include="Views\Home\frmDocumentTypes.cshtml" />
+    <Content Include="Views\Home\frmUwTravel.cshtml" />
+    <Content Include="Views\Home\frmUwFire.cshtml" />
+    <Content Include="Views\Home\frmUwPA.cshtml" />
+    <Content Include="Views\Home\frmUwBond.cshtml" />
+    <Content Include="Views\Home\frmUwGA.cshtml" />
+    <Content Include="Views\Home\frmUwLiability.cshtml" />
+    <Content Include="Views\Home\frmReportFormParam.cshtml" />
+    <Content Include="Views\Home\frmReprotTEST.cshtml" />
+    <Content Include="Views\Home\frmUwEngineer.cshtml" />
+    <Content Include="Views\Home\frmMotorClaim.cshtml" />
+    <Content Include="Views\Home\frmArea.cshtml" />
+    <Content Include="Views\Home\frmClassBusiness.cshtml" />
+    <Content Include="Views\AccountHome\AccountsPayments.cshtml" />
+    <Content Include="Views\AccountHome\AccountsReceipts.cshtml" />
+    <Content Include="Views\AccountHome\AcctIndex.cshtml" />
+    <Content Include="Views\AccountHome\frmAccountOrigin.cshtml" />
+    <Content Include="Views\AccountHome\frmAcctsCategory.cshtml" />
+    <Content Include="Views\AccountHome\frmInsAcctTxnTypes.cshtml" />
+    <Content Include="Views\AccountHome\frmInsuranceAcctIntegration.cshtml" />
+    <Content Include="Views\AccountHome\frmMainAccontSetup.cshtml" />
+    <Content Include="Views\AccountHome\frmServiceTax.cshtml" />
+    <Content Include="Views\AccountHome\frmSubAccontSetup.cshtml" />
+    <Content Include="Views\AccountHome\frmTxnDocGeneration.cshtml" />
+    <Content Include="Views\AccountHome\frmPaymentMode.cshtml" />
+    <Content Include="Views\Home\frmCustomerCategory.cshtml" />
+    <Content Include="Views\Home\frmCustomerTypes.cshtml" />
+    <Content Include="Views\Home\frmChannel.cshtml" />
+    <Content Include="Views\AccountHome\frmInsuranceAcctIntegrationNew.cshtml" />
+    <Content Include="Views\ClaimsHome\frmClmCatEvent.cshtml" />
+    <Content Include="Views\ClaimsHome\frmClmEstimateType.cshtml" />
+    <Content Include="Views\ClaimsHome\frmClmCauseLoss.cshtml" />
+    <Content Include="Views\ClaimsHome\frmClmEstimationBond.cshtml" />
+    <Content Include="Views\ClaimsHome\frmClmEstimationFire.cshtml" />
+    <Content Include="Views\ClaimsHome\frmClmEstimationTravel.cshtml" />
+    <None Include="Views\Home\frmCustomerTypes1.cshtml" />
+    <Content Include="Views\Home\frmUwMotor.cshtml" />
+    <Content Include="Views\Home\frmMotorTariff.cshtml" />
+    <Content Include="Views\Home\frmLocation.cshtml" />
+    <Content Include="Views\Home\frmRegion.cshtml" />
+    <Content Include="Views\Home\rptDebitNote.cshtml" />
+    <Content Include="Views\Home\frmIntermediaryCommission.cshtml" />
+    <Content Include="Views\Shared\_AccountModule.cshtml" />
+    <Content Include="Views\RIHome\frmTreatyArrangement.cshtml" />
+    <Content Include="Views\Home\frmFACPlacement.cshtml" />
+    <Content Include="Views\PolicySchedules\rptBondSchedule.cshtml" />
+    <Content Include="Views\PolicySchedules\rptEngineerSchedule.cshtml" />
+    <Content Include="Views\PolicySchedules\rptFireSchedule.cshtml" />
+    <Content Include="Views\PolicySchedules\rptGASchedule.cshtml" />
+    <Content Include="Views\PolicySchedules\rptMotorScheduleFleet.cshtml" />
+    <Content Include="Views\PolicySchedules\rptMotorScheduleOneVeh.cshtml" />
+    <Content Include="Views\PolicySchedules\rptPASchedule.cshtml" />
+    <Content Include="Views\PolicySchedules\rptTravelSchedule.cshtml" />
+    <Content Include="Views\StaticReport\rptDebitReport.cshtml" />
+    <Content Include="Views\StaticReport\rptReceiptVoucher.cshtml" />
+    <Content Include="Views\Home\frmCompulsoryFees.cshtml" />
+    <Content Include="Views\Home\frmMotorRiskFees.cshtml" />
+    <Content Include="Views\PolicySchedules\rptMotorCertificate.cshtml" />
+    <Content Include="Views\Home\frmOccupancy.cshtml" />
+    <Content Include="Views\Home\frmTravelTariff.cshtml" />
+    <Content Include="Views\Home\frmFireRisk.cshtml" />
+    <Content Include="Views\Home\frmFireEqZone.cshtml" />
+    <Content Include="Views\Home\frmInsuranceSource.cshtml" />
+    <Content Include="Views\Home\frmMotorMake.cshtml" />
+    <Content Include="Views\RIHome\frmProportionalTreatySetup.cshtml" />
+    <Content Include="Views\RIHome\frmTreatyGroup.cshtml" />
+    <Content Include="Views\Home\frmTravelTariff.cshtml" />
+    <Content Include="Views\Home\frmOccupancy.cshtml" />
+    <Content Include="Views\ClaimsHome\frmClmEstimation.cshtml" />
+    <Content Include="Views\ClaimsHome\frmClmSettlement.cshtml" />
+    <Content Include="Views\Home\frmEndorseMain.cshtml" />
+    <Content Include="Views\Home\frmEndorseType.cshtml" />
+    <Content Include="Views\Home\frmProductFees.cshtml" />
+    <Content Include="Views\PolicySchedules\frmSchedule.cshtml" />
+    <Content Include="Views\Home\frmIntermediaryTypes.cshtml" />
+    <Content Include="Views\Home\frmMotorNCD.cshtml" />
+    <Content Include="Views\RIHome\frmFACPlacement.cshtml" />
+    <Content Include="Views\PolicySchedules\frmScheduletrail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>33934</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:33934/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

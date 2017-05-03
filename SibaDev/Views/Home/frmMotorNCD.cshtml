@@ -1,0 +1,462 @@
+﻿@{
+    ViewBag.Title = "Motor No Claim Discount";
+}
+
+<script src="~/Scripts/Page_Scripts/motorncd.setup.js"></script>
+<script src="~/Scripts/Services/motor.ncd.service.js"></script>
+
+<script src="~/Scripts/Libraries/SibaScript/getSequenceNo.js"></script>
+<script src="~/Scripts/Libraries/SibaScript/RetnSequenceNo.js"></script>
+
+<div class="main">
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btn_Delete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryNCD" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                         class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form name="ncdForm" id="ncdForm">
+                       
+                        <h4 style="border-bottom-color:red" class="sub-header"> </h4>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label class="required">NCD Code </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <span id="spry_name">
+                                        <input id="NCD_CODE" class="form-control" min="5" maxlength="15"
+                                               type="text" name="NCD_CODE" title="Name" required />
+                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <label>Description  </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <span id="spry_name">
+                                        <input id="NCD_DESC" class="form-control" min="5" maxlength="15"
+                                               type="text" name="NCD_DESC" title="Name" required />
+                                        <span class="textfieldRequiredMsg">From year is required.</span>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <input id="NCD_SYS_ID" class="form-control" type="hidden" name="NCD_SYS_ID" />
+                        <input id="NCD_STATUS" class="form-control" type="hidden" name="NCD_STATUS" />     
+                     
+                    </form>
+                    <hr />
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">NCD Details</a></li>
+                                <li><a href="#tabs-2">Claim Free Basis</a></li>
+                            </ul>
+                           
+                            <div id="tabs-1">
+
+                             <form id="ncdDetailsForm" name="ncdDetailsForm">
+                                 <hr />
+
+                                 <div class="row">
+                                     <div class="form-group">
+                                         <div class="col-md-2">
+                                             <label class="required">Product</label>
+                                         </div>
+                                         <div class="col-md-2">
+                                             <div class="input-group">
+                                                 <input class="form-control" min="3" max-length="15" type="text" name="NCD_DTLS_PRD_CODE" id="NCD_DTLS_PRD_CODE" required />
+                                                 <span class="input-group-btn">
+                                                     <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_product", "field1":"NCD_DTLS_PRD_CODE", "field2":"PDT_NAME"}'>
+                                                         <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                     </button>
+                                                 </span>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-4">
+                                             <input class="form-control" min="3" max-length="50" type="text" name="PDT_NAME" id="PDT_NAME" />
+                                         </div>
+
+                                     </div>
+
+                                 </div>
+
+                                 <hr />
+
+                                 <!-- -->
+                                 <div class="row">
+                                     <div class="form-group">
+                                         <div class="col-md-2">
+                                             <label class="required"> From Year:</label>
+                                         </div>
+                                         <div class="col-md-2">
+                                             <span id="spry_name">
+                                                 <input id="NCD_DTLS_FROM_YEAR" class="form-control"
+                                                          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                          type = "number" maxlength = "4" name="NCD_DTLS_FROM_YEAR" title="From Year" required />
+                                                      
+                                                 <span class="textfieldRequiredMsg">From year is required.</span>
+                                             </span>
+                                         </div>
+
+                                         <div class="col-md-2">
+                                             <label class="required"> To Year:</label>
+                                         </div>
+                                         <div class="col-md-2">
+                                             <span id="spry_name">
+                                                 <input id="NCD_DTLS_TO_YEAR" class="form-control" 
+                                                      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                      type = "number" maxlength = "4" name="NCD_DTLS_TO_YEAR" title="To Year" required />
+                                                       
+                                                 <span class="textfieldRequiredMsg">To year is required.</span>
+                                             </span>
+                                         </div>
+
+                                         <div class="col-md-2">
+                                             <label class="required">NCD %</label>
+                                         </div>
+                                         <div class="col-md-2">
+                                             <span id="spry_code">
+                                                 <input id="NCD_DTLS_PERC" class="form-control"
+                                                       oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type = "number" maxlength = "2" name="NCD_DTLS_PERC" title="Percentage" required />
+                                                        
+                                                 <span class="textfieldRequiredMsg">Percentage is required.</span>
+                                             </span>
+                                         </div>
+
+                                     </div>
+
+                                 </div>
+
+                             </form>
+                                <hr/>
+
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_ncd" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_ncd" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_ncd" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                                       
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-ncd-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdNCDDetails"></table>
+                                    <table id="grdNCDDetailsPager"></table>
+                                </div>
+                            </div>
+
+                            <div id="tabs-2">
+
+                              <form id="clmfreeBasisForm" name="clmfreeBasisForm">
+                                  <hr />
+                                  <div class="row">
+                                      <div class="col-md-2">
+                                          <label class="">Runing Basis</label>
+                                      </div>
+                                      <div class="col-md-2">
+                                          <span id="spry_decsymbol">
+                                              <select id="CFB_RUN_BASIS" name="CFB_RUN_BASIS" class="btn btn-default" required>
+                                                  <option value="">--Select Basis--</option>
+                                                  <option value="N">Normal</option>
+                                                  <option value="S">Stay</option>
+                                                  <option value="B">Step Back </option>
+                                              </select>
+                                              <span class="textfieldRequiredMsg">Running Basis is required.</span>
+                                          </span>
+                                      </div>
+                                  </div>
+
+                                  <hr />
+
+                                  <div class="row">
+                                      <div class="form-group">
+
+                                          <div class="col-md-2">
+                                              <label class="required"> Running years:</label>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <span id="spry_name">
+                                                  <input id="CFB_RUN_YEAR" class="form-control" 
+                                                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                          type = "number" maxlength = "2" name="CFB_RUN_YEAR" title="Running Years" required />                                                  
+                                                        
+                                                  <span class="textfieldRequiredMsg">To year is required.</span>
+                                              </span>
+                                          </div>
+
+                                          <div class="col-md-2">
+                                              <label class="required"> No. of Claims :</label>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <span id="spry_name">
+                                                  <input id="CFB_NO_CLMS" class="form-control"  
+                                                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                          type = "number"  maxlength = "2" name="CFB_NO_CLMS" title="Name" required />
+                                                          
+                                                  <span class="textfieldRequiredMsg">From year is required.</span>
+                                              </span>
+                                          </div>
+
+                                          <div class="col-md-2">
+                                              <label class="required"> Step back to(Years):</label>
+                                          </div>
+                                          <div class="col-md-2">
+                                              <span id="spry_name">
+                                                  <input id="CFB_STP_BACK" class="form-control" 
+                                                         oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                          type = "number"  maxlength = "2" name="CFB_STP_BACK" title="Name" required />
+                                                          
+                                                  <span class="textfieldRequiredMsg">To year is required.</span>
+                                              </span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </form>
+
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_cfb" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_cfb" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_cfb" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-cfb-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!--Setup Grid-->
+                                    <div class="row">
+                                        <table id="grdClmFreeBasis"></table>
+                                        <table id="grdClmFreeBasisPager"></table>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Motor Risk Modal -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="productRiskModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"> Motor Risk</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger">Motor Risk</span>
+
+                            <form id="motorriskForm" name="motorriskForm" class="form">
+                                <div class="form-group">
+
+                                    <div class="row">
+                                        <input class="form-control" type="hidden" id="MPR_SYS_ID" name="MPR_SYS_ID" />
+                                        <input class="form-control" type="hidden" id="MPR_MTP_PRD_CODE" name="MPR_MTP_PRD_CODE" />
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="required">Motor Risk</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <input class="form-control" min="3" max-length="15" type="text" name="MPR_RISK_CODE" id="MPR_RISK_CODE" placeholder="Code" required />
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_motor_risk", "field1":"MPR_RISK_CODE", "field2":"MPR_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input class="form-control" min="3" max-length="50" type="text" name="MPR_NAME" placeholder="Name" required />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add </button>
+                    <button type="reset" class="btn btn-default"> <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset </button>
+
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Motor Risks Covers Modal-->
+
+<div class="modal draggable fade" id="riskCoversModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Motor Risks Covers</strong>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row control-group form-padding">
+                    <div class="container" style="width:100%">
+                        <span class="control-grp-lbl text-danger">Cover settings</span>
+
+                        <div class="row">
+
+                            <form id="coverForm" name="coverForm" class="form">
+                                <div class="form-group" style="margin-left: 6px">
+
+
+
+                                   
+                                    <h4 style="border-bottom-color:red" class="sub-header"> </h4>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="">Quota Share?</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span id="spry_decsymbol">
+                                                    <select id="TH_QS_YN" name="TH_QS_YN" class="btn btn-default">
+                                                        <option value="">--Select Basis--</option>
+                                                        <option value="Y">Yes</option>
+                                                        <option value="N">No </option>
+                                                    </select>
+                                                    <span class="textfieldRequiredMsg">Term is required.</span>
+                                                </span>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label class="required">Share %</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span id="spry_code">
+                                                    <input id="TH_QS_PERC" class="form-control" min="2" maxlength="15" type="text" name="TH_QS_PERC" title="Code" required />
+                                                    <span class="textfieldRequiredMsg">Share is required.</span>
+                                                    <span class="textfieldMaxCharsMsg">Share must not exceed 15 characters.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+
+                        <div class="row">
+                            <table id="gridCovers"></table>
+                            <table id="gridCoversPager"></table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+                <button id="riskCoverOk" type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                <button id="riskCoverCancel" type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Search Modal -->
+
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="mySearchResultModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Tariff Search Result</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <table id="grdSearchResults"></table>
+                        <table id="grdSearchResultsPager"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="search-ok" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    <button id="search-close" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

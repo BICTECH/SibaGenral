@@ -1,0 +1,2519 @@
+﻿@{
+    ViewBag.Title = "General Accident Policy";
+}
+
+<script src="~/Scripts/Page_Scripts/policy.ga.js"></script>
+<script src="~/Scripts/Services/policy.ga.service.js"></script>
+<script src="~/Scripts/Services/customers.service.js"></script>
+<script src="~/Scripts/Services/policy.approval.service.js"></script>
+<script src="~/Scripts/Libraries/SibaScript/getSequenceNo.js"></script>
+<script src="~/Scripts/Libraries/SibaScript/RetnSequenceNo.js"></script>
+
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-success" id="btnConfirm">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Confirm
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-success" id="btnApproval">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Approve
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <select class="form-control" id="Viewpolicydocuments" name="Viewpolicydocuments">
+                                            <option value="">Print Policy Documents</option>
+                                            <option value="Debit">Debit Note</option>
+                                            <option value="Schedule">Schedule</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button type="button" id="btnViewDocument" class="btn btn-info">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> View Policy
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <button type="button" id="btnQueryPolicy" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row form-header">
+                        <div class="container" style="width:100%">
+                            <form name="polheaderForm" id="polheaderForm">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="row control-group form-padding">
+                                            <div class="container" style="width:100%">
+                                                <span class="control-grp-lbl text-danger">Policy Header</span>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Company</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_polhcomp">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_CMP_CODE" name="POLH_CMP_CODE" value="MULTI" title="Code" readonly />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_company", "field1":"POLH_CMP_CODE", "field2":"CMP_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="CMP_NAME" value="MULTI-INSURANCE" readonly title="Name" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Channel</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_polhchannel">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_CHANNEL_CODE" name="POLH_CHANNEL_CODE" title="Code" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_channel", "field1":"POLH_CHANNEL_CODE", "field2":"MSC_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="MSC_NAME" title="Name" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Office</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_polhoff">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_OFF_CODE" name="POLH_OFF_CODE" title="Code" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_office", "field1":"POLH_OFF_CODE", "field2":"OFF_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="OFF_NAME" title="Name" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Class of Business</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_polhclass">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_CLASS_CODE" name="POLH_CLASS_CODE" value="G/A" readonly />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_product_type", "field1":"POLH_CLASS_CODE", "field2":"COB_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="COB_NAME" value="GENERAL ACCIDENT" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Sub Class</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_polhsubclass">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_SUB_CLASS_CODE" name="POLH_SUB_CLASS_CODE" title="Code" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" id="btn_ProductRisk" name="btn_ProductRisk">
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="PDT_NAME" id="PDT_NAME" title="Name" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Insurance Source</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_polhins">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_INS_SOURCE" name="POLH_INS_SOURCE" title="Code" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_insurance_source", "field1":"POLH_INS_SOURCE", "field2":"INS_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="INS_NAME" title="Name" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Business Source</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_polhbuz">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_BIZ_SOURCE" name="POLH_BIZ_SOURCE" title="Code" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_business_source", "field1":"POLH_BIZ_SOURCE", "field2":"SRB_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="SRB_NAME" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Broker/Agent</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_polhbroker">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_INTERMIDIARY" name="POLH_INTERMIDIARY" title="Code" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_broker_agent", "field1":"POLH_INTERMIDIARY", "field2":"INT_OFFICIAL_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="INT_OFFICIAL_NAME" title="Name" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Currency</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_lovcode">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_CURRENCY" name="POLH_CURRENCY" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_base_currency", "field1":"POLH_CURRENCY", "field2":"POLH_CURRENCY_RATE"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <span id="spry_baserate">
+                                                                <input class="form-control" min="3" max-length="50" type="text" id="POLH_CURRENCY_RATE" name="POLH_CURRENCY_RATE" />
+                                                                <span class="textfieldRequiredMsg">Exchage Rate is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Start Date</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-group">
+                                                                <input class="form-control" type="text" id="POLH_POL_START_DATE" name="POLH_POL_START_DATE" title="To Date" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default">
+                                                                        <i class="fa fa-calendar" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <label class="required">End date</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="input-group">
+                                                                <input class="form-control" type="text" id="POLH_POL_END_DATE" name="POLH_POL_END_DATE" title="To Date" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default">
+                                                                        <i class="fa fa-calendar" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Policy Days</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input id="POLH_POL_DAYS" class="form-control" min="12" maxlength="12"
+                                                                   type="text" name="POLH_POL_DAYS" title="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="row control-group form-padding">
+                                            <div class="container" style="width:100%">
+                                                <span class="control-grp-lbl text-danger">Customer Details</span>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class=""> Code</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_polhcustcode">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="POLH_CUST_CODE" name="POLH_CUST_CODE" title="Code" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_customer", "field1":"POLH_CUST_CODE", "field2":"CUS_FIRST_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" id="CUS_OFFICIAL_NAME" name="CUS_OFFICIAL_NAME" />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn  btn-info pull-left customer_setup" id="customerSetupBtn">
+                                                                        <i class="fa fa-street-view" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Address</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <textarea id="" rows="4" cols="30" class="form-control" type="text"
+                                                                      name="CUS_ADDRS1" readonly></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Tel No</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input id="" class="form-control" min="12" maxlength="12"
+                                                                   type="text" name="CUS_PHONE1" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Mobile No</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input id="" class="form-control" min="12" maxlength="12"
+                                                                   type="text" name="CUS_MOBILE" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label class="">DOB</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <input class="form-control" type="text" id="CUS_DOB" name="CUS_DOB" title="To Date" readonly />
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default">
+                                                                    <i class="fa fa-calendar" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <hr />
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Commission</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn  btn-info pull-left customer_setup" id="btn_agent_comm">
+                                                                            <i class="fa fa-money " title="Select" aria-hidden="true">Commission</i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row control-group form-padding">
+                                            <div class="container" style="width:100%">
+                                                <span class="control-grp-lbl text-danger">Policy Reference</span>
+
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label class="">Proposal No.</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <input class="form-control" type="text" style="" id="POLH_QUT_SER_NO" name="POLH_QUT_SER_NO" title="Policy Number" readonly />
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="">Policy No.</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="input-group">
+                                                            <input class="form-control" type="text" style="" id="POLH_DISPLAY_NO" name="POLH_DISPLAY_NO" title="Policy Number" readonly />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <input id="POLH_STATUS" type="text" name="POLH_STATUS" class="form-control" min="12" title="POLH_STATUS" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_SI_FC" type="text" name="POLH_POL_SI_FC" class="form-control" min="12" title="POLH_POL_SI_FC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_SI_BC" type="text" name="POLH_POL_SI_BC" class="form-control" min="12" title="POLH_POL_SI_BC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_PREM_FC" type="text" name="POLH_POL_PREM_FC" class="form-control" min="12" title="POLH_POL_PREM_FC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_PREM_BC" type="text" name="POLH_POL_PREM_BC" class="form-control" min="12" title="POLH_POL_PREM_BC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_COMM_FC" type="text" name="POLH_POL_COMM_FC" class="form-control" min="12" title="POLH_POL_COMM_FC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_COMM_BC" type="text" name="POLH_POL_COMM_BC" class="form-control" min="12" title="POLH_POL_COMM_BC" />
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_DISC_FC" type="text" name="POLH_POL_DISC_FC" class="form-control" min="12" title="POLH_POL_DISC_FC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_DISC_BC" type="text" name="POLH_POL_DISC_BC" class="form-control" min="12" title="POLH_POL_DISC_BC" />
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_LOAD_FC" type="text" name="POLH_POL_LOAD_FC" class="form-control" min="12" title="POLH_POL_LOAD_FC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_POL_LOAD_BC" type="text" name="POLH_POL_LOAD_BC" class="form-control" min="12" title="POLH_POL_LOAD_BC" />
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <input id="POLH_COINS_SI_FC" type="text" name="POLH_COINS_SI_FC" class="form-control" min="12" title="POLH_COINS_SI_FC" />
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <input id="POLH_COINS_SI_BC" type="text" name="POLH_COINS_SI_BC" class="form-control" min="12" title="POLH_COINS_SI_BC" />
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <input id="POLH_COINS_PREM_FC" type="text" name="POLH_COINS_PREM_FC" class="form-control" min="12" title="POLH_COINS_PREM_FC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_COINS_PREM_BC" type="text" name="POLH_COINS_PREM_BC" class="form-control" min="12" title="POLH_COINS_PREM_BC" />
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <input id="POLH_NET_SI_FC" type="text" name="POLH_NET_SI_FC" class="form-control" min="12" title="POLH_NET_SI_FC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_NET_SI_BC" type="text" name="POLH_NET_SI_BC" class="form-control" min="12" title="POLH_NET_SI_BC" />
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <input id="POLH_NET_PREM_FC" type="text" name="POLH_NET_PREM_FC" class="form-control" min="12" title="POLH_NET_PREM_FC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_NET_PREM_BC" type="text" name="POLH_NET_PREM_BC" class="form-control" min="12" title="POLH_NET_PREM_BC" />
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <input id="POLH_FEE_FC" type="text" name="POLH_FEE_FC" class="form-control" min="12" title="POLH_FEE_FC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_FEE_BC" type="text" name="POLH_FEE_BC" class="form-control" min="12" title="POLH_FEE_BC" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input id="POLH_SYS_ID" type="text" name="POLH_SYS_ID" class="form-control" min="12" title="POLH_SYS_ID" />
+                                    </div>
+                                </div>
+                                <hr />
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">General Accident Risk</a></li>
+                                <li><a href="#tabs-2">Premium Payables</a></li>
+                                <li><a href="#tabs-3">Payment Details</a></li>
+                                <li><a href="#tabs-4">RI Details</a></li>
+                                <li><a href="#tabs-5">Claim History</a></li>
+                            </ul>
+
+                            <div id="tabs-1">
+
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_open_ga_risk" name="btn_open_ga_risk" class="btn btn-info" type="button"><i class="fa fa-plus-circle"></i> Add Risk</button>                                                                            
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-bond-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row control-group form-padding">
+                                    <div class="container" style="width:100%">
+                                        <span class="control-grp-lbl text-danger">Risk Details</span>
+
+                                        <form id="gaheaderForm" name="gaheaderForm">
+                                            <div class="row">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Start Date</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" type="text" id="GA_START_DATE" name="GA_START_DATE" title="Start Date" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default">
+                                                                        <i class="fa fa-calendar" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <label class="required">End Date</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" type="text" id="GA_END_DATE" name="GA_END_DATE" title="Retrospective Date" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn-default">
+                                                                        <i class="fa fa-calendar" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Region</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_lovcode">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="GA_REGION_CODE" name="GA_REGION_CODE" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_region", "field1":"GA_REGION_CODE", "field2":"GA_REGION_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_baserate">
+                                                                <input class="form-control" min="3" max-length="50" type="text" name="GA_REGION_NAME" />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Location</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_lovcode">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="GA_LOC_CODE" name="GA_LOC_CODE" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_location", "field1":"GA_LOC_CODE", "field2":"GA_LOC_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_baserate">
+                                                                <input class="form-control" min="3" max-length="50" type="text" name="GA_LOC_NAME" />
+                                                                <span class="textfieldRequiredMsg">Location name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Area</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_lovcode">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="GA_AREA_CODE" name="GA_AREA_CODE" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_area", "field1":"GA_AREA_CODE", "field2":"GA_AREA_NAME"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_baserate">
+                                                                <input class="form-control" min="3" max-length="50" type="text" name="GA_AREA_NAME" />
+                                                                <span class="textfieldRequiredMsg">Name is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Description</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <textarea id="GA_LOC_DESC" rows="2" cols="5" maxlength="100"
+                                                                      class="form-control" type="text" name="GA_LOC_DESC" title="Description"></textarea>
+                                                        </div>
+
+                                                        <div class="col-md-1">
+                                                            <label class="required">Address</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span id="spry_desc">
+                                                                <textarea id="GA_LOC_ADDRS" rows="2" cols="5" maxlength="100"
+                                                                          class="form-control" type="text" name="GA_LOC_ADDRS" title="Description"></textarea>
+                                                                <span class="textfieldRequiredMsg">Address is required.</span>
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">Currency</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_lovcode">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" min="3" max-length="15" type="text" id="GA_CURRENCY" name="GA_CURRENCY" required />
+                                                                    <span class="input-group-btn">
+                                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_base_currency", "field1":"GA_CURRENCY", "field2":"GA_CURRENCY_RATE"}'>
+                                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="textfieldRequiredMsg">Code is required.</span>
+                                                            </span>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <span id="spry_baserate">
+                                                                <input class="form-control" min="3" max-length="50" type="text" name="GA_CURRENCY_RATE" />
+                                                                <span class="textfieldRequiredMsg">Rate is required.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="">EQ. Zone</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <input id="GA_EARTHQ_ZONE" class="form-control" min="" maxlength="20"
+                                                                   type="number" name="GA_EARTHQ_ZONE" title="Name" required />
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <label class="">First Loss Basis</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                                <input class="form-control" min="3" max-length="15" type="number" id="GA_FIRST_LOSS" name="GA_FIRST_LOSS" required />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+
+                                                <div class="col-md-1">
+                                                    <input id="GA_SI_FC" type="text" name="GA_SI_FC" class="form-control" min="12" />
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input id="GA_SI_BC" type="text" name="GA_SI_BC" class="form-control" min="12" />
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input id="GA_TOT_PREM_FC" type="text" name="GA_TOT_PREM_FC" class="form-control" min="12" />
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <input id="GA_TOT_PREM_BC" type="text" name="GA_TOT_PREM_BC" class="form-control" min="12" />
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input id="GA_LOAD_FC" type="text" name="GA_LOAD_FC" class="form-control" min="12" />
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <input id="GA_LOAD_BC" type="text" name="GA_LOAD_BC" class="form-control" min="12" />
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input id="GA_DISC_FC" type="text" name="GA_DISC_FC" class="form-control" min="12" />
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <input id="GA_DISC_BC" type="text" name="GA_DISC_BC" class="form-control" min="12" />
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div id="tabs-2">
+
+                                <div class="row control-group form-padding">
+                                    <div class="container" style="width:100%">
+                                        <span class="control-grp-lbl text-danger">Premium Payables</span>
+
+                                        <div class="row">
+                                            <table id="gridPremSum"></table>
+                                            <table id="gridPremSumPager"></table>
+                                        </div>
+
+                                        <hr />
+                                        <div class="row">
+                                            <table id="gridPremReg"></table>
+                                            <table id="gridPremRegPager"></table>
+                                        </div>
+
+                                        <hr />
+                                        <div class="row">
+                                            <table id="gridPremRegFees"></table>
+                                            <table id="gridPremRegFeesPager"></table>
+                                        </div>
+
+                                        <hr />
+                                        <div class="row">
+                                            <table id="gridAppFees"></table>
+                                            <table id="gridAppFeesPager"></table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div id="tabs-3">
+
+                                <div class="row control-group form-padding">
+                                    <div class="container" style="width:100%">
+                                        <span class="control-grp-lbl text-danger">Policy Details</span>
+
+                                        <div class="row">
+                                            <table id="gridPremPmt"></table>
+                                            <table id="gridPremPmtPager"></table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div id="tabs-4">
+
+                                <div class="row control-group form-padding">
+                                    <div class="container" style="width:100%">
+                                        <span class="control-grp-lbl text-danger">RI Summary</span>
+                                        <div class="row">
+                                            <table id="gridRISummary"></table>
+                                            <table id="gridRISummaryPager"></table>
+                                        </div>
+
+                                        <hr />
+                                        <div class="row">
+                                            <table id="gridFACINPremSum"></table>
+                                            <table id="gridFACINPremSumPager"></table>
+                                        </div>
+
+                                        <hr />
+                                        <div class="row">
+                                            <table id="gridCoIns"></table>
+                                            <table id="gridCoInsPager"></table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div id="tabs-5">
+
+                                <div class="row control-group form-padding">
+                                    <div class="container" style="width:100%">
+                                        <span class="control-grp-lbl text-danger">Claim</span>
+                                        <div class="row">
+                                            <table id="gridClaimsSummary"></table>
+                                            <table id="gridClaimsSummaryPager"></table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Assets All Risk Modal Dialog -->
+
+<div class="modal draggable ui-accordion fade" id="AssetsARModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>              
+                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Assets All Risk</strong>
+            </div>
+
+            <div class="modal-body">
+                <div class="row control-group form-padding">
+                    <div class="container" style="width:100%">
+                        <span class="control-grp-lbl text-danger">Assets All Risk Details</span>
+
+                        <form id="assetallForm" name="assetallForm">
+                           
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <input class="form-control" type="hidden" id="AAR_SYS_ID" name="AAR_SYS_ID" />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input class="form-control" type="hidden" id="AAR_RISK_ID" name="AAR_RISK_ID" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="required">Risk name</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span id="spry_lovcode">
+                                                    <div class="input-group">
+                                                        <input class="form-control" min="3" max-length="15" type="text" id="AAR_RISK_TYPE" name="AAR_RISK_TYPE" required />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_area", "field1":"AAR_RISK_TYPE", "field2":"AAR_RISK_NAME"}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_baserate">
+                                                    <input class="form-control" min="3" max-length="50" type="text" name="AAR_RISK_NAME" />
+                                                    <span class="textfieldRequiredMsg">Name is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <label class="">Description</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <textarea name="AAR_DESCRIPTION" class="form-control" cols="40" rows="2"></textarea>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label class="">Limit of Liability</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input class="form-control" min="3" max-length="15" type="text" id="AAR_LIMIT_LIABILITY" name="AAR_LIMIT_LIABILITY" title="" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+
+                            </div>
+
+                        </form>
+                        <hr />
+                        <div class="row">
+                            <div class="btn-block">
+                                <button id="btn_add_asssetallrisk" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add </button>
+                                <button id="btn_update_asssetallrisk" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                <button id="btn_remove_asssetallrisk" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                                <button id="btn_assetallrisk_risk_cover" class="btn btn-danger" type="button"><i class="fa fa-umbrella"></i> Risk Cover</button>
+
+                                <button type="button" class="btn btn-default pull-right dialog-btn" id="export-transit-btn" title="Export Grid data to Excel">
+                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <table id="gridAllrisk"></table>
+                            <table id="gridAllriskPager"></table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+
+                <button id="" type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Cash in Transit Modal Dialog -->
+
+<div class="modal draggable ui-accordion fade" id="TransModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Goods/Cash in Transit</strong>
+            </div>
+
+            <div class="modal-body">
+                <div class="row control-group form-padding">
+                    <div class="container" style="width:100%">
+                        <span class="control-grp-lbl text-danger">Cash/Goods in Transit Details</span>
+
+                      <div id="cash">
+                          <div class="row">
+                              <form id="transitForm" name="transitForm">
+
+                                  <div class="row">
+                                      <div class="col-md-8">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-1">
+                                                      <input class="form-control" type="hidden" id="TRANS_SYS_ID" name="TRANS_SYS_ID" />
+                                                  </div>
+                                                  <div class="col-md-1">
+                                                      <input class="form-control" type="hidden" id="TRANS_RISK_ID" name="TRANS_RISK_ID" />
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Risk Type</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_lovcode">
+                                                          <div class="input-group">
+                                                              <input class="form-control" min="3" max-length="15" type="text" id="TRANS_RISK_TYPE" name="TRANS_RISK_TYPE" required />
+                                                              <span class="input-group-btn">
+                                                                  <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_", "field1":"TRANS_RISK_TYPE", "field2":"TRANS_RISK_NAME"}'>
+                                                                      <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                  </button>
+                                                              </span>
+                                                          </div>
+                                                          <span class="textfieldRequiredMsg">Code is required.</span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="col-md-4">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="text" id="TRANS_RISK_NAME" name="TRANS_RISK_NAME" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Description</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <textarea name="TRANS_DESCRIPTION" class="form-control" cols="5" rows="2"></textarea>
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <label class="required">Sum Insured</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="number" name="TRANS_SUM_INSURED" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Limit per Loss</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="number" name="TRANS_LIMIT_LOSS" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <label class="required">Annual Turnover</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="number" name="TRANS_ANN_TURNOVER" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Destination From</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="text" name="TRANS_DENT_FROM" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <label class="required">Destination To</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="text" name="TRANS_DENT_T0" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Distance</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="" max-length="10" type="number" name="TRANS_DISTANCE" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </form>
+                          </div>
+                      </div>
+
+                      <div id="risk">
+                            <form id="assetallForm" name="assetallForm">
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-1">
+                                                    <input class="form-control" type="hidden" id="AAR_SYS_ID" name="AAR_SYS_ID" />
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input class="form-control" type="hidden" id="AAR_RISK_ID" name="AAR_RISK_ID" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Risk name</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_lovcode">
+                                                        <div class="input-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="AAR_RISK_TYPE" name="AAR_RISK_TYPE" required />
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_area", "field1":"AAR_RISK_TYPE", "field2":"AAR_RISK_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="3" max-length="50" type="text" name="AAR_RISK_NAME" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="form-group">
+
+                                                <div class="col-md-2">
+                                                    <label class="">Description</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <textarea name="AAR_DESCRIPTION" class="form-control" cols="40" rows="2"></textarea>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <label class="">Limit of Liability</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="form-control" min="3" max-length="15" type="text" id="AAR_LIMIT_LIABILITY" name="AAR_LIMIT_LIABILITY" title="" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </form>
+                        </div>
+
+                      <div id="prof">
+                          <div class="row">
+                              <form id="profindemityForm" name="profindemityForm">
+
+                                  <div class="row">
+                                      <div class="col-md-8">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-1">
+                                                      <input class="form-control" type="hidden" id="PRO_SYS_ID" name="PRO_SYS_ID" />
+                                                  </div>
+                                                  <div class="col-md-1">
+                                                      <input class="form-control" type="hidden" id="PRO_RISK_ID" name="PRO_RISK_ID" />
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Risk Type</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_lovcode">
+                                                          <div class="form-group">
+                                                              <input class="form-control" min="3" max-length="15" type="text" id="PRO_ITEM" name="PRO_ITEM" required />
+
+                                                          </div>
+                                                          <span class="textfieldRequiredMsg">Code is required.</span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <label class="required">Description</label>
+                                                  </div>
+                                                  <div class="col-md-4">
+                                                      <span id="spry_baserate">
+                                                          <textarea name="PRO_ITEM_DESC" class="form-control" cols="40" rows="2"></textarea>
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Aggreate Limit</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="number" name="PRO_AGGRET_LIMIT" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <label class="required">Limit per Occurance</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="number" name="PRO_LIMIT_OCCUR" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Premium FC</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="" max-length="10" type="number" name="PRO_PREM_FC" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <label class="required">Premium BC</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="number" name="PRO_PREM_FC1" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Limit per Loss</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="" max-length="10" type="number" name="PRO_LIMIT_LOSS" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <label class="required">Annual Turnover</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="number" name="PRO_ANN_TURNOVER" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Destination From</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="text" name="PRO_DENT_FROM" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <label class="required">Destination To</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="3" max-length="50" type="text" name="PRO_DENT_TO" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row">
+                                      <div class="col-md-10">
+                                          <div class="row">
+                                              <div class="form-group">
+                                                  <div class="col-md-2">
+                                                      <label class="required">Distance</label>
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <span id="spry_baserate">
+                                                          <input class="form-control" min="" max-length="10" type="number" name="PRO_DISTANCE" />
+                                                          <span class="textfieldRequiredMsg">Name is required.</span>
+                                                      </span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </form>
+                          </div>
+                      </div>
+
+                        <hr />
+                        <div class="row">
+                            <div class="btn-block">
+                                <button id="btn_add_transit" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add Transit</button>
+                                <button id="btn_update_transit" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                <button id="btn_remove_transit" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                                <button id="btn_transit_risk_cover" class="btn btn-danger" type="button"><i class="fa fa-umbrella"></i> Risk Cover</button>
+
+                                <button type="button" class="btn btn-default pull-right dialog-btn" id="export-transit-btn" title="Export Grid data to Excel">
+                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <table id="gridTransit"></table>
+                            <table id="gridTransitPager"></table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+
+                <button id="" type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Professional Indemity Modal Dialog -->
+
+<div class="modal draggable ui-accordion fade" id="ProIndemModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Professional Indemity</strong>
+             </div>
+
+            <div class="modal-body">
+                <div class="row control-group form-padding">
+                    <div class="container" style="width:100%">
+                        <span class="control-grp-lbl text-danger">Professional Indemity Details</span>
+                        <div class="row">
+                            <form id="profindemityForm" name="profindemityForm">
+                                
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-1">
+                                                    <input class="form-control" type="hidden" id="PRO_SYS_ID" name="PRO_SYS_ID" />
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <input class="form-control" type="hidden" id="PRO_RISK_ID" name="PRO_RISK_ID" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Risk Type</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_lovcode">
+                                                        <div class="form-group">
+                                                            <input class="form-control" min="3" max-length="15" type="text" id="PRO_ITEM" name="PRO_ITEM" required />
+                                                           
+                                                        </div>
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="required">Description</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span id="spry_baserate">
+                                                        <textarea name="PRO_ITEM_DESC" class="form-control" cols="40" rows="2"></textarea>
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Aggreate Limit</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="3" max-length="50" type="number" name="PRO_AGGRET_LIMIT" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>                                               
+                                                <div class="col-md-2">
+                                                    <label class="required">Limit per Occurance</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="3" max-length="50" type="number" name="PRO_LIMIT_OCCUR" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Premium FC</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="" max-length="10" type="number" name="PRO_PREM_FC" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="required">Premium BC</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="3" max-length="50" type="number" name="PRO_PREM_FC1" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Limit per Loss</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="" max-length="10" type="number" name="PRO_LIMIT_LOSS" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="required">Annual Turnover</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="3" max-length="50" type="number" name="PRO_ANN_TURNOVER" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Destination From</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="3" max-length="50" type="text" name="PRO_DENT_FROM" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="required">Destination To</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="3" max-length="50" type="text" name="PRO_DENT_TO" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Distance</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_baserate">
+                                                        <input class="form-control" min="" max-length="10" type="number" name="PRO_DISTANCE" />
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="btn-block">
+                                <button id="btn_add_profindemity" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add </button>
+                                <button id="btn_update_profindemity" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                <button id="btn_remove_profindemity" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                                <button id="btn_profindemity_risk_cover" class="btn btn-danger" type="button"><i class="fa fa-umbrella"></i> Risk Cover</button>
+
+                                <button type="button" class="btn btn-default pull-right dialog-btn" id="export-cover-btn" title="Export Grid data to Excel">
+                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <table id="gridProfIndemity"></table>
+                            <table id="gridProfIndemityPager"></table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+
+                <button id="" type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<!--Risk Cover Setup Modal -->
+
+<div class="modal draggable ui-accordion fade" id="RiskCoverModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Risk Cover</strong>
+            </div>
+
+            <div class="modal-body" style="padding: 40px 50px;">
+
+                <div class="row control-group form-padding">
+                    <div class="container" style="width:100%">
+                        <span class="control-grp-lbl text-danger">Policy Cover</span>
+
+                        <div class="row">
+
+                            <form id="coverForm" name="coverForm">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>Cover Code</label>
+                                            <div class="input-group">
+                                                <input class="form-control" min="3" max-length="15" type="text" id="RCOV_CODE" name="RCOV_CODE" placeholder="Code" required />
+                                                <span class="input-group-btn">
+                                                    <span id="spry_basecurr">
+                                                        <button type="button" class="btn btn_lov btn-default pull-left" id="btnAddNewCover">
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Cover Name</label>
+                                            <input type="text" class="form-control" id="RCOV_NAME" name="RCOV_NAME" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Sum Insured</label>
+                                            <input type="number" class="form-control" id="RCOV_SI_FC" name="RCOV_SI_FC" required />
+                                            <input type="hidden" class="form-control" id="RCOV_SI_BC" name="RCOV_SI_BC" />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label>Rate</label>
+                                            <input type="number" class="form-control" id="RCOV_RATE" name="RCOV_RATE" required />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Gross Premium</label>
+                                            <input type="number" class="form-control" id="RCOV_GROSS_PREM_FC" name="RCOV_GROSS_PREM_FC" required />
+                                            <input type="hidden" class="form-control" id="RCOV_GROSS_PREM_BC" name="RCOV_GROSS_PREM_BC" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Net Premium</label>
+                                            <input type="number" class="form-control" id="RCOV_NET_PREM_FC" name="RCOV_NET_PREM_FC" required />
+                                            <input type="hidden" class="form-control" id="RCOV_NET_PREM_BC" name="RCOV_NET_PREM_BC" />
+                                        </div>
+
+
+                                    </div>
+                                    <hr />
+                                    <div class="row">
+                                        <!-- Hidden Controls-->
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_SYS_ID" class="form-control" type="hidden" name="RCOV_SYS_ID">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_NO" class="form-control" type="hidden" name="RCOV_NO">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_RISK_NO" class="form-control" type="hidden" name="RCOV_RISK_NO">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_LOAD_YN" class="form-control" type="hidden" name="RCOV_LOAD_YN">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_RI_YN" class="form-control" type="hidden" name="RCOV_RI_YN">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_RISK_SYS_ID" class="form-control" type="hidden" name="RCOV_RISK_SYS_ID">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="COVER_RATE_CHANGE" class="form-control" type="hidden" name="COVER_RATE_CHANGE">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="COVER_SI_CHANGE" class="form-control" type="hidden" name="COVER_SI_CHANGE">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="COVER_LEVEL" class="form-control" type="hidden" name="COVER_LEVEL">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="COVER_PREM_REFUND" class="form-control" type="hidden" name="COVER_PREM_REFUND">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="txtRIApp" class="form-control" type="hidden" name="ProductDesc">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="COVER_USER_PREM" class="form-control" type="hidden" name="COVER_USER_PREM">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_LOAD_BC" class="form-control" type="hidden" name="RCOV_LOAD_BC" value="0.00">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_LOAD_FC" class="form-control" type="hidden" name="RCOV_LOAD_FC" value="0.00">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_DISC_BC" class="form-control" type="hidden" name="RCOV_DISC_BC" value="0.00">
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <input id="RCOV_DISC_FC" class="form-control" type="hidden" name="RCOV_DISC_FC" value="0.00">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="btn-block">
+                                <div class="col-md-5">
+                                    <button id="btn_add_cover" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add Cover</button>
+                                    <button id="btn_update_cover" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                    <button id="btn_remove_cover" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                                    <button id="btn_reset_cover" type="reset" class="btn btn-default"><i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset</button>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <button type="button" id="btn_get_DeftCovers" class="btn btn-default"><i class="fa fa-recycle" aria-hidden="true"></i>Get Default Covers</button>
+
+                                    <button type="button" id="btn_get_Cover_Premiums" class="btn btn-default"><i class="fa fa-recycle" aria-hidden="true"></i>Refresh Calculations </button>
+                                </div>
+
+                                <button type="button" class="btn btn-default pull-right dialog-btn" id="export-cover-btn" title="Export Grid data to Excel">
+                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <table id="gridAppCovers"></table>
+                            <table id="gridAppCoversPager"></table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+                <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<!--Customer Setup Modal -->
+
+<div class="modal fade" id="customerSetupModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary">
+                <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+                <i class="fa ion-information-circled pull-left text-primary" style="font-size: 3rem;"></i>
+                <strong style="font-size: 20px; color: white; line-height: 1.7; font-family: Arial">Create New Customer</strong>
+            </div>
+
+            <div class="modal-body" style="padding: 40px 50px;">
+                <form name="customerForm" id="customerForm" class="form-horizontal">
+                    <div>
+                        <div class="row control-group form-padding">
+                            <span class="control-grp-lbl text-danger">Complete the form below</span>
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Type</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span id="spry_custype">
+                                                    <div class="input-group">
+                                                        <input class="form-control" min="3" max-length="15" type="text" name="CUS_TYPE_CODE" id="CUS_TYPE_CODE" required />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_customer_type", "field1":"CUS_TYPE_CODE", "field2":"CUS_TYPE_NAME"}'>
+                                                                <i class="fa fa-arrow-circle-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <span class="textfieldRequiredMsg">Customer type required.</span>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="form-control" min="3" max-length="50" type="text" name="CUS_TYPE_NAME" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Code</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_code">
+                                                    <input type="text" id="CUS_CODE" min="2" max="15" class="form-control" name="CUS_CODE" title="Code" required>
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Pin</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_custid">
+                                                    <input type="text" min="2" max="15" class="form-control" name="CUS_PIN_NO" title="Pin" required>
+                                                    <span class="textfieldRequiredMsg">Customer ID is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Title</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select class="form-control" name="CUS_TITLE" id="CUS_TITLE" required>
+                                                    <option value="">--Select--</option>
+                                                    <option value="Mr">Mr</option>
+                                                    <option value="Mrs">Mrs</option>
+                                                    <option value="Miss">Miss</option>
+                                                    <option value="Dr">Dr</option>
+                                                    <option value="Prof">Prof</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">First Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spry_fname">
+                                                    <input type="text" min="3" max="30" class="form-control" id="CUS_FIRST_NAME" name="CUS_FIRST_NAME" title="First Name" required>
+                                                    <span class="textfieldRequiredMsg">First Name is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Last Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spry_lname">
+                                                    <input type="text" min="3" max="30" class="form-control" id="CUS_LAST_NAME" name="CUS_LAST_NAME" required>
+                                                    <span class="textfieldRequiredMsg">Last Name is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label>Other Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" min="3" max="30" class="form-control" id="CUS_OTHER_NAME" name="CUS_OTHER_NAME" title="Maiden Name">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label>Official Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spry_officialname">
+                                                    <input type="text" min="3" max="30" class="form-control" id="CUS_OFFICIAL_NAME" name="CUS_OFFICIAL_NAME" title="Official Name">
+                                                    <span class="textfieldRequiredMsg">Official name is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Birth date</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_dob">
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text" id="CUS_DOB" name="CUS_DOB" title="To Date" />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default">
+                                                                <i class="fa fa-calendar" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <span class="textfieldRequiredMsg">Date Of Birth is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label>Gender</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select class="form-control" name="CUS_GENDER" id="CUS_GENDER" required>
+                                                    <option value="">--Select--</option>
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label> Profession</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_occup">
+                                                    <input type="text" id="CUS_PROFESSION" class="form-control" name="CUS_PROFESSION" title="Profession" required>
+                                                    <span class="textfieldRequiredMsg">Profession is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required"> Home Address</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <textarea id="CUS_ADDRS1" rows="4" cols="50"
+                                                          class="form-control" type="text" name="CUS_ADDRS1" title="Customer Address1" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label> Postal Address</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <textarea id="CUS_ADDRS2" rows="4" cols="50"
+                                                          class="form-control" type="text" name="CUS_ADDRS2" title="Customer Address1" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Phone No.</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_phone">
+                                                    <input type="number" min="12" maxlength="12" class="form-control" id="CUS_PHONE1" name="CUS_PHONE1" title="">
+                                                    <span class="textfieldRequiredMsg">Phone Number is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Mobile No.</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span id="spry_telno">
+                                                    <input type="number" min="12" maxlength="12" class="form-control" id="CUS_MOBILE" name="CUS_MOBILE" title="">
+                                                    <span class="textfieldRequiredMsg">Mobile Number is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Email</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span id="spry_email">
+                                                    <input type="text" class="form-control" name="CUS_EMAIL" id="CUS_EMAIL" title="Email">
+                                                    <span class="textfieldRequiredMsg">Email is required.</span>
+                                                    <span class="textfieldInvalidFormatMsg">Please enter a valid email (user@domain.com).</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Bank Name</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="CUS_BANK_NAME" id="CUS_BANK_NAME" title="Bank Name">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Bank Number</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="number" class="form-control" name="CUS_ACC_NUM" id="CUS_ACC_NUM" title="Bank Number">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3">
+                                                <label class="required">Bank Address</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <textarea id="CUS_BANK_BRANCH" rows="4" cols="50"
+                                                          class="form-control" type="text" name="CUS_BANK_BRANCH" title="Address"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer" style="background-color:rgba(0, 0, 0, .1)">
+                <button type="button" class="btn btn-primary pull right" id="btn_Save_Customer">Save</button>
+                <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!--Policy Search Modal -->
+<div class="container">
+    <div class="modal ui-accordion fade" id="mySearchResultModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Policy Search Result</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <table id="grdSearchResults"></table>
+                        <table id="grdSearchResultsPager"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="search-ok" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    <button id="search-close" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Agent/Broker Commission Modal -->
+
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="agentcommModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Agent/Broker Commission</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger">Agent/Broker Commission Form</span>
+
+                            <form id="agencycommForm" name="agencycommForm" class="form">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label><span style="margin-right: 45%;"> Code</span></label>
+                                            <div class="input-group">
+                                                <input class="form-control" min="3" max-length="15" type="text" id="CMM_AGB_CODE" name="CMM_AGB_CODE" required />
+                                                <span class="input-group-btn">
+                                                    <span id="spry_basecurr">
+                                                        <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_Intermediary_comm", "field1":"CMM_AGB_CODE", "field2":"CMM_AGB_NAME"}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label><span style="margin-right: 45%;"> Name</span></label>
+                                            <input type="text" class="form-control" id="CMM_AGB_NAME" name="CMM_AGB_NAME" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label><span style="margin-right: 25%;"> Commission</span></label>
+                                            <div class="input-group">
+                                                <input class="form-control" min="3" max-length="15" type="number" id="CMM_COM_PERC" name="CMM_COM_PERC" required />
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn_lov btn-default pull-left">
+                                                        <i class="fa fa-percent" title="Select" aria-hidden="true"></i>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="btn-block">
+                            &nbsp;
+                            <button id="btn_add_agencycomm" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add </button>
+                            <button id="btn_update_agencycomm" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                            <button id="btn_remove_agencycomm" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                            <button type="reset" class="btn btn-default"> <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset </button>
+
+                            <button type="button" class="btn btn-default pull-right dialog-btn" id="export-agency-comm-btn" title="Export Grid data to Excel">
+                                <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                            </button>
+                            &nbsp;
+                        </div>
+                    </div>
+
+                    <div>
+                        <table id="grdIntermediaryComm"></table>
+                        <table id="grdIntermediaryCommPager"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--  Risk Cover LOV Modal -->
+
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="AddNewCoverModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Risks Covers LOV </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger"></span>
+
+
+                            <form id="coverdiscloadingForm" name="coverdiscloadingForm" class="form">
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <button type="button" id="btnQueryRiskCoverLov" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtRiskSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtRiskSearch" placeholder="Search by Code">
+                                    </div>
+
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <table id="gridAddNewCover"></table>
+                                    <table id="gridAddNewCoverPager"></table>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--  Policy Schedule Modal -->
+
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="policyscheduleModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Policy Documents</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <form id="policydocumentForm" name="policydocumentForm" class="form">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <label class="">Policy ID:</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" id="POLH_ID" min="2" max="15" class="form-control" name="POLH_ID" title="Code">
+                                        </div>
+                                        &nbsp;
+                                        <div class="col-md-2">
+                                            <button type="button" id="btnQuerypolicydocument" class="btn btn-info">
+                                                <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<!--  Class of Business Modal -->
+
+<div class="modal draggable ui-accordion fade" id="prodRiskLovModal" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header modal-header-success">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="text-align: center">LOV Modal</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-1">
+                            <label>Search:</label>
+                        </div>
+                        <div class="col-md-10">
+                            <input class="text ui-widget-content ui-corner-all" style="margin-left: 10px; height: 30px; width: 70%; text-align: center" type="text" title="" placeholder="Search by Name" />
+                            <button type="button" class="btn btn-default" id="btnQueryProductRisk" name="btnQueryProductRisk">
+                                <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <table id="gridProdRisk"></table>
+                    <table id="gridProdRiskPager"></table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

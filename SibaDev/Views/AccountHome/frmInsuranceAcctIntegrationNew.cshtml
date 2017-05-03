@@ -1,0 +1,436 @@
+﻿@using SibaDev.System_Contants
+@{
+    Layout = "~/Views/Shared/_AccountModule.cshtml";
+}
+
+<script src="~/Scripts/Accounts/page_scripts/AcctsIntegration/AcctsIntegration.setup.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/AcctIntegration.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/MainAccount.service.js"></script>
+<script src="~/Scripts/services/customertypes.service.js"></script>
+<script src="~/Scripts/services/insurance.source.service.js"></script>
+<script src="~/Scripts/services/product.service.js"></script>
+<script src="~/Scripts/services/sourcebusiness.service.js"></script>
+<script src="~/Scripts/services/office.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/InsAcctTxn.service.js"></script>
+<script src="~/Scripts/Accounts/AcctServices/TxnDoc.service.js"></script>
+
+
+<div class="main">
+    <div id="page-content-wrapper" class="roundElement effects form-padding">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <button type="button" class="btn btn-success" id="btnSave">
+                                    <i class="fa fa-save " title="Save" aria-hidden="true"></i> Save
+                                </button>
+                                <button type="button" class="btn btn-danger" id="btnDelete">
+                                    <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                </button>
+                                <button type="reset" class="btn btn-primary" id="btnReset" >
+                                    <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                </button>
+
+                                <button type="button" id="btnQueryIntegration" class="btn btn-info" style="float: right; margin-right: 15px">
+                                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                </button>
+
+                                <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px"
+                                       class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="search by Name">
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1"> Insurance Integration with Accounts</a></li>
+                            </ul>
+                            <!-- Tap one-->
+                            <div id="tabs-1">
+
+                                <form name="myForm" id="acctIntForm">
+                                    <!--Header-->
+                                    <div class="row form-header">
+                                        <div class="col-md-12">
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label> Txn Source </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <select class="form-control" id="INT_TXN_SOURCE" name="INT_TXN_SOURCE" title="Name" required>
+                                                            <option value="">-- Select Source -- </option>
+                                                            <option value="@SystemConstants.UnderwritingPremium">UNDERWRITING Premium</option>
+                                                            <option value="@SystemConstants.ReinsurancePremium">REINSURANCE Premium</option>
+                                                            <option value="@SystemConstants.UnderwritingCommission">Underwriting Commission</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /input-group -->
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label>Customer Type</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <input class="form-control" type="text" maxlength="15" id="INT_CUST_TYPE" name="INT_CUST_TYPE" title="Code" required />
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_cust_type", "field1":"INT_CUST_TYPE", "field2":"INT_CTP_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <input class="form-control pull-left" type="text" id="INT_CTP_NAME" name="INT_CTP_NAME" title="Customer Type Name" required />
+
+                                                        <div class="col-md-1">
+                                                            <label>
+                                                                <input type="checkbox" name="ALL" /> All?
+
+                                                            </label>
+                                                            @*<input class="form-control pull-left" type="text" id="INT_CUST_TYPE_REF" name="INT_CUST_TYPE_REF" title="Name" style="width: 40px" required />*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /input-group -->
+                                            <!-- /input-group -->
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>Insurance Source</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text" maxlength="15" id="INT_INS_SOURCE" name="INT_INS_SOURCE" title="Code" required/>
+                                                        <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_ins_source", "field1":"INT_INS_SOURCE", "field2":"INS_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                    </div>
+                                                </div> 
+
+                                                <div class="col-md-8">
+                                                    <input class="form-control pull-left" type="text" maxlength="15" id="INS_NAME" name="INS_NAME" title="Name" required/>
+
+
+                                                    <div class="col-md-1">
+                                                        <label>
+                                                            <input type="checkbox" name="ALL"/> All ?
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                          
+                                            <!-- /input-group -->
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label>Intermediary Source</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <input class="form-control" type="text" maxlength="15" id="INT_BIZ_SOURCE" name="INT_BIZ_SOURCE" title="Code" required />
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_business_source", "field1":"INT_BIZ_SOURCE", "field2":"SRB_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <input class="form-control pull-left" type="text" id="SRB_NAME" name="SRB_NAME" title="Name" required />
+
+
+                                                        <div class="col-md-1">
+                                                            <label>
+                                                                <input type="checkbox" name="ALL" /> All ?
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- /input-group -->
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label>Office</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <input class="form-control" type="text" id="INT_OFFICE" name="INT_OFFICE" title="Office Code" required />
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_office", "field1":"INT_OFFICE", "field2":"OFF_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>  
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <input class="form-control pull-left" type="text" id="OFF_NAME" name="OFF_NAME" title="Office Name" required />
+
+                                                        <div class="col-md-1">
+                                                            <label>
+                                                                <input type="checkbox" name="ALL" /> All ?
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- /input-group -->
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label>Product</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="input-group">
+                                                            <input class="form-control" type="text" id="INT_PRODUCT" name="INT_PRODUCT" title="Product Code" required />
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_product", "field1":"INT_PRODUCT", "field2":"PRD_NAME"}'>
+                                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <input class="form-control pull-left" type="text" id="PRD_NAME" name="PRD_NAME" title="Product Name" required />
+
+                                                        <div class="col-md-1">
+                                                            <label>
+                                                                <input type="checkbox" name="ALL" /> All ?
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+
+                                                        <label>
+                                                            Active
+                                                            <input class="checkbox-inline" type="checkbox" id="INT_ACTIVE_YN" name="INT_ACTIVE_YN" checked value="Y" title="Name" />
+                                                        </label>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <hr />
+                                        <!--horizontal Headings-->
+                                    <div class="row">
+
+                                        <div class="row">
+
+                                            <div class="col-md-2">
+
+                                            </div>
+                                            <div class="col-md-10" style="border-bottom: skyblue">
+
+                                                <div class="col-md-2">
+                                                    <label style="color: blue">Main Account</label>
+                                                </div>
+                                                <div class="col-md-2 ">
+                                                    <label style="color: blue">Sub Accounts</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label style="color: blue">Txn Doc. Type</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label style="color: blue">Txn Narration</label>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <!--===============Forward Txns row =====================-->
+                                        <div class="col-md-12">
+                                            <div class="col-md-2">
+                                                <label style="color: green">Forward Txn</label>
+                                            </div>
+                                            <!--Forward Debit Acct-->
+                                            <div class="col-md-2 pull-left">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" id="INT_FWD_DEBTT_ACCT" name="INT_FWD_DEBTT_ACCT" title="Code" required/>
+                                                    <span class="input-group-btn">
+
+                                                            <button type="button" class="btn btn-default pull-left btn_lov" data-dialog='{"type": "btnFwdDebitAcct", "field1":"INT_FWD_DEBTT_ACCT", "field2":""}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                </div>
+                                            </div>
+                                            <!--Sub Account code-->
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" id="INT_FWD_SUB_ACCOUNT" name="INT_FWD_SUB_ACCOUNT" title="Code" required/>
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default pull-left btn_lov" data-dialog='{"type": "btnFwdSubAcct", "field1":"INT_FWD_SUB_ACCOUNT", "field2":""}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!-- Document type-->
+
+                                            <div class="col-md-2 pull-left">
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" id="INT_FWD_DEBIT_DOC_TYPE" name="INT_FWD_DEBIT_DOC_TYPE" title="" required/>
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn-default pull-left btn_lov" data-dialog='{"type": "btnFwdDebitDocType", "field1":"INT_FWD_DEBIT_DOC_TYPE", "field2":""}'>
+                                                            <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!--Forward Credit Acct-->
+
+                                            <div class="col-md-4">
+                                                <input class="form-control pull-left" type="text" id="INT_RVSE_DEBIT_NARRATION" name="INT_RVSE_DEBIT_NARRATION" title="Name" required/>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                        <hr/>
+                                        <div class="row">
+
+                                            <div class="row">
+
+                                                <div class="col-md-2">
+
+                                                </div>
+                                                <div class="col-md-10" style="border-bottom: skyblue">
+
+                                                    <div class="col-md-2">
+                                                        <label style="color: blue">Main Account</label>
+                                                    </div>
+                                                    <div class="col-md-2 ">
+                                                        <label style="color: blue">Sub Accounts</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label style="color: blue">Txn Doc. Type</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label style="color: blue">Txn Narration</label>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <!--===============Reverse Txns row =====================-->
+                                           
+                                            <div class="col-md-12">
+                                                <div class="col-md-2">
+                                                    <label style="color: red">Reverse Txn</label>
+                                                </div>
+                                                <!--Forward Debit Acct-->
+                                                <div class="col-md-2 pull-left">
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text" id="INT_FWD_DEBTT_ACCT" name="INT_FWD_DEBTT_ACCT" title="Code" required />
+                                                        <span class="input-group-btn">
+
+                                                            <button type="button" class="btn btn-default pull-left btn_lov" data-dialog='{"type": "btnFwdDebitAcct", "field1":"INT_FWD_DEBTT_ACCT", "field2":""}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!--Sub Account code-->
+                                                <div class="col-md-2">
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text" id="INT_FWD_SUB_ACCOUNT" name="INT_FWD_SUB_ACCOUNT" title="Code" required />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default pull-left btn_lov" data-dialog='{"type": "btnFwdSubAcct", "field1":"INT_FWD_SUB_ACCOUNT", "field2":""}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!-- Document type-->
+
+                                                <div class="col-md-2 pull-left">
+                                                    <div class="input-group">
+                                                        <input class="form-control" type="text" id="INT_FWD_DEBIT_DOC_TYPE" name="INT_FWD_DEBIT_DOC_TYPE" title="" required />
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default pull-left btn_lov" data-dialog='{"type": "btnFwdDebitDocType", "field1":"INT_FWD_DEBIT_DOC_TYPE", "field2":""}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <!--Forward Credit Acct-->
+
+                                                <div class="col-md-4">
+                                                    <input class="form-control pull-left" type="text" id="INT_RVSE_DEBIT_NARRATION" name="INT_RVSE_DEBIT_NARRATION" title="Name" required />
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                          
+                                         
+
+                                       
+                                    </div>
+                                </form>
+                            
+                                <hr />
+                                <div class="row">
+
+                                    <button id="btnAddNew" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                    <button id="btnUpdate" class="btn btn-default" type="button"><i class="fa ion-edit text-yellow"></i> Update</button>
+                                    <button id="btnRemove" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+                                    <button type="button" class="btn btn-default pull-right dialog-btn" id="exportAccInt" title="Export Grid data to Excel">
+                                        <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                    </button>
+                                </div>
+
+                                <div class="row">
+                                    <table id="grdAcctsIntegration"></table>
+                                    <table id="grdAcctsIntegrationPager"></table>
+                                </div>
+
+
+                            </div>
+
+                                <div class="row">
+                                    <br />
+                                </div>
+
+
+                        </div>
+                   
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+

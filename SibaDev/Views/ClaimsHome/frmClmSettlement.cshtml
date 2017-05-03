@@ -1,0 +1,264 @@
+﻿
+<div class="col-md-42 main">
+
+    <script src="~/Scripts/Page_Scripts/treaty.group.setup.js"></script>
+    <script src="~/Scripts/Services/treaty.group.service.js"></script>
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btn_Delete">
+                                            <i class="fa ion-trash-b" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa ion-loop" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryTreaty" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; height: 30px; text-align: center; float: right; margin-right: 10px"
+                                               class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <form name="treatygrpForm" id="treatygrpForm" class="form-horizontal">
+                        <div>
+                            <div class="row control-group form-padding">
+                                <span class="control-grp-lbl text-danger">Fill the form below</span>
+                                <div class="row">
+
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Treaty Category</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spry_decsymbol">
+                                                        <select id="GP_TTY_TYPE" name="GP_TTY_TYPE" class="btn btn-default" required>
+                                                            <option value="">--Select--</option>
+                                                            <option value="P">Proportional</option>
+                                                            <option value="W"> Working Excess of Loss - XOL</option>
+                                                            <option value="C"> Catastrophic Excess of - CAT </option>
+                                                        </select>
+                                                        <span class="textfieldRequiredMsg">Term is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Group Code</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <span id="spry_code">
+                                                        <input type="text" min="2" max="15" id="GP_CODE" class="form-control" name="GP_CODE" title="Group Code" required />
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                        <span class="textfieldMinCharsMsg">Code must not be more than 15 characters.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Name</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span id="spry_name">
+                                                        <input type="text" min="5" max="50" class="form-control" id="GP_NAME" name="GP_NAME" title="Group Name" required>
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>Description</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <textarea class="form-control" min="3" id="GP_DESC" maxlength="100" name="GP_DESC" title="Group Description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+
+                                                <div class="col-md-2">
+                                                    <label class="">Confirm?</label>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span id="spry_decsymbol">
+                                                        <select id="GP_CONFIRM" name="GP_CONFIRM" class="btn btn-default">
+                                                            <option value="">--Select--</option>
+                                                            <option value="Y">YES</option>
+                                                            <option value="N"> NO</option>
+                                                        </select>
+                                                        <span class="textfieldRequiredMsg">Term is required.</span>
+                                                    </span>
+                                                </div>
+                                                <input type="hidden" class="form-control" id="GP_STATUS" name="GP_STATUS">
+                                                <input type="hidden" class="form-control" id="GP_SYS_ID" name="GP_SYS_ID">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="tabs">
+                        <ul>
+                            <li><a href="#tabs-1">Applicable Sub Classes</a></li>
+                        </ul>
+                        <div id="tabs-1">
+                            <form id="subclassform" name="subclassform">
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="required">Sub Class</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span id="spry_lovcode">
+                                                    <div class="input-group">
+
+                                                        <input type="text" class="form-control" id="GD_SUB_CLASS" name="GD_SUB_CLASS" title="Subclass Code" required />
+
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_product", "field1":"GD_SUB_CLASS", "field2":"GD_SUB_CLASS_NAME"}'>
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <span class="textfieldRequiredMsg">Code is required.</span>
+                                                </span>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <span id="spry_lovname">
+                                                    <input class="form-control" min="3" type="text" name="GD_SUB_CLASS_NAME" title="Name" />
+                                                    <span class="textfieldRequiredMsg">Name is required.</span>
+                                                </span>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="">EML?</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <span id="spry_decsymbol">
+                                                    <select id="GD_EML_YN" name="GD_EML_YN" class="btn btn-default" required>
+                                                        <option value="X">--Select--</option>
+                                                        <option value="Y">YES</option>
+                                                        <option value="N"> NO</option>
+                                                    </select>
+                                                    <span class="textfieldRequiredMsg">Term is required.</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <label class="">EML Default%</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input class="form-control" min="3" type="number" id="GD_PML_PERC" name="GD_PML_PERC" title="Percentage" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                            <!--Grid Buttons-->
+                            <div class="row">
+                                <div class="btn-block">
+                                    <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                    <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                    <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                    <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                        <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                    </button>
+                                </div>
+
+                                <div>
+                                    <table id="grdTreatGrp"></table>
+                                    <table id="grdTreatGrpPager"></table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--RI Search Results -->
+
+    <div class="container">
+        <div class="modal ui-accordion fade" id="mySearchResultModal" role="dialog" data-backdrop="static" data-keyboard="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-success">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Treaty Group Search Result</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <table id="grdSearchResults"></table>
+                            <table id="grdSearchResultsPager"></table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="search-ok" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                        <button id="search-close" type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

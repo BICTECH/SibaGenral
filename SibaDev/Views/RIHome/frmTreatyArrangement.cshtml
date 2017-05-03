@@ -1,0 +1,304 @@
+﻿@{
+    ViewBag.Title = "RI Treaty Arrangement";
+}
+
+<script src="~/Scripts/Page_Scripts/treaty.arrangement.setup.js"></script>
+<script src="~/Scripts/Services/treatyarrangement.service.js"></script>
+
+<div class="main">
+    
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-success" id="btnConfirm">
+                                                <i class="fa fa-check-square-o" title="Save" aria-hidden="true"></i> Close RI
+                                            </button>
+                                        </div>
+
+                                        <button type="button" id="btnQueryPolh" name="btnQueryPolh" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                         class="form-control" type="text" name="txtSearch" placeholder="Search by Policy Number">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-1">
+
+                        </div>
+                        <div class="col-md-10">
+                          
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Reinsurance Summary</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form id="risummaryForm" name="risummaryForm">
+
+                                    <h5 style="border-bottom-color: red" class="sub-header">RI Details</h5>
+
+                                    <div class="row">
+                                        <input class="form-control" type="hidden" id="TTH_SYS_ID" name="TTH_SYS_ID" title="" />
+                                        <input class="form-control" type="hidden" id="TTH_STATUS" name="TTH_STATUS" title="" />
+                                        <div class="col-md-3">
+                                            <label>RI Sum Insured FC</label>
+                                            <input class="form-control" type="number" min="1" id="TTH_TOTAL_SI_FC" name="TTH_TOTAL_SI_FC" title="" />
+
+                                            <input class="form-control" type="text" name="TTH_TOTAL_SI_BC" id="TTH_TOTAL_SI_BC" title="" readonly />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>RI Premium FC</label>
+                                            <input class="form-control" type="number" min="1" id="TTH_TOTAL_PREM_FC" name="TTH_TOTAL_PREM_FC" title="" />
+
+                                            <input class="form-control" type="text" name="TTH_TOTAL_PREM_BC" id="TTH_TOTAL_PREM_BC" title="" readonly />
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Comments</label>
+                                            <textarea class="form-control" id="PAD_DESC" maxlength="1000" rows="3" name="PAD_DESC" title="Line Narration" required></textarea>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" id="" style="height:35px" class="checkbox-inline pull-right" name="" placeholder="Search from DB">
+                                            </span>
+
+                                            <span class="input-group-addon">
+                                                <label>Adjust RI?</label>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                       
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        
+
+                                        <button type="button" style="margin-left:20px"class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+
+                                        <button type="reset" class="btn btn-primary pull-right" id="btnTreatyAppor">
+                                            <i class="fa fa-list" title="" aria-hidden="true"></i>RI Apportionments
+                                        </button>                                       
+                                    </div>                               
+                                </div>
+                               
+
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="gridRISummary"></table>
+                                    <table id="gridRISummaryPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Treaty Apportionment -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="treatyApportionmentModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog" style="width:1000px">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"> Treaty Apportionments </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger">Treaty Apportionment</span>
+                            <form name="treatyApporForm" id="treatyApporForm">
+
+                                <input class="form-control" type="hidden" name="TTA_SYS_ID" id="TTA_SYS_ID" title="Treaty Limit BC" />
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <label>Treaty Limit</label>
+                                        <input class="form-control" type="number" min="1" id="TTA_TTY_LIMIT_FC" name="TTA_TTY_LIMIT_FC" title="Treaty Limit BC" />
+
+                                        <input class="form-control" type="text" name="TTA_TTY_LIMIT_BC" id="TTA_TTY_LIMIT_BC" title="Treaty Limit BC" readonly />
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label>Treaty SI  </label>
+                                        <input class="form-control" type="number" min="1" id="TTA_TTY_SI_FC" name="TTA_TTY_SI_FC" title="Treaty SI FC" />
+
+                                        <input class="form-control" type="text" name="TTA_TTY_SI_BC" id="TTA_TTY_SI_BC" title="Treaty SI BC" readonly />
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <label>Treaty Premium  </label>
+                                        <input class="form-control" type="number" min="1" id="TTA_TTY_PREM_FC" name="TTA_TTY_PREM_FC" title="Treaty Premium FC" />
+
+                                        <input class="form-control" type="text" name="TTA_TTY_PREM_BC" id="TTA_TTY_PREM_BC" title="Treaty Premium BC" readonly />
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <label>Treaty % </label>
+                                        <textarea class="form-control" id="TTA_ALLOC_PERC" maxlength="1000" rows="3" name="TTA_ALLOC_PERC" title="Percentage" required readonly></textarea>
+                                    </div>
+                                </div>
+                               <br />
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" id="" style="height:33px; margin-right: 20px" class="checkbox-inline pull-right" name="" placeholder="Search from DB">
+                                            </span>
+
+                                            <span class="input-group-addon">
+                                                <label>Adjust Treaty?</label>
+                                            </span>
+                                        </div>
+                                       </div>
+
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="text" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Treaty Adjustment Reason" placeholder="Adjustment Reason"/>
+                                     </div>                                
+                                </div>
+
+                                
+                            </form>
+
+                          
+                            <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                            <div class="row">
+                                       
+                                <div class="btn-block">
+
+                                    <button id="btn_update_appor" name="btn_update_appor" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+
+                                    <button type="reset" class="btn btn-primary pull-right" id="btnTreatyShare">
+                                        <i class="fa fa-list" title="" aria-hidden="true"></i>Treaty Share
+                                    </button>
+
+                                </div>
+                            </div>
+                          
+                            <div class="row">
+                                <table id="gridTreatyAppor"></table>
+                                <table id="gridTreatyApporPager"></table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Treaty share among companies -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="treatyShareModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog" style="width:1000px">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Treaty Share</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger">Reinsurer Share</span>
+                            <div class="row">
+
+                                <button type="button" style="margin-left:20px" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                </button>
+                                
+                            </div>
+                            <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                            <div class="row">
+                                <table id="gridRICompaniesShare"></table>
+                                <table id="gridRICompaniesSharePager"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search Modal -->
+<div class="container">
+    <div class="modal ui-accordion fade" id="mySearchResultModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Products Search Result</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <table id="grdSearchResults"></table>
+                        <table id="grdSearchResultsPager"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="search-ok" type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+                    <button id="search-close" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

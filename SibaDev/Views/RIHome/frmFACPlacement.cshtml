@@ -1,0 +1,348 @@
+﻿@{
+    ViewBag.Title = "FAC placement";
+}
+
+<script src="~/Scripts/Reinsurance/RI_Scripts/facplacement.setup.js"></script>
+<script src="~/Scripts/Reinsurance/RI_Services/facplacement.service.js"></script>
+
+<div class="main">
+    
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                              
+                                    <div class="col-md-8">                                       
+
+                                        <button type="button" id="btnQueryFac" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                         class="form-control" type="text" name="txtSearch" placeholder="Search by Policy Number">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">FAC Summary</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="facheaderForm" id="facheaderForm">
+
+                                    <input class="form-control" type="hidden" name="FAC_TTA_SYS_ID" id="FAC_TTA_SYS_ID" title="" readonly />
+                                    <input class="form-control" type="hidden" name="FAC_POLH_SYS_ID" id="FAC_POLH_SYS_ID" title="" readonly />
+                                    <input class="form-control" type="hidden" name="FAC_STATUS" id="FAC_STATUS" title="" readonly />
+                                   
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                       
+                                        <button type="button" style="margin-left:20px"class="btn btn-default pull-right dialog-btn" id="facHead-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+
+                                        <button type="reset" class="btn btn-primary pull-left" id="btnFACAppor">
+                                            <i class="fa fa-list" title="" aria-hidden="true"></i>FAC Apportionments
+                                        </button>                                       
+                                    </div>                               
+                                </div>
+                               
+                                <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdFacPlacement"></table>
+                                    <table id="grdFacPlacementPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Treaty Apportionment -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="FACApportionmentModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog" style="width:1000px">
+            <div class="modal-content">
+                <div class="modal-header">
+                   <div class="row modal-header-success">
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                       <h4 class="modal-title"> FAC Apportionments </h4>
+                   </div>
+
+                    <div class="row some-bg-color">
+                        <div style="margin-top: 10px;">
+                            <div class="col-md-12">
+                                <button type="button" class="btn btn-success" id="btn_Save">
+                                    <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                </button>
+                                <button type="button" class="btn btn-danger" id="btnDelete">
+                                    <i class="fa fa-check-square-o" title="Delete" aria-hidden="true"></i> Close FAC
+                                </button>
+
+                                <button type="button" class="btn btn-success" id="btnConfirm">
+                                    <i class="fa fa-print" title="Save" aria-hidden="true"></i> FAC Slip
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger">FAC Apportionment</span>
+                            <form name="FACApportionmentForm" id="FACApportionmentForm">
+
+                                <input class="form-control" type="hidden" id="TTA_POLH_SYS_ID" name="TTA_POLH_SYS_ID" title="" readonly />
+                                <input class="form-control" type="hidden" name="TTA_POLH_END_NO" id="TTA_POLH_END_NO" title="" readonly />
+                                <input class="form-control" type="hidden" name="TTA_UW_YEAR" id="TTA_UW_YEAR" title="" readonly />
+                                <input class="form-control" type="hidden" name="TTA_TTY_CODE" id="TTA_TTY_CODE" readonly />
+                                <input class="form-control" type="hidden" name="TTA_CLOSE_FLAG" id="TTA_CLOSE_FLAG" value="N" readonly />
+                                <input class="form-control" type="hidden" name="TTA_TTY_TYPE" id="TTA_TTY_TYPE" value="FO" readonly />
+                                <h5 style="border-bottom-color: red" class="sub-header">Treaty Apportionments</h5>
+
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <span style="margin-left: -40px"><label>Original SI</label></span>
+                                        <input class="form-control" type="number" min="1" id="FAC_SI_FC" name="FAC_SI_FC" title="FAC SI FC" readonly/>
+                                        <input class="form-control" type="text" name="FAC_SI_BC" id="FAC_SI_BC" title="Treaty SI BC" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <span style="margin-left: -20px"><label>Original Premium</label></span>
+                                        <input class="form-control" type="number" min="1" id="FAC_PREM_FC" name="FAC_PREM_FC" title="Treaty Premium FC" readonly/>
+
+                                        <input class="form-control" type="text" name="FAC_PREM_BC" id="FAC_PREM_BC" title="Treaty Premium BC" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <span style="margin-left: -30px"><label>Allocation SI</label></span>
+                                        <input class="form-control" type="number" min="1" id="TTA_TTY_SI_FC" name="TTA_TTY_SI_FC" title="" readonly/>
+
+                                        <input class="form-control" type="text" name="TTA_TTY_SI_BC" id="TTA_TTY_SI_BC" title="" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <span style="margin-left: -10px"><label>Allocation Premium</label></span>
+                                        <input class="form-control" type="number" min="1" id="TTA_TTY_PREM_FC" name="TTA_TTY_PREM_FC" title="" readonly/>
+
+                                        <input class="form-control" type="text" name="TTA_TTY_PREM_BC" id="TTA_TTY_PREM_BC" title="" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <span style="margin-left: -40px"><label>Allocation %</label></span>                                 
+                                        <textarea class="form-control" id="TTA_ALLOC_PERC" rows="3" name="TTA_ALLOC_PERC" title="" required readonly></textarea>
+                                        
+                                    </div>
+                                
+                                </div>
+                                <h5 style="border-bottom-color: red" class="sub-header">FAC Excess Details</h5>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <span style="margin-left: -40px"><label>FAC Excess SI </label></span>
+                                        <input class="form-control" type="number" min="1" id="FAC_EXCESS_SI_FC" name="FAC_EXCESS_SI_FC" title="" readonly/>
+
+                                        <input class="form-control" type="text" name="FAC_EXCESS_SI_BC" id="FAC_EXCESS_SI_BC" title="" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <span style="margin-left: -10px"><label>FAC Excess Premium </label></span>
+                                        <input class="form-control" type="number" id="FAC_EXCESS_PREM_FC" name="FAC_EXCESS_PREM_FC" title="" readonly/>
+
+                                        <input class="form-control" type="text" name="FAC_EXCESS_PREM_BC" id="FAC_EXCESS_PREM_BC" title="" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <span style="margin-left: -40px"><label>% FAC Excess </label></span>
+                                        <textarea class="form-control" id="FAC_EXCESS_PERC" rows="3" name="FAC_EXCESS_PERC" title="" required readonly></textarea>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <span style="margin-left: -20px"><label>% of Excess for FAC </label></span>
+                                        <input id="TTA_FAC_EXCESS_PERC" name="TTA_FAC_EXCESS_PERC" class="form-control"
+                                               oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                               type="number" maxlength="3" title="" required>                                             
+                                    </div>
+                                </div>
+
+                                <h5 style="border-bottom-color: red" class="sub-header"></h5>
+
+                            </form>
+
+                            <div class="row">
+
+                                <div class="btn-block">
+                                    
+                                    <button id="btn_add_appor" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                    <button id="btn_update_appor" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                    <button id="btn_remove_appor" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                    <button type="button" style="margin-left:20px" class="btn btn-default pull-right dialog-btn" id="facAppor-btn" title="Export Grid data to Excel">
+                                        <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                    </button>
+
+                                    <button type="reset" class="btn btn-primary pull-right" id="btnFACCompShare">
+                                        <i class="fa fa-list" title="" aria-hidden="true"></i>FAC Share
+                                    </button>
+
+                                </div>
+                            </div>
+                          
+                            <div class="row">
+                                <table id="gridFACAppor"></table>
+                                <table id="gridFACApporPager"></table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="apporOk" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                    <button type="button" id="apporClose" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Treaty share among companies -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="FACShareModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog" style="width: 1000px">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Treaty Share</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width: 100%">
+                            <span class="control-grp-lbl text-danger">FAC Share</span>
+                            
+                            <form name="FACShareForm" id="FACShareForm">
+                                <h5 style="border-bottom-color: red" class="sub-header">FAC Share Apportionment</h5>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label>Reinsurer Code</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" maxlength="15" id="TTS_RI_COMP" name="TTS_RI_COMP" title="" required/>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_ri_comp" ,"field1":"TTS_RI_COMP", "field2":"TTS_RI_COMP_NAME"}'>
+                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Reinsurer Name</label>
+                                        <input class="form-control" id="TTS_RI_COMP_NAME" name="TTS_RI_COMP_NAME" title="" readonly/>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Excess Share %</label>
+                                        <input class="form-control" type="number" id="TTS_SHARE_PERC1" name="TTS_SHARE_PERC1" title="Share Percentage" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>Reinsurer Share %</label>
+                                        <input class="form-control" type="number" min="1" id="TTS_SHARE_PERC" name="TTS_SHARE_PERC" required title=""/>
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>FAC Comission %</label>
+                                        <input class="form-control" type="number" min="1" id="TTS_RI_COMM_PERC" name="TTS_RI_COMM_PERC" required title=""/>
+
+                                    </div>
+
+
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>FAC Period </label>
+                                        <input class="form-control" type="text" id="FAC_FROM_DATE" name="FAC_FROM_DATE" title=""/>
+
+                                        <input class="form-control" type="text" id="FAC_TO_DATE" name="FAC_TO_DATE" title=""/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Share SI </label>
+                                        <input class="form-control" type="number" id="TTS_SHARE_SI_FC" name="TTS_SHARE_SI_FC" title="" readonly/>
+
+                                        <input class="form-control" type="text" name="TTS_SHARE_SI_BC" id="TTS_SHARE_SI_BC" title="" readonly/>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label>Share Premium</label>
+                                        <input class="form-control" type="number" id="TTS_SHARE_PREM_FC" name="TTS_SHARE_PREM_FC" title="" readonly/>
+
+                                        <input class="form-control" type="text" name="TTS_SHARE_PREM_BC" id="TTS_SHARE_PREM_BC" title="" readonly/>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label>Commission</label>
+                                        <input class="form-control" type="number" id="TTS_RI_COMM_FC" name="TTS_RI_COMM_FC" title="" readonly/>
+
+                                        <input class="form-control" type="text" id="TTS_RI_COMM_BC" name="TTS_RI_COMM_BC" title="" readonly/>
+                                    </div>
+
+                                </div>
+                                <hr/>
+                            </form>
+
+                            <div class="row">
+
+                                <div class="btn-block">
+
+                                    <button id="btn_add_share" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                    <button id="btn_update_share" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                    <button id="btn_remove_share" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+                                    
+                                    <button type="button" style="margin-left: 20px" class="btn btn-default pull-right dialog-btn" id="btnExptFAC_Share" title="Export Grid data to Excel">
+                                        <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                    </button>
+                                
+                                </div>
+                            </div>
+
+                            <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                            <div class="row">
+                                <table id="gridFACCompShare"></table>
+                                <table id="gridFACCompSharePager"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnShareOk" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                    <button type="button" id="btnShareClose" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

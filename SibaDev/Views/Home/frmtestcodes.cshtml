@@ -1,0 +1,239 @@
+﻿<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+            $.validator.addMethod("requireOne",
+                        function (value, element) {
+                            return $('input[type="checkbox"]:checked').size() > 0;
+                        },
+                        "Missing required status - Must choose one");
+
+            $.validator.setDefaults({ ignore: [] });
+
+            $.validator.setDefaults({
+                debug: true,
+                success: "data valid"
+            });
+
+            $(document).ready(function () {
+                $("#form1").validate({
+                    focusInvalid: false,
+                    focusCleanup: true,
+                    debug: false,
+                    onkeyup: false,
+                    onclick: true,
+                    onsubmit: true,
+                    onkeyup: false,
+                    rules: {
+                        txtName: {
+                            required: true
+                        },
+
+                        txtUserName: {
+                            required: true,
+                            minlength: 5
+                        },
+
+                        txtEmail: {
+                            required: true,
+                            email: true
+                        },
+
+                        txtPwd: {
+                            required: true,
+                            minlength: 6,
+                            rangelength: [6, 10]
+                        },
+
+                        txtConfirmPwd: {
+                            required: true,
+                            minlength: 6,
+                            rangelength: [6, 10],
+                            equalTo: "#<%=txtPwd.UniqueID %>"
+                        },
+
+                        txtWebsite: {
+                            required: true,
+                            url: true
+                        },
+
+                        txtAge: {
+                            required: true,
+                            digits: true,
+                            range: [20, 25]
+                        },
+
+                        txtDob: {
+                            required: true,
+                            rangelength: [10, 10],
+                            date: true
+                        },
+
+                        txtMobile: {
+                            required: true,
+                            digits: true,
+                            minlength: 10,
+                            maxlength: 10
+                        },
+
+                        txtAddress: {
+                            required: true
+                        },
+
+                        txtZipCode: {
+                            required: true,
+                            digits: true,
+                            minlength: 6
+                        },
+
+                        hiddenOptionValidator: {
+                            requireOne: true
+                        },
+                        submitHandler: function(form) {
+                            form.submit();
+                        }
+
+                    },
+                    messages: {
+                        txtName: {
+                            required: "Please enter name"
+                        },
+
+                        txtUserName: {
+                            required: "Please enter username",
+                            minlength: "Your user name is too short. Must be at least {0} characters."
+                        },
+
+                        txtEmail: {
+                            required: "Please enter email address"
+                        },
+
+                        txtPwd: {
+                            required: "Please enter password",
+                            minlength: "A minimum of {0} digits are required.",
+                            rangelength: "Password should be between {0} and {1} characters long"
+                        },
+
+                        txtConfirmPwd: {
+                            required: "Please re-enter password to confirm",
+                            minlength: "A minimum of {0} digits are required.",
+                            rangelength: "Password should be between {0} and {1} characters long"
+                        },
+                        txtWebsite: {
+                            required: "Please enter valid website URL"
+                        },
+                        txtAge: {
+                            required: "Please enter age",
+                            digits: "Only digits accepted",
+                            range: "Age should be between {0} and {1}"
+                        },
+
+                        txtDob: {
+                            required: "Please enter date of birth",
+                            rangelength: "Enter valid date format(mm/dd/yyyy)"
+                        },
+
+                        txtMobile: {
+                            required: "Please enter mobile no",
+                            digits: "Only digits accepted",
+                            minlength: "A minimum of {0} digits are required.",
+                            maxlength: "A maximum of {0} digits are required."
+                        },
+
+                        hiddenOptionValidator: {
+                            requireOne: "Please tick at least one hobby"
+                        },
+
+                        txtAddress: {
+                            required: "Please enter address"
+                        },
+
+                        txtZipCode: {
+                            required: "Please enter zipcode",
+                            digits: "Only digits accepted",
+                            minlength: "A minimum of {0} digits are required."
+                        }
+                    }
+                });
+
+                $("input[type='checkbox']").click(function () {
+                    $("#hiddenOptionValidator").valid();
+                });
+            });
+</script>
+
+<link href="StyleSheet.css" rel="stylesheet" type="text/css" />
+
+
+<noscript>
+    <h3 style="color: #FF3300;">
+        Javascript is not currently enabled in your browser.<br /> You must <a href="http://support.google.com/bin/answer.py?hl=en&answer=23852" target="_blank">enable Javascript </a> to run this web page correctly.
+    </h3>
+</noscript>
+
+
+    <fieldset style="width:600px;">
+        <legend>Jquery Validation example in asp.net</legend>
+
+        <table>
+            <tr>
+                <td><asp:Label ID="lblName" CssClass="lblsize" Text="Name" ></asp:Label></td>
+                <td><asp:TextBox ID="txtName"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td> <asp:Label ID="lblUserName" CssClass="lblsize" Text="User Name:"></asp:Label>  </td>
+                <td> <asp:TextBox ID="txtUserName"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblEmail" CssClass="lblsize" Text="Email Id:"></asp:Label></td>
+                <td><asp:TextBox ID="txtEmail" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblPwd" CssClass="lblsize" Text="Password:" ></asp:Label></td>
+                <td><asp:TextBox ID="txtPwd" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblCompPwd" CssClass="lblsize" Text="Confirm Password:"></asp:Label></td>
+                <td><asp:TextBox ID="txtConfirmPwd"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblWebsite" CssClass="lblsize" Text="Website:" ></asp:Label> </td>
+                <td><asp:TextBox ID="txtWebsite" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblAge" CssClass="lblsize" Text="Age:" ></asp:Label></td>
+                <td><asp:TextBox ID="txtAge" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblDOB" CssClass="lblsize" Text="DOB:" ></asp:Label></td>
+                <td><asp:TextBox ID="txtDob" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblMobile" CssClass="lblsize" Text="Mobile No.:" ></asp:Label></td>
+                <td> <asp:TextBox ID="txtMobile" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblAddress" CssClass="lblsize" Text="Address:" ></asp:Label></td>
+                <td><asp:TextBox ID="txtAddress" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblZip" CssClass="lblsize" Text="Zip code:" ></asp:Label></td>
+                <td><asp:TextBox ID="txtZipCode" ></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td>Hobbies:</td>
+                <td>
+                    <asp:Label ID="lblCrkt" Text="Cricket"></asp:Label>
+                    <asp:CheckBox ID="chkCricket" />
+                    <asp:Label ID="lblFootball" Text="Football"></asp:Label>
+                    <asp:CheckBox ID="chkFootball" " /><input id="hiddenOptionValidator" name="hiddenOptionValidator" type="hidden" />
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <asp:Button ID="btnSubmit"  Text="Submit" OnClick="btnSubmit_Click" />
+                </td>
+            </tr>
+        </table>
+    </fieldset>

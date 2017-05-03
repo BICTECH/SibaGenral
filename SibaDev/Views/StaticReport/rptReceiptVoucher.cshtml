@@ -1,0 +1,142 @@
+﻿@model SibaDev.Models.INS_UWD_POLICY_HEAD
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>rptReceiptVoucher</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/Custom/rptMotor.css" rel="stylesheet" />
+    <script src="~/Scripts/Js/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/Js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!--<div class="jumbotron">
+    <h1>My First Bootstrap Page</h1>
+    </div>-->
+
+    <div class="container" style="color:#000">
+        <!-------------------Ttile------------------------>
+        <div class="row" style="margin-top:20px; height:50px;">
+
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+
+                <div class="col-sm-2">[Logo]</div>
+                <div class="col-sm-8"><u><p style="text-align:center;font-weight:900; font-size:x-large">@Model.MS_SYS_COMPANY.CMP_NAME</p></u></div>
+
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+
+        <!------------------------------------------------->
+
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10 center-block">
+                <u>
+                    <p style="text-align:center;font-weight:bold;">RECEIPT VOUCHER</p>
+                </u>
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+
+        <!--------------Details------------------>
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+                <table height="75">
+                    <tr valign="top">
+                        <td width="112" height="22">Branch</td>
+                        <td width="13" align="right">:</td>
+                        <td width="465">@Model.MS_SYS_OFFICE.OFF_NAME</td>
+                        <td width="65" align="left">No.</td>
+                        <td width="38" align="center">:</td>
+                        <td width="225">[Receipt no]</td>
+                    </tr>
+                    <tr valign="top">
+                        <td height="22">Received From</td>
+                        <td align="right">:</td>
+                        <td>@Model.MS_UDW_CUSTOMERS.CUS_OFFICIAL_NAME</td>
+                        <td align="left">Date</td>
+                        <td align="center">:</td>
+                        <td>@Model.POLH_CRTE_DATE</td>
+                    </tr>
+                </table>
+                <table width="976" class="tbl2">
+                    <tr>
+                        <td height="110" colspan="3" align="left">
+                            <p>Policy No/Cert No : @Model.POLH_SYS_ID</p>
+                            <p>Sum Insured : @Model.POLH_POL_SI_FC</p>
+                            <p>Period of Insurance : [Insurance period]</p>
+                        </td>
+                        <td colspan="3" align="left">
+                            <p>Endorsement No : [endorsement no]</p>
+                            <p>Agency : [agency]</p>
+                            <p>&nbsp;</p>
+                        </td>
+                    </tr>
+                    <tr style="border:1px solid #000;">
+                        <td height="44" colspan="2"><p>Amount :  [amount]</p></td>
+                        <td colspan="4"><p>[amount in words]</p></td>
+                    </tr>
+
+                    <tr>
+                        <td height="34" colspan="6"><p>Being : [Type of Premium]</p></td>
+                    </tr>
+                    <tr>
+                        <td width="181" height="34"><p>Cash : </p></td>
+                        <td width="212" style="border:1px solid #000;"><p>Cheque No. [Payment Type]</p> </td>
+                        <td width="12" height="34">&nbsp;</td>
+                        <td height="34" colspan="2" style="border:1px solid #000;"><p>For Docs : [document name]</p></td>
+                        <td width="20">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td height="49"><p>Name of Cashier : [cashier]</p></td>
+                        <td height="49">&nbsp;</td>
+                        <td height="49">&nbsp;</td>
+                        <td height="49" colspan="2">Cashier's Signature : [Signature]</td>
+                        <td height="49">&nbsp;</td>
+                    </tr>
+                    <tr style="border:1px solid #000;">
+                        <td height="92" align="center">
+                            <p><strong>G/L A/C No</strong></p>
+                            <p>[a/c no]</p>
+                        </td>
+                        <td height="92" align="center">
+                            <p><strong>S/L A/C No</strong></p>
+                            <p>[a/c no]</p>
+                        </td>
+                        <td height="92">&nbsp;</td>
+                        <td width="253" height="92" align="center">
+                            <p><strong>Class of Business</strong></p>
+                            <p>[business]</p>
+                        </td>
+                        <td width="270" align="center">
+                            <p><strong>Classification</strong></p>
+                            <p>&nbsp;</p>
+                        </td>
+                        <td height="92">&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-1"></div>
+
+            <!-------------------Footer------------------->
+
+            <div class="col-sm-2"></div>
+        </div>
+
+    </div>
+
+</body>
+</html>

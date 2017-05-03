@@ -1,0 +1,266 @@
+﻿@{
+    ViewBag.Title = "Premium Tariff";
+}
+
+<script src="~/Scripts/Page_Scripts/premium.tariff.setup.js"></script>
+<script src="~/Scripts/Services/premiumtariff.service.js"></script>
+
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryPremiumTariff" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Premium Tariff Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="premiumtariffForm" id="premiumtariffForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Cover</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" id="TFF_CVR_CODE" name="TFF_CVR_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_cover", "field1":"TFF_CVR_CODE", "field2":"TFF_CVR__NAME"}'>
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="TFF_CVR__NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Product</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="TFF_PRD_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_product", "field1":"TFF_PRD_CODE", "field2":"TFF_PRD_NAME"}'>
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="TFF_PRD_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Motor Risk</label>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div class="input-group">
+                                                                <input class="form-control" min="3" max-length="15" type="text" name="TFF_MRK_CODE" placeholder="Code" required />
+                                                                <span class="input-group-btn">
+                                                                    <button type="button" class="btn btn_lov btn-default pull-left" data-dialog='{"type": "btn_motor_risk", "field1":"TFF_MRK_CODE", "field2":"TFF_MRK_NAME"}'>
+                                                                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input class="form-control" min="3" max-length="50" type="text" name="TFF_MRK_NAME" placeholder="Name" required />
+                                                        </div>
+                                                    </div>
+                                                </div>           
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Amount</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_amount">
+                                                                <input id="TFF_DEFAULT_AMT" class="form-control" min="3" maxlength="50" type="number"
+                                                                       name="TFF_DEFAULT_AMT" title="Name">
+                                                                <span class="textfieldRequiredMsg">Default is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Default must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="required">Min Amount</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_minamount">
+                                                                <input id="TFF_MIN_AMT" class="form-control" min="3" maxlength="50" type="number"
+                                                                       name="TFF_MIN_AMT" title="Name">
+                                                                <span class="textfieldRequiredMsg">Min amount is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Min amount must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Max Amount</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_maxamount">
+                                                                <input id="TFF_PP_AMT" class="form-control" min="3" maxlength="50" type="number"
+                                                                       name="TFF_PP_AMT" title="Name">
+                                                                <span class="textfieldRequiredMsg">Max amount is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Max amount must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Default Rate</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_perc">
+                                                                <input id="TFF_DEFAULT_RATE" class="form-control" min="3" maxlength="50" type="number"
+                                                                       name="TFF_DEFAULT_RATE" title="Name">
+                                                                <span class="textfieldRequiredMsg">Default rate is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Default rate  must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Min Rate</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_minperc">
+                                                                <input id="TFF_MIN_RATE" class="form-control" min="3" maxlength="50" type="number"
+                                                                       name="TFF_MIN_RATE" title="Name">
+                                                                <span class="textfieldRequiredMsg">Min rate is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Min rate must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-3">
+                                                            <label class="required">Max Rate</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <span id="spry_maxperc">
+                                                                <input id="TFF_MAX_RATE" class="form-control" min="3" maxlength="50" type="number"
+                                                                       name="TFF_MAX_RATE" title="Name">
+                                                                <span class="textfieldRequiredMsg">Max rate is required.</span>
+                                                                <span class="textfieldInvalidFormatMsg">Max rate must be integers</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label>
+                                                                Status
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input class="checkbox checkbox-inline pull-left" type="checkbox" id="CIT_STATUS" name="CIT_STATUS" checked required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdPremiumtariff"></table>
+                                    <table id="grdPremiumtariffPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

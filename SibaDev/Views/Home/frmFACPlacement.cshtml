@@ -1,0 +1,341 @@
+﻿@{
+    ViewBag.Title = "FAC placement";
+}
+<script src="~/Scripts/Reinsurance/facplacement.setup.js"></script>
+
+<script src="~/Scripts/Page_Scripts/treatyArrangement.setup.js"></script>
+<script src="~/Scripts/Services/office.service.js"></script>
+<script src="~/Scripts/Services/company.service.js"></script>
+
+<div class="main">
+    
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                              
+
+                                    <div class="col-md-8">
+                                       
+
+                                        <button type="button" id="btnQueryOffice" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                         class="form-control" type="text" name="txtSearch" placeholder="Search by Policy Number">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">FAC Summary</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="receiptAccountDetailsForm" id="facSummaryForm">
+
+
+                                    <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                       
+
+                                        <button type="button" style="margin-left:20px"class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+
+                                        <button type="reset" class="btn btn-primary pull-left" id="btnFACAppor">
+                                            <i class="fa fa-list" title="" aria-hidden="true"></i>FAC Apportionments
+                                        </button>                                       
+                                    </div>                               
+                                </div>
+                               
+                                <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdFacPlacement"></table>
+                                    <table id="grdFacPlacementPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Treaty Apportionment -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="FACApportionmentModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog" style="width:1000px">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"> FAC Apportionments </h4>
+
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-success" id="btn_Save">
+                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                        </button>
+                        <button type="button" class="btn btn-danger" id="btnDelete">
+                            <i class="fa fa-check-square-o" title="Delete" aria-hidden="true"></i> Close FAC
+                        </button>
+
+                        <button type="button" class="btn btn-success" id="btnConfirm">
+                            <i class="fa fa-print" title="Save" aria-hidden="true"></i> FAC Slip
+                        </button>
+
+                    </div>
+                   
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width:100%">
+                            <span class="control-grp-lbl text-danger">FAC Apportionment</span>
+                            <form name="treatyApportionmentForm" id="FACApportionmentForm">
+                                
+                                <h5 style="border-bottom-color: red" class="sub-header">Treaty Apportionments</h5>
+
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <label>Original SI</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Poicy or risk Sum Insured" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>Original Premium</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <label>Treaty SI </label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>Treaty Premium</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>Treaty % </label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+
+                                   
+                                </div>
+                                <h5 style="border-bottom-color: red" class="sub-header">FAC Excess Details</h5>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label> FAC Excess SI </label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label>FAC Excess Premium </label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>% FAC Excess </label>
+                                        <textarea class="form-control" id="PAD_DESC" maxlength="1000" rows="3" name="PAD_DESC" title="Line Narration" required readonly></textarea>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>% of Excess for FAC</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" />
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name"  />
+                                    </div>
+                                </div>
+
+                                <h5 style="border-bottom-color: red" class="sub-header"></h5>
+
+                            </form>
+
+                            <div class="row">
+
+                                <div class="btn-block">
+                                    
+                                    <button id="btn_add_rcptDetail" class="btn btn-default" type="button"> <i class="fa ion-plus-circled text-success"></i> Add New</button>
+                                    <button id="btn_update_rcptDetail" class="btn btn-default" type="button"><i class="fa ion-edit text-yellow"></i> Update</button>
+                                    <button id="btn_remove_rcptDetail" class="btn btn-default" type="button"><i class="fa ion-trash-b text-danger"></i> Remove</button>
+
+
+                                    <button type="reset" class="btn btn-primary pull-right" id="btnFACCompShare">
+                                        <i class="fa fa-list" title="" aria-hidden="true"></i>FAC Share
+                                    </button>
+
+
+
+                                </div>
+                            </div>
+                          
+                            <div class="row">
+                                <table id="gridFACAppor"></table>
+                                <table id="gridFACApporPager"></table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Treaty share among companies -->
+<div class="container">
+    <div class="modal draggable ui-accordion fade" id="FACShareModal" role="dialog" data-backdrop="static" data-keyboard="true">
+        <div class="modal-dialog" style="width: 1000px">
+            <div class="modal-content">
+                <div class="modal-header modal-header-success">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Treaty Share</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row control-group form-padding">
+                        <div class="container" style="width: 100%">
+                            <span class="control-grp-lbl text-danger">FAC Share</span>
+                            
+                            <form name="FACShareForm" id="FACShareForm">
+                                <h5 style="border-bottom-color: red" class="sub-header">FAC Share Apportionment</h5>
+
+
+
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <label>Reinsurer Code</label>
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" maxlength="15" id="PAD_ACCT_CODE" name="PAD_ACCT_CODE" title="Main Account Code" required/>
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default btn_lov" data-dialog='{"type":"btn_main_account" ,"field1":"PAD_ACCT_CODE", "field2":"ACCT_NAME"}'>
+                                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Reinsurer Name</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Excess Share %</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>Reinsurer Share %</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency"/>
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label>FAC Comission %</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency"/>
+
+                                    </div>
+
+
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label>FAC Period </label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency"/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label>Share SI </label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label>Sahre Premium</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label>Commission</label>
+                                        <input class="form-control" type="number" min="1" id="RAD_AMNT_FC" name="RAD_AMNT_FC" title="Amount Foreign Currency" readonly/>
+
+                                        <input class="form-control" type="text" name="SUB_ACCT_NAME" title="Sub Ledger Name" readonly/>
+                                    </div>
+
+                                </div>
+                                <hr/>
+                            </form>
+                            <div class="row">
+
+                                <button type="button" style="margin-left: 20px" class="btn btn-default pull-right dialog-btn" id="btnExptFAC_Share" title="Export Grid data to Excel">
+                                    <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27"/> Export
+                                </button>
+
+                            </div>
+                            <h5 style="border-bottom-color: red" class="sub-header"></h5>
+                            <div class="row">
+                                <table id="gridFACCompShare"></table>
+                                <table id="gridFACCompSharePager"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary pull right" data-dismiss="modal">Ok</button>
+                    <button type="button" class="btn btn-danger pull right" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

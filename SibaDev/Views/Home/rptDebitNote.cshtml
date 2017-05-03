@@ -1,0 +1,253 @@
+﻿@{
+    ViewBag.Title = "";
+}
+
+<script src="~/Scripts/Page_Scripts/bondreport.js"></script>
+<script src="~/Scripts/Services/policy.bonds.service.js"></script>
+<script src="~/Scripts/Utilities/form.label.js"></script>
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Css/Custom/rptMotor.css" rel="stylesheet" />
+<script src="~/Scripts/Js/jquery-1.11.3.min.js"></script>
+<script src="~/Scripts/Js/bootstrap.min.js"></script>
+<script>
+    function printpage() {
+        document.getElementById('btnPrint').style.visibility = "hidden";
+        document.getElementById('btnQueryBondReport').style.visibility = "hidden";
+        document.getElementById('txtSearch').style.visibility = "hidden";
+        window.print();
+    }
+</script>
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryBondReport" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <form id="reportbond">
+                            <div class="row">
+                                <button id="btnPrint" type="button" value="Print" onClick="printpage()">
+
+                                    <img src="~/Content/Images/PrintNew.png" />
+
+                                </button>
+                            </div>
+                            <div class="container" style="color:#000">
+                                <!-------------------Ttile------------------------>
+                                <div class="row" style="margin-top:20px; height:50px;">
+
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-12">
+
+                                        <div class="col-sm-1">[Logo]</div>
+                                        <div class="col-sm-8"><input name="CMP_NAME" class="no-border" /></div>
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
+
+                                <!------------------------------------------------->
+
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-10 center-block">
+                                        <u><p style="text-align:center;font-weight:900; font-size:x-large">DEBIT NOTE</p></u>
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
+
+                                <!--------------Details------------------>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-10">
+                                        <table height="187">
+                                            <tr valign="top">
+                                                <td width="147" height="22" style="font-weight:bold;">Branch</td>
+                                                <td width="35" align="left">:</td>
+                                                <td width="387"><input name="OFF_NAME" class="no-border" /></td>
+                                                <td width="110" align="left" style="font-weight:bold;">Doc No.</td>
+                                                <td width="44" align="center">:</td>
+                                                <td width="231"><input name="POLH_DOC_NO" class="no-border" /></td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="22" style="font-weight:bold;">Account Code</td>
+                                                <td align="left">:</td>
+                                                <td><input name="POLH_CUST_CODE" class="no-border" /></td>
+                                                <td align="left" style="font-weight:bold;">Date</td>
+                                                <td align="center">:</td>
+                                                <td>[Date]</td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="22" style="font-weight:bold;">Account Name</td>
+                                                <td align="left">:</td>
+                                                <td><input name="CUS_OFFICIAL_NAME" class="no-border" /></td>
+                                                <td align="left" style="font-weight:bold;">Department </td>
+                                                <td align="center">:</td>
+                                                <td><input name="COB_NAME" class="no-border" /></td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="22" style="font-weight:bold;">Address</td>
+                                                <td align="left">:</td>
+                                                <td><input name="CUS_ADDRS1" class="no-border" /></td>
+                                                <td align="left" style="font-weight:bold;">Type </td>
+                                                <td align="center">:</td>
+                                                <td><input name="INT_OFFICIAL_NAME" class="no-border" /></td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="27">&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td align="left" style="font-weight:bold;">Agency</td>
+                                                <td align="center">:</td>
+                                                <td><input name="INT_OFFICIAL_NAME" class="no-border" /></td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="21" colspan="6"><hr></td>
+                                            </tr>
+
+                                        </table>
+                                        <table height="187">
+                                            <tr valign="top">
+                                                <td width="147" height="22" style="font-weight:bold;">Policy Number</td>
+                                                <td width="35" align="left">:</td>
+                                                <td width="387"><input name="POLH_SYS_ID" class="no-border" /></td>
+                                                <td width="110" align="left" style="font-weight:bold;">Class</td>
+                                                <td width="44" align="center">:</td>
+                                                <td width="231"><input name="COB_NAME" class="no-border" /></td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="22" style="font-weight:bold;">Insured Name</td>
+                                                <td align="left">:</td>
+                                                <td><input name="CUS_OFFICIAL_NAME" class="no-border" /></td>
+                                                <td align="left" style="font-weight:bold;">Policy SI</td>
+                                                <td align="center">:</td>
+                                                <td><input name="RCOV_SI_FC" class="no-border" /></td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="26" style="font-weight:bold;">Period of Insurance</td>
+                                                <td align="left">:</td>
+                                                <td><input name="POLH_POL_END_DATE" class="no-border" />-<input name="POLH_POL_END_DATE" class="no-border" /></td>
+
+
+                                            </tr>
+
+                                            <tr valign="top">
+                                                <td height="21" colspan="6"><hr></td>
+                                            </tr>
+
+                                        </table>
+
+
+                                        <table class="table table-bordered">
+
+                                            <thead class="">
+
+                                                <tr>
+
+                                                    <th>DESCRIPTION</th>
+
+                                                    <th>CEDIS GHC</th>
+
+                                                </tr>
+
+                                            </thead>
+
+                                            <tbody class="tbl2">
+
+                                                <tr>
+
+                                                    <td>
+                                                        <p>Being Premium on [Policy Details]</p>
+                                                        <p>STICKER FEES</p>
+                                                    </td>
+                                                    <td>
+                                                        <p>GHC:<input name="PR_FC_AMOUNT" class="no-border" /></p>
+                                                        <p>[STICKER FEES]</p>
+                                                    </td>
+
+
+                                                </tr>
+
+                                                <tr>
+
+                                                    <td>
+
+                                                        <p> [Amount in words] </p>
+                                                    </td>
+                                                    <td></td>
+
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+
+
+                                        <table>
+
+                                            <tr>
+                                                <td height="24" colspan="3"><p style="font-style:italic">We have debited your account as follows : </p></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+
+                                        <table width="976">
+                                            <tr>
+                                                <td width="406" height="32">User : <input name="POLH_CRTE_BY" class="no-border" /></td>
+                                                <td align="center">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td height="60"><p>&nbsp;</p></td>
+                                                <td width="558"><p>Authorised Signatory : .................................................................................</p></td>
+                                            </tr>
+
+                                        </table>
+
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+
+                                    <!-------------------Footer------------------->
+
+                                    <div class="col-sm-2"></div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

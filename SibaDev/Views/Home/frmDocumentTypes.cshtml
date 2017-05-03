@@ -1,0 +1,2630 @@
+﻿<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+    <script src="~/Scripts/SibaScript/getSequenceNo.js"></script>
+    <!-- general references -->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.base.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.2.min.js"></script>
+
+    <script src="~/Scripts/jquery-1.7.2.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.8.11.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.min.js"></script>
+
+    <script type="text/javascript">
+    ////--- -----------------------------------Select Code  LOV ------------ -->
+
+    //    // LOV to select from
+        $(document).ready(function () {
+            $("#btnQueryDocTypes").click(function () {
+                //function findCovers() {
+
+                var GetItem = [{
+                    //paramProdCode: $("#txtProductCode").val(),
+                    paramsearchField: $("#txtSearch").val(),
+                    //paramCoverCode: $('#txtSearchCover').val()
+                }];
+
+                //alert("No data found, Check and try again");
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '/api/CreateDocumentTypes/GetCode',
+
+                    //Data to send
+
+                    data: JSON.stringify({ getcov: GetItem }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+
+                    //dataprocess: true,
+                    success: function (data) {
+
+                        //clear the grid
+                        $("#grdDocTypes").clearGridData();
+
+                        var Itemdata = data;
+                        //alert(data);
+
+                        if (Itemdata.length > 0) {
+                            for (var i = 0; i < Itemdata.length; i++)
+
+                                jQuery("#grdDocTypes").addRowData(Itemdata[i].id, Itemdata[i]);
+                        }
+                        else {
+
+                            alert("No data found, Check and try again");
+                        }
+
+                    },
+                    'error': function (error) {
+
+                        alert(JSON.stringify(error));
+                    }
+
+                });
+            });
+        });
+
+            $(document).ready(function () {
+                $("#grdDocTypes").jqGrid({
+                    data: 'local',
+                    //height: 255,
+                    //width: 600,
+                    colNames: ['Type', 'Description', 'Registration Entry', 'Document Category', 'Journal','Current Year', 'Default Acct. Code', 'Expenditure Type', 'Company Code', 'Status'],
+                    colModel: [
+                        { name: 'DTY_DOC_TYPE', index: 'DTY_DOC_TYPE', width: 100 },
+                        { name: 'DTY_DOC_DESC', index: 'DTY_DOC_DESC', width: 300 },
+                        { name: 'DTY_RESTR_ENTRY', index: 'DTY_RESTR_ENTRY', width: 100 },
+                        { name: 'DTY_DOC_CATEGORY', index: 'DTY_DOC_CATEGORY', width: 100 },
+                        { name: 'DTY_JRNL_CATEGORY', index: 'DTY_JRNL_CATEGORY', width: 100 },
+                        { name: 'DTY_FX_CURR_YN', index: 'DTY_FX_CURR_YN', width: 100 },
+                        { name: 'DTY_DEFF_ACCT_CODE', index: 'DTY_DEFF_ACCT_CODE', width: 110 },
+                        { name: 'DTY_EXPEN_TYPE', index: 'DTY_EXPEN_TYPE', width: 100 },
+                        { name: 'DTY_CMP_CODE', index: 'DTY_CMP_CODE', width: 100 },
+                        { name: 'DTY_STATUS', index: 'DTY_STATUS', width: 100 },
+
+
+                    ],
+                    //Retrive and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#grdDocTypes');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                        var Type = DescCellData = grid.jqGrid('getCell', sel_id, 'DTY_DOC_TYPE');
+                        var Desc = DescCellData1 = grid.jqGrid('getCell', sel_id, 'DTY_DOC_DESC');
+                        var RegEntry = DescCellData2 = grid.jqGrid('getCell', sel_id, 'DTY_RESTR_ENTRY');
+                        var DocCat = DescCellData3 = grid.jqGrid('getCell', sel_id, 'DTY_DOC_CATEGORY');
+                        var JrnlCat = DescCellData4 = grid.jqGrid('getCell', sel_id, 'DTY_JRNL_CATEGORY');
+                        var FxCurYn = DescCellData5 = grid.jqGrid('getCell', sel_id, 'DTY_FX_CURR_YN');
+                        var DeftAcc = DescCellData6 = grid.jqGrid('getCell', sel_id, 'DTY_DEFF_ACCT_CODE');
+                        var ExpTy = DescCellData7 = grid.jqGrid('getCell', sel_id, 'DTY_EXPEN_TYPE');
+                        var CmpCode = DescCellData8 = grid.jqGrid('getCell', sel_id, 'DTY_CMP_CODE');
+
+
+                        $("#txtDocType").val(Type);
+                        $("#txtDesc").val(Desc);
+                        $("#txtRegisEntry").val(RegEntry);
+                        $("#txtCat").val(DocCat);
+                        $("#txtJrnlCat").val(JrnlCat);
+                        $("#txtFxnCurYr").val(FxCurYn);
+                        $("#txtDefAcctCode").val(DeftAcc);
+                        $("#txtExpType").val(ExpTy);
+                        $("#txtCmpCode").val(CmpCode);
+                        $("#txtStatus").val(1);
+                    },
+
+
+                    rowNum: 50,
+                    rowList: [50, 75, 100],
+                    pager: '#grdPager',
+                    sortname: 'id',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    loadonce: true,
+                    caption: "Document Type",
+                    loadtext: 'Loading, please wait',
+                    ignoreCase: true,
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+
+                });
+                jQuery("#grdDocTypes").jqGrid('navGrid', '#grdPager',
+                    { search: true, edit: false, add: false, del: false });
+
+                jQuery("#grdDocTypes").jqGrid('filterToolbar',
+                   { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+            });
+
+            ///----------------------Grid to select Documents Type No.---------------------
+            $(document).ready(function () {
+                $("#btnQueryDocNo").click(function () {
+
+                    $("#gridFindDocNo").jqGrid("setGridParam",{
+
+                        url: '/api/getAllDocumentsNo',
+                        datatype: "json",
+                        contentType: "application/json; charset-utf-8",
+                        //data: JSON.stringify(custData),
+                        type: 'GET',
+                        //new added
+
+                    }).trigger("reloadGrid", { current: true });
+
+                });
+            });
+
+            $(document).ready(function () {
+
+                $("#gridFindDocNo").jqGrid({
+                    data: 'local',
+                    colNames: [
+                        'Office', 'Year','Generate Document No','Doc.No.','Prefix to Start No.','End No.','Next No.Due'
+                    ],
+                    colModel: [
+                        { name: 'DTNO_OFFICE_CODE', index: 'DTNO_OFFICE_CODE', width: 200, },
+                        { name: 'DTNO_FYEAR', index: 'DTNO_FYEAR', width: 100 },
+                        { name: 'DTGEN_NO', index: 'DTGEN_NO', width: 50 },
+                        { name: 'DTNO_DTY_ORGN', index: 'DTNO_DTY_ORGN', width: 200, },
+                        { name: 'DTSTART_NO', index: 'DTSTART_NO', width: 200 },
+                        { name: 'DTEND_NO', index: 'DTEND_NO', width: 200 },
+                        { name: 'DTNEXT_DUE', index: 'DTNEXT_DUE', width: 200 }
+                    ],
+                    //Retrive Code and description and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#gridFindDocNo');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                        var Code = grid.jqGrid('getCell', sel_id, 'DTNO_OFFICE_CODE');
+                        var fryear = DescCellData = grid.jqGrid('getCell', sel_id, 'DTNO_FYEAR');
+                        var Geno = DescCellData = grid.jqGrid('getCell', sel_id, 'DTGEN_NO');
+                        var orgn = grid.jqGrid('getCell', sel_id, 'DTNO_DTY_ORGN');
+                        var StartNo = DescCellData = grid.jqGrid('getCell', sel_id, 'DTSTART_NO');
+                        var EndNo = DescCellData = grid.jqGrid('getCell', sel_id, 'DTEND_NO');
+                        var NextDue = DescCellData = grid.jqGrid('getCell', sel_id, 'DTNEXT_DUE');
+                        $("#txtOfficeCode").val(Code);
+                        $("#txtFyear").val(fryear);
+                        $("#chkGenDoc").val(Geno);
+                        $("#txtDtyOrgn").val(orgn);
+                        $("#txtStartNo").val(StartNo);
+                        $("#txtEndNo").val(EndNo);
+                        $("#txtNextDue").val(NextDue);
+
+                    },
+
+                    rowNum: 50,
+                    rowList: [50, 100, 200],
+                    pager: '#gridFindDocPager',
+                    sortname: 'Code',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    caption: "Find Document Type No's",
+                    loadtext: 'Loading, please wait',
+                    loadonce: true,
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+                });
+                jQuery("#gridFindDocNo").jqGrid('navGrid', '#gridFindDocPager',
+                    { edit: false, add: false, del: false });
+
+                jQuery("#gridFindDocNo").jqGrid('filterToolbar',
+                 { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+            });
+
+            //Document Number Function
+            function documentNumber() {
+                var OfficeNo, docYear;
+
+            
+              
+
+                OfficeNo = $("#txtOfficeCode").val();
+                docYear = $("#txtFyear").val().substr(2, 2);
+              
+
+                //uw = 2016;
+
+                //$('#txtEndSeq').val("0");
+                //$('#txtRenSeq').val("0");
+                //$('#txtSerNo').val(serNo);
+
+               // PolicyNo = comCode + "-" + productCode + "-" + 2016 + "-" + productCode + "-0000-" + serNo
+                DocuNo = OfficeNo + "-" + docYear
+
+                $("#txtDocPrefix").val(DocuNo);
+
+                // return PolicyNo;
+            }
+
+
+
+            ///----------------------Grid to select Currency.---------------------
+            $(document).ready(function () {
+                $("#btnQueryCurNo").click(function () {
+
+                    $("#gridFindCurNo").jqGrid("setGridParam", {
+
+                        url: '/api/getAllDocumentsNo',
+                        datatype: "json",
+                        contentType: "application/json; charset-utf-8",
+                        //data: JSON.stringify(custData),
+                        type: 'GET',
+                        //new added
+
+                    }).trigger("reloadGrid", { current: true });
+
+                });
+            });
+
+            $(document).ready(function () {
+
+                $("#gridFindCurNo").jqGrid({
+                    data: 'local',
+                    colNames: [
+                        'Currency Name', 'Currency Symbol'
+                    ],
+                    colModel: [
+                        { name: 'CUR_NAME', index: 'CUR_NAME', width: 400, },
+                        { name: 'CUR_CODE', index: 'CUR_CODE', width: 400 },
+                    //     { name: 'DTGEN_NO', index: 'DTGEN_NO', width: 50 },
+                    //{ name: 'DTNO_DTY_ORGN', index: 'DTNO_DTY_ORGN', width: 200, },
+                    //    { name: 'DTSTART_NO', index: 'DTSTART_NO', width: 200 },
+                    //     { name: 'DTEND_NO', index: 'DTEND_NO', width: 200 },
+                    //       { name: 'DTNEXT_DUE', index: 'DTNEXT_DUE', width: 200 }
+                    ],
+                    //Retrive Code and description and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#gridFindCurNo');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                        var CName = grid.jqGrid('getCell', sel_id, 'CUR_NAME');
+                        var CCode = DescCellData = grid.jqGrid('getCell', sel_id, 'CUR_CODE');
+                  
+                        $("#txtCurName").val(CName);
+                        $("#txtCurCode").val(CCode);
+                       
+
+                    },
+
+                    rowNum: 50,
+                    rowList: [50, 100, 200],
+                    pager: '#gridFindCurPager',
+                    sortname: 'Code',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    caption: "Selected Currencies",
+                    loadtext: 'Loading, please wait',
+                    loadonce: true,
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+                });
+                jQuery("#gridFindCurNo").jqGrid('navGrid', '#gridFindCurPager',
+                    { edit: false, add: false, del: false });
+
+                jQuery("#gridFindCurNo").jqGrid('filterToolbar',
+                 { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+            });
+
+
+        //========================Journal Category ===========================
+            //--- -----------------------------------SelectCode  LOV Journal------------ -->
+            // LOV to select from
+
+            $(document).ready(function () {
+                $("#btnQueryJournal").click(function () {
+                    //function findCovers() {
+
+                    var GetItem = [{
+                        //paramProdCode: $("#txtProductCode").val(),
+                        paramsearchField: $("#txtSearchJournal").val(),
+                        //paramCoverCode: $('#txtSearchCover').val()
+                    }];
+
+                    //alert("No data found, Check and try again");
+
+                    $.ajax({
+
+                        type: 'POST',
+                        url: '/api/CreateJournalCategories/GetName',
+
+                        //Data to send
+
+                        data: JSON.stringify({ getcov: GetItem }),
+
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+
+
+                        //dataprocess: true,
+                        success: function (data) {
+
+                            //clear the grid
+                            $("#grdJournal").clearGridData();
+
+                            var Covdata = data;
+                            //alert(data);
+
+                            if (Covdata.length > 0) {
+                                for (var i = 0; i < Covdata.length; i++)
+
+                                    jQuery("#grdJournal").addRowData(Covdata[i].id, Covdata[i]);
+                            }
+                            else {
+
+                                alert("No data found, Check and try again");
+                            }
+
+                        },
+                        'error': function (error) {
+
+                            alert(JSON.stringify(error));
+                        }
+
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $("#grdJournal").jqGrid({
+                    data: 'local',
+                    colNames: ['Code', 'Name'],
+                    colModel: [
+                        { name: 'CODE', index: 'CODE', width: 150 },
+                        { name: 'NAME', index: 'NAME', width: 500 },
+                    ],
+                    //Retrive Code and description and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#grdJournal');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                        var Id = grid.jqGrid('getCell', sel_id, 'CODE');
+                        var Code = DescCellData = grid.jqGrid('getCell', sel_id, 'NAME');
+                        $("#txtJou").val(Id);
+                      //  $("#txtName").val(Code);
+                    },
+
+                    rowNum: 50,
+                    rowList: [50, 75, 150],
+                    pager: '#grdPager',
+                    sortname: 'id',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    loadonce: true,
+                    ignoreCase: true,
+                    caption: "Journal Categories list",
+                    loadtext: 'Loading, please wait',
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+                });
+                jQuery("#grdJournal").jqGrid('navGrid', '#grdPager',
+                    { search: true, edit: false, add: false, del: false });
+
+                jQuery("#grdJournal").jqGrid('filterToolbar',
+                 { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+                jQuery("#grdJournal").jqGrid('bindKeys');
+            });
+
+
+
+
+            //----------------------------------QUERY DOCUMENTS TYPES MASTER ---------------------
+            $(document).ready(function () {
+                $("#btnQueryDocumentMaster").click(function () {
+                    //function findCovers() {
+
+                    var GetItem = [{
+                        //paramProdCode: $("#txtProductCode").val(),
+                        paramsearchField: $("#txtSearchMaster").val(),
+                        //paramCoverCode: $('#txtSearchCover').val()
+                    }];
+
+                    //alert("No data found, Check and try again");
+
+                    $.ajax({
+
+                        type: 'POST',
+                        url: '/api/CreateDocTypeNo/GetCode',
+
+                        //Data to send
+
+                        data: JSON.stringify({ getcov: GetItem }),
+
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+
+
+                        //dataprocess: true,
+                        success: function (data) {
+
+                            //clear the grid
+                            $("#grdDocTypes").clearGridData();
+
+                            var Itemdata = data;
+                            //alert(data);
+
+                            if (Itemdata.length > 0) {
+                                for (var i = 0; i < Itemdata.length; i++)
+
+                                    jQuery("#grdDocTypes").addRowData(Itemdata[i].id, Itemdata[i]);
+                            }
+                            else {
+
+                                alert("No data found, Check and try again");
+                            }
+
+                        },
+                        'error': function (error) {
+
+                            alert(JSON.stringify(error));
+                        }
+
+                    });
+                });
+            });
+
+
+
+
+
+
+
+            //--- -----------------------------------SelectCode  LOV Document Category------------ -->
+            // LOV to select from
+
+            $(document).ready(function () {
+                $("#btnQueryDocuCat").click(function () {
+                    //function findCovers() {
+
+                    var GetItem = [{
+                        //paramProdCode: $("#txtProductCode").val(),
+                        paramsearchField: $("#txtSearchDocCat").val(),
+                        //paramCoverCode: $('#txtSearchCover').val()
+                    }];
+
+                    //alert("No data found, Check and try again");
+
+                    $.ajax({
+
+                        type: 'POST',
+                        url: '/api/CreateDocumentCategories/GetName',
+
+                        //Data to send
+
+                        data: JSON.stringify({ getcov: GetItem }),
+
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+
+
+                        //dataprocess: true,
+                        success: function (data) {
+
+                            //clear the grid
+                            $("#grdDocuCat").clearGridData();
+
+                            var Covdata = data;
+                            //alert(data);
+
+                            if (Covdata.length > 0) {
+                                for (var i = 0; i < Covdata.length; i++)
+
+                                    jQuery("#grdDocuCat").addRowData(Covdata[i].id, Covdata[i]);
+                            }
+                            else {
+
+                                alert("No data found, Check and try again");
+                            }
+
+                        },
+                        'error': function (error) {
+
+                            alert(JSON.stringify(error));
+                        }
+
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $("#grdDocuCat").jqGrid({
+                    data: 'local',
+                    colNames: ['Code', 'Name'],
+                    colModel: [
+                        { name: 'CODE', index: 'CODE', width: 150 },
+                        { name: 'NAME', index: 'NAME', width: 500 },
+                    ],
+                    //Retrive Code and description and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#grdDocuCat');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                        var Id = grid.jqGrid('getCell', sel_id, 'CODE');
+                        var Code = DescCellData = grid.jqGrid('getCell', sel_id, 'NAME');
+                        $("#txtCat").val(Id);
+                       // $("#txtName").val(Code);
+                    },
+
+                    rowNum: 50,
+                    rowList: [50, 75, 150],
+                    pager: '#grdPager',
+                    sortname: 'id',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    loadonce: true,
+                    ignoreCase: true,
+                    caption: "Document Categories list",
+                    loadtext: 'Loading, please wait',
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+                });
+                jQuery("#grdDocuCat").jqGrid('navGrid', '#grdPager',
+                    { search: true, edit: false, add: false, del: false });
+
+                jQuery("#grdDocuCat").jqGrid('filterToolbar',
+                 { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+                jQuery("#grdDocuCat").jqGrid('bindKeys');
+            });
+
+            // ==================================Documents Types Grid ===============================
+
+            $(document).ready(function () {
+
+                $("#gridAppDoc").jqGrid({
+                    data: 'local',
+                    colNames: ['Office', 'Year', 'Document No.',
+                         'Start No.', 'End No.','Next Due No','STATUS'],
+
+                    colModel: [
+                        //{ name: 'DTY_SYS_ID', index: 'DTY_SYS_ID', width: 150, sorttype: "int" },
+                      //  { name: 'DOCNO_CODE', index: 'DOCNO_CODE', width: 150 },
+                        { name: 'DOCNO_BRANCH', index: 'DOCNO_BRANCH', width: 150 },
+                        { name: 'DOCNO_YEAR', index: 'DOCNO_YEAR', width: 150 },
+                        { name: 'DOCNO_NUMBER', index: 'DOCNO_NUMBER', width: 150 },
+                        { name: 'DOCNO_START', index: 'DOCNO_START', width: 150 },
+                        { name: 'DOCNO_END', index: 'DOCNO_END', width: 150 },
+                        { name: 'DOCNO_NEXTNO_DUE', index: 'DOCNO_NEXTNO_DUE', width: 150 },
+                          { name: 'DOCNO_STATUS', index: 'DOCNO_STATUS', width: 150 }
+                    ],
+                    //Retrive Code and description and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#gridAppDoc');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                       // var Code = grid.jqGrid('getCell', sel_id, 'DOCNO_CODE');
+                        var Bran = DescCellData = grid.jqGrid('getCell', sel_id, 'DOCNO_BRANCH');
+                        var DocYr = DescCellData = grid.jqGrid('getCell', sel_id, 'DOCNO_YEAR');
+                        var DocNo = DescCellData = grid.jqGrid('getCell', sel_id, 'DOCNO_NUMBER');
+                        var DocSt = DescCellData = grid.jqGrid('getCell', sel_id, 'DOCNO_START');
+                        var DocEnd = DescCellData = grid.jqGrid('getCell', sel_id, 'DOCNO_END');
+                        var DocNextDue = DescCellData = grid.jqGrid('getCell', sel_id, 'DOCNO_NEXTNO_DUE');
+                      //  $("#txtOfficeCode").val(Code);
+                        $("#txtOfficeCode").val(Bran);
+                        $("#txtFyear").val(DocYr);
+                        $("#txtDocPrefix").val(DocNo);
+                        $("#txtStartNo").val(DocSt);
+                        $("#txtEndNo").val(DocEnd);
+                        $("#txtNextDue").val(DocNextDue);
+
+                    },
+
+                    rowNum: 30,
+                    rowList: [30, 50, 100],
+                    pager: '#grdDocPager',
+                    sortname: 'Code',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    caption: "Documents Types No",
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+                });
+                jQuery("#gridAppDoc").jqGrid('navGrid', '#grdDocPager',
+                    { edit: false, add: false, del: false });
+            });
+            //call add function to add records to Documments Type No. grid
+
+
+
+
+
+
+
+            // ==================================DOCUMENT CURRENCY Types Grid ===============================
+
+            $(document).ready(function () {
+
+                $("#gridAppDocCUR").jqGrid({
+                    data: 'local',
+                    colNames: ['Currency Name', 'Currency Code', 'STATUS'],
+
+                    colModel: [
+                     
+                        { name: 'CUR_NAME', index: 'CUR_NAME', width: 200 },
+                        { name: 'CUR_CODE', index: 'CUR_CODE', width: 200 },
+                        { name: 'CUR_STATUS', index: 'CUR_STATUS', width: 200 },
+                       
+                    ],
+                    //Retrive Code and description and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#gridAppDocCUR');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                   
+                        var Bran = DescCellData = grid.jqGrid('getCell', sel_id, 'CUR_NAME');
+                        var DocYr = DescCellData = grid.jqGrid('getCell', sel_id, 'CUR_CODE');
+                  
+                   
+                        $("#txtCurName").val(Bran);
+                        $("#txtCurCode").val(DocYr);
+                       
+
+                    },
+
+                    rowNum: 30,
+                    rowList: [30, 50, 100],
+                    pager: '#grdDocCurPager',
+                    sortname: 'Code',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    caption: "Documents Types No",
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+                });
+                jQuery("#gridAppDocCUR").jqGrid('navGrid', '#grdDocCurPager',
+                    { edit: false, add: false, del: false });
+            });
+            //call add function to add records to Documments Type No. grid
+    //--- -----------------------------------Save Document Types ------------ -->
+            function SaveUpdate(callback) {
+                //Product data
+                var DocTypeData = [{
+
+                    DTY_DOC_TYPE: $("#txtDocType").val(),
+                    DTY_DOC_DESC: $("#txtDesc").val(),
+                    DTY_RESTR_ENTRY: $("#txtRegisEntry").val(),
+                    DTY_DOC_CATEGORY: $("#txtCat").val(),
+                    DTY_JRNL_CATEGORY: $("#txtJou").val(),
+                    DTY_FX_CURR_YN: $("#txtFxnCurYr").val(),
+                    DTY_DEFF_ACCT_CODE: $("#txtDefAcctCode").val(),
+                    DTY_EXPEN_TYPE: $("# txtExpType").val(),
+                    DTY_TAX: $("#txtTax").val(),
+                    FOREIGN_CURRENCY: ($("#chkFCur").is(':checked')) ? 'Y' : 'N',
+                    DTY_INTERBANK_TXN: ($("#chkIntBnk").is(':checked')) ? 'Y' : 'N',
+                    DTY_DOC_CURRENCY: ($("#chkDocCur").is(':checked')) ? 'Y' : 'N',
+                    DTY_STATUS: ($("#chkStatus").is(':checked')) ? 'Y' : 'N'
+
+                }];
+
+                alert(JSON.stringify(DocTypeData, doctyData));
+                //Document Type No data
+                //Product Cover data
+                var doctyData = jQuery("#gridAppDoc").jqGrid('getRowData');
+                var CurryData = jQuery("#gridAppDocCUR").jqGrid('getRowData');
+
+                if ($('#txtPolicyState').val() == "") {
+
+                    Url = '/api/CreateDocTypeNo';
+                }
+                else if ($('#txtPolicyState').val() == "A") {
+
+                    //udate if status is A (Saved and active)
+                    Url = '/api/UpdateDocumentsAll';
+                }
+                $.ajax({
+
+                    type: 'POST',
+                    url: Url,
+
+                    //Data to send
+
+                    data: JSON.stringify({ doc: DocTypeData, docTy: doctyData, docCu: CurryData }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+                    //dataprocess: true,
+                    success: function (data) {
+
+                        callback(data);
+                        return (data);
+
+                    },
+                    'error': function (error) {
+
+                        callback(error);
+
+                        return (error);
+                        alert(JSON.stringify(error));
+                    }
+                });
+            };
+            //Delete Cover Function
+            function DeleteCur() {
+
+                var grid = $('#gridAppDocCUR');
+
+                var row_id = grid.jqGrid('getGridParam', 'selrow');
+
+                var recordStatus = grid.jqGrid('getCell', row_id, 'CUR_STATUS');
+
+                var CoverCode = grid.jqGrid('getCell', row_id, 'CUR_CODE');
+
+                // Remove newlly added record before saving
+                if (recordStatus == "U") {
+
+                    grid.jqGrid('delRowData', row_id);
+
+                }
+
+                // Mark a record for deletion on saving
+                if (recordStatus == "A") {
+                    grid.jqGrid('setCell', row_id, 'CUR_STATUS', 'D');
+                    $('#' + row_id, '#gridAppDocCUR').css({ color: 'red' })
+                }
+                else if (recordStatus == "D") {
+
+                    $('#' + row_id, '#gridAppDocCUR').css({ color: 'red' })
+                }
+
+            }
+
+            //Call function to delete Covers
+            $(document).ready(function () {
+                $("#btnDeleteCur").click(function () {
+
+                    alert("are you sure you want to delete the Document Currency?")
+
+                    //call delelte
+                    DeleteCur();
+                  
+         
+                })
+            });
+
+
+
+            // Call to Edit/Update covers
+            $(document).ready(function () {
+                $("#btnEditCovers").click(function () {
+                    alert("Are you sure you want to edit the current Cover?")
+
+                    //call update function
+                    UpdateCovers();
+                    // Call function to sum cover amounts
+                    //  SumCoverAmounts();
+
+
+                });
+            });
+
+
+
+            //// Dialog box==========================================================================
+
+            $(function () {
+                var dialog, form,
+                Savedialog = $("#dlgCode-form").dialog({
+                    autoOpen: false,
+                    height: 300,
+                    width: 500,
+                    modal: true,
+
+                    buttons: {
+                        "YES": function () {
+
+                            SaveUpdate(getDataAfterSave);
+                            function getDataAfterSave(data) {
+                                var results = data;
+
+                                if (results == "A") {
+
+                                    $('#txtPolicyState').val("A");
+
+                                    var covergrid = $('#gridAppDoc');
+
+                                    var covRowIds = covergrid.jqGrid('getDataIDs');
+
+                                    // iterate through the rows in Cover Grid and update Status
+                                    for (var i = 0, len = covRowIds.length; i < len; i++) {
+                                        var covCurrRow = covRowIds[i];
+
+                                        covergrid.jqGrid('setCell', covCurrRow, 'DOCNO_STATUS', 'A');
+
+                                    }
+                                    //
+                                    var clausegrid = $('#gridAppDocCUR');
+
+                                    var clauseRowIds = clausegrid.jqGrid('getDataIDs');
+
+                                    // iterate through the rows in veh risk Grid and update Status
+                                    for (var i = 0, len = clauseRowIds.length; i < len; i++) {
+
+                                        var clauseCurrRow = clauseRowIds[i];
+
+                                        clausegrid.jqGrid('setCell', clauseCurrRow, 'CUR_STATUS', 'A');
+                                    }
+
+                                    alert("Saved successfully");
+
+                                }
+
+                                    //Update responds from controller
+                                else if (results == "S") {
+                                    //returns S on updated
+
+                                    $('#txtPolicyState').val("A");
+
+                                    var covergrid = $('#gridAppDoc');
+
+                                    var covRowIds = covergrid.jqGrid('getDataIDs');
+
+                                    // iterate through the rows in Cover Grid and update Status
+                                    for (var i = 0, len = covRowIds.length; i < len; i++) {
+                                        var covCurrRow = covRowIds[i];
+
+                                        var covRecStatus = covergrid.jqGrid('getCell', covCurrRow, 'DOCNO_STATUS');
+
+                                        //Delete cover row if it is marked for deletion
+                                        if (covRecStatus == "D") {
+                                            covergrid.jqGrid('delRowData', covCurrRow);
+                                        }
+                                        //Update cover row status to Active (A) if it is newlly added
+                                        if (covRecStatus == "U") {
+
+                                            covergrid.jqGrid('setCell', covCurrRow, 'DOCNO_STATUS', 'A');
+                                        }
+
+                                    }
+                                    //Upade Vehcil risk status
+                                    var clausegrid = $('#gridAppDocCUR');
+
+                                    var clauseRowIds = clausegrid.jqGrid('getDataIDs');
+
+                                    // iterate through the rows and check if it exists each of them
+                                    for (var i = 0, len = clauseRowIds.length; i < len; i++) {
+                                        var clauseCurrRow = clauseRowIds[i];
+
+                                        var clauseRecStatus = clausegrid.jqGrid('getCell', clauseCurrRow, 'CUR_STATUS');
+
+                                        //Delete risk row if it is marked for deletion
+                                        if (clauseRecStatus == "D") {
+
+                                            clausegrid.jqGrid('delRowData', clauseCurrRow);
+                                        }
+
+                                        //Update risk row status to Active (A) if it is newlly added
+                                        if (clauseRecStatus == "U") {
+
+                                            clausegrid.jqGrid('setCell', clauseCurrRow, 'CUR_STATUS', 'A');
+                                        }
+                                    }
+                                    //alert user
+                                    alert("Updated successfully");
+
+                                }
+                                else if (results == "F") {
+                                    alert("No records were updated, Check and try again");
+                                }
+                                else {
+                                    alert("An error occured: " + JSON.stringify(jresults));
+                                }
+
+                            };
+
+
+
+                            $(this).dialog("close");
+                        },
+                        "NO": function () {
+
+                            $(this).dialog("close");
+
+                        },
+                    }
+
+                });
+
+                //open the dialog form TO SAVE
+                $("#btnSaveDocumentType").button().on("click", function () {
+                    Savedialog.dialog("open");
+
+                });
+
+            });
+
+        //DIALOGS ------------------------------
+;
+
+
+            //-- --------------------------------Diaglog form for Office ---------------------- -->
+            //<!-- LOV for Codes -->
+            $(function () {
+                var dialog, form,
+                dialog = $("#dialog-Journal").dialog({
+                    autoOpen: false,
+                    height: 550,
+                    width: 700,
+                    modal: true,
+
+                    buttons: {
+                        "OK": function () {
+                            if ($("#txtJou").val() == "") {
+                                alert("No value selected, check and try again")
+                            }
+                            else {
+
+                                $(this).dialog("close");
+                            }
+                        },
+
+                        "Clear": function () {
+                            $("#txtJou").val("");
+                           // $("#txtOffName").val("");
+                        },
+
+                        Cancel: function () {
+                            $(this).dialog("close");
+                            $("#txtJou").val("");
+                           // $("#txtOffName").val("");
+                        },
+                    }
+
+                });
+
+                //open the dialog form
+                $("#btnSelJournalCat").button().on("click", function () {
+                    dialog.dialog("open");
+                });
+
+            });
+
+
+
+
+
+            //-- --------------------------------Diaglog form for Document Category ---------------------- -->
+            //<!-- LOV for Codes -->
+            $(function () {
+                var dialog, form,
+                dialog = $("#dialog-DocumentCat").dialog({
+                    autoOpen: false,
+                    height: 550,
+                    width: 700,
+                    modal: true,
+
+                    buttons: {
+                        "OK": function () {
+                            if ($("#txtCat").val() == "") {
+                                alert("No value selected, check and try again")
+                            }
+                            else {
+
+                                $(this).dialog("close");
+                            }
+                        },
+
+                        "Clear": function () {
+                            $("#txtCat").val("");
+                          //  $("#txtOffName").val("");
+                        },
+
+                        Cancel: function () {
+                            $(this).dialog("close");
+                            $("#txtCat").val("");
+                           // $("#txtOffName").val("");
+                        },
+                    }
+
+                });
+
+                //open the dialog form
+                $("#btnSelDocumentCat").button().on("click", function () {
+                    dialog.dialog("open");
+                });
+
+            });
+
+            //-- --------------------------------Diaglog form for Office ---------------------- -->
+            //<!-- LOV for Codes -->
+            $(function () {
+                var dialog, form,
+                dialog = $("#dialog-Office").dialog({
+                    autoOpen: false,
+                    height: 550,
+                    width: 700,
+                    modal: true,
+
+                    buttons: {
+                        "OK": function () {
+                            if ($("#txtOfficeCode").val() == "") {
+                                alert("No value selected, check and try again")
+                            }
+                            else {
+
+                                $(this).dialog("close");
+                            }
+                        },
+
+                        "Clear": function () {
+                            $("#txtOfficeCode").val("");
+                           // $("#txtOffName").val("");
+                        },
+
+                        Cancel: function () {
+                            $(this).dialog("close");
+                            $("#txtOfficeCode").val("");
+                          //  $("#txtOffName").val("");
+                        },
+                    }
+
+                });
+
+                //open the dialog form
+                $("#btnSelOffice").button().on("click", function () {
+                    dialog.dialog("open");
+                });
+
+            });
+
+
+
+
+            //-- --------------------------------Diaglog form for Currency ---------------------- -->
+            //<!-- LOV for Codes -->
+            $(function () {
+                var dialog, form,
+                dialog = $("#dialogCur").dialog({
+                    autoOpen: false,
+                    height: 550,
+                    width: 700,
+                    modal: true,
+
+                    buttons: {
+                        "OK": function () {
+                            if ($("#txtCurCode").val() == "") {
+                                alert("No value selected, check and try again")
+                            }
+                            else {
+
+                                $(this).dialog("close");
+                            }
+                        },
+
+                        "Clear": function () {
+                            $("#txtCurCode").val("");
+                             $("#txtCurName").val("");
+                        },
+
+                        Cancel: function () {
+                            $(this).dialog("close");
+                            $("#txtCurCode").val("");
+                             $("#txtCurName").val("");
+                        },
+                    }
+
+                });
+
+                //open the dialog form
+                $("#btnCurOffice").button().on("click", function () {
+                    dialog.dialog("open");
+                });
+
+            });
+            //--- -----------------------------------SelectCode  LOV Office------------ -->
+            // LOV to select from
+
+            $(document).ready(function () {
+                $("#btnQueryOffice").click(function () {
+                    //function findCovers() {
+
+                    var GetItem = [{
+                        //paramProdCode: $("#txtProductCode").val(),
+                        paramsearchField: $("#txtSearchOffice").val(),
+                        //paramCoverCode: $('#txtSearchCover').val()
+                    }];
+
+                    //alert("No data found, Check and try again");
+
+                    $.ajax({
+
+                        type: 'POST',
+                        url: '/api/CreateOffice/GetName',
+
+                        //Data to send
+
+                        data: JSON.stringify({ getcov: GetItem }),
+
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+
+
+                        //dataprocess: true,
+                        success: function (data) {
+
+                            //clear the grid
+                            $("#grdOffice").clearGridData();
+
+                            var Covdata = data;
+                            //alert(data);
+
+                            if (Covdata.length > 0) {
+                                for (var i = 0; i < Covdata.length; i++)
+
+                                    jQuery("#grdOffice").addRowData(Covdata[i].id, Covdata[i]);
+                            }
+                            else {
+
+                                alert("No data found, Check and try again");
+                            }
+
+                        },
+                        'error': function (error) {
+
+                            alert(JSON.stringify(error));
+                        }
+
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $("#grdOffice").jqGrid({
+                    data: 'local',
+                    colNames: ['Code', 'Name'],
+                    colModel: [
+                        { name: 'OFF_CODE', index: 'OFF_CODE', width: 150 },
+                        { name: 'OFF_NAME', index: 'OFF_NAME', width: 500 },
+                    ],
+                    //Retrive Code and description and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#grdOffice');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                        var Id = grid.jqGrid('getCell', sel_id, 'OFF_CODE');
+                        var Code = DescCellData = grid.jqGrid('getCell', sel_id, 'OFF_NAME');
+                        $("#txtOfficeCode").val(Id);
+                       // $("#txtOffName").val(Code);
+                    },
+
+                    rowNum: 50,
+                    rowList: [50, 75, 150],
+                    pager: '#grdPager',
+                    sortname: 'id',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    loadonce: true,
+                    ignoreCase: true,
+                    caption: "Office list",
+                    loadtext: 'Loading, please wait',
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+                });
+                jQuery("#grdOffice").jqGrid('navGrid', '#grdPager',
+                    { search: true, edit: false, add: false, del: false });
+
+                jQuery("#grdOffice").jqGrid('filterToolbar',
+                 { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+                jQuery("#grdOffice").jqGrid('bindKeys');
+            });
+
+        //------currencies--------
+
+            //--- -----------------------------------SelectCode  LOV Currencies------------ -->
+            // LOV to select from
+
+            $(document).ready(function () {
+                $("#btnQueryCurrencies").click(function () {
+                    //function findCovers() {
+
+                    var GetItem = [{
+                   
+                        paramsearchField: $("#txtSearchCurrency").val(),
+                     
+                    }];
+
+                    //alert("No data found, Check and try again");
+
+                    $.ajax({
+
+                        type: 'POST',
+                        url: '/api/CreateCurrency/GetName',
+
+                        //Data to send
+
+                        data: JSON.stringify({ getcov: GetItem }),
+
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+
+
+                        //dataprocess: true,
+                        success: function (data) {
+
+                            //clear the grid
+                            $("#grdCurrency").clearGridData();
+
+                            var Covdata = data;
+                            //alert(data);
+
+                            if (Covdata.length > 0) {
+                                for (var i = 0; i < Covdata.length; i++)
+
+                                    jQuery("#grdCurrency").addRowData(Covdata[i].id, Covdata[i]);
+                            }
+                            else {
+
+                                alert("No data found, Check and try again");
+                            }
+
+                        },
+                        'error': function (error) {
+
+                            alert(JSON.stringify(error));
+                        }
+
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                $("#grdCurrency").jqGrid({
+                    data: 'local',
+                    colNames: ['Code', 'Name'],
+                    colModel: [
+                        { name: 'CUR_CODE', index: 'CUR_CODE', width: 150 },
+                        { name: 'CUR_FULL_NAME', index: 'CUR_FULL_NAME', width: 700 },
+                    ],
+                    //Retrive Code and description and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#grdCurrency');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                        var Id = grid.jqGrid('getCell', sel_id, 'CUR_CODE');
+                        var Code = DescCellData = grid.jqGrid('getCell', sel_id, 'CUR_FULL_NAME');
+                        $("#txtCurCode").val(Id);
+                         $("#txtCurName").val(Code);
+                    },
+
+                    rowNum: 50,
+                    rowList: [50, 75, 150],
+                    pager: '#grdCPager',
+                    sortname: 'id',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    loadonce: true,
+                    ignoreCase: true,
+                    caption: "Currency list",
+                    loadtext: 'Loading, please wait',
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+                });
+                jQuery("#grdCurrency").jqGrid('navGrid', '#grdCPager',
+                    { search: true, edit: false, add: false, del: false });
+
+                jQuery("#grdCurrency").jqGrid('filterToolbar',
+                 { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+                jQuery("#grdCurrency").jqGrid('bindKeys');
+            });
+
+
+
+        //--- -----------------------------------Delete  ------------ -->
+        $(document).ready(function () {
+            $("#btnDocumentType").click(function () {
+                // Declare the variables and get values into the variables
+                //Note: veriable names should much with object/entity names in the model object
+
+                var delData = [{
+                    DTY_DOC_TYPE: $("#txtDocType").val(),
+                    DTY_DOC_DESC: $("#txtDesc").val(),
+                    DTY_RESTR_ENTRY: $("#txtRegisEntry").val(),
+                    DTY_DOC_CATEGORY: $("#txtCat").val(),
+                    DTY_JRNL_CATEGORY: $("#txtJrnlCat").val(),
+                    DTY_FX_CURR_YN: $("#txtFxnCurYr ").val(),
+                    DTY_DEFF_ACCT_CODE: $("#txtDefAcctCode").val(),
+                    DTY_EXPEN_TYPE: $("# txtExpType").val(),
+                    DTY_CMP_CODE: $("#txtCmpCode").val(),
+
+
+                    DTY_STATUS: 'A'
+                }];
+
+
+                alert(JSON.stringify(delData));
+                //calling ajax function to post data
+                $.ajax({
+
+                    url: 'api/DeleteDocumentTypes',
+                    type: 'DELETE',
+                    //convert data into JSON string format
+                    data: JSON.stringify({ DocumentTypesData: delData }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+                    //call feed back of the action
+                    'success': function (data) {
+                        alert("Deleted Successfully");
+
+                        var grid = $('#grdDocTypes');
+
+                        var row_id = grid.jqGrid('getGridParam', 'selrow');
+
+                        var Code = grid.jqGrid('getCell', row_id, 'DTNO_DTY_ORGN');
+
+                        grid.jqGrid('delRowData', row_id);
+                    },
+                    'error': function (error) {
+                        alert("Error occurred");
+                    }
+
+                });
+            });
+        });
+        //-----------------------------TO QUERY FOR ALL DATA---------------------------
+          //Query Motor Policy data
+        function getMotorPolicyData(callback) {
+
+            var PolhSysID = [{
+
+                parampolhSysID: $("#txtSearch").val(),
+
+            }];
+
+            //alert("No data found, Check and try again");
+
+            $.ajax({
+
+                type: 'POST',
+                url: '/api/getDocumentsTypes',
+
+                //Data to send
+
+                data: JSON.stringify({ sysID: PolhSysID }),
+
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+
+
+                //dataprocess: true,
+                success: function (data) {
+                    callback(data);
+
+                },
+                'error': function (error) {
+
+                    alert(JSON.stringify(error));
+                }
+
+            });
+        }
+
+        $(document).ready(function () {
+            $("#btnQueryMotorPolicy").click(function () {
+
+                //Call Save function
+                getMotorPolicyData(getMotorData);
+
+                function getMotorData(data) {
+
+                    alert(JSON.stringify(data));
+
+                    var PolicyData = data[0].POLH_DATA;
+                    var VehicleData = data[0].VEH_DATA;
+                    var CoverRiskData = data[0].COVER_DATA;
+
+                    //var PolNo = data[0].POLH_DATA[0].C;
+                    //$("#txtSearch").val(PolNo);
+
+                    //alert(JSON.stringify(VehicleData.length));
+
+                    // alert(JSON.stringify(VehicleData));
+
+                    if (PolicyData.length <= 0) {
+
+                        alert("No Data found, check and try again");
+
+
+                    }
+                    else {
+
+                        $('#txtDocType').val(PolicyData[0].DTY_DOC_TYPE);
+
+                        $('#txtDesc').val(PolicyData[0].DTY_DOC_DESC);
+                        $('#txtCat').val(PolicyData[0].DTY_DOC_CATEGORY);
+                        $('#txtJou').val(PolicyData[0].DTY_JRNL_CATEGORY);
+                        $('#txtDefAcctCode').val(PolicyData[0].DTY_DEFF_ACCT_CODE);
+                        $('#txtExpType').val(PolicyData[0].DTY_EXPEN_TYPE);
+                      
+
+                        $('#txtPolicyState').val("A");
+
+                        //$('#txtPolicyNo').val(PolicyData[0].POLH_DISPLAY_NO);
+
+                        //////system values
+
+                     
+
+                        if (VehicleData.length > 0) {
+
+                            //clear before loading
+                            $("#gridAppDoc").clearGridData();
+                            //Load grid
+                            for (var i = 0; i < VehicleData.length; i++)
+                                jQuery("#gridAppDoc").addRowData(VehicleData[i].id, VehicleData[i]);
+
+
+                        }
+
+                        if (CoverRiskData.length > 0) {
+
+                            //clear before loading
+                            $("#gridAppDocCUR").clearGridData();
+                            //Load grid
+                            for (var i = 0; i < CoverRiskData.length; i++)
+                                jQuery("#gridAppDocCUR").addRowData(CoverRiskData[i].id, CoverRiskData[i]);
+                        }
+
+                        //Call function to get Policy Level premium
+
+
+                       // PolhPremiumSummary();
+                    }
+
+
+                }
+                
+            });
+        });
+
+        //-- --------------------------------Diaglog form for Branch ---------------------- -->
+        //<!-- LOV for Codes -->
+        $(function () {
+            var dialog, form,
+            dialog = $("#dlgBranch-form").dialog({
+                autoOpen: false,
+                height: 550,
+                width: 700,
+                modal: true,
+
+                buttons: {
+                    "OK": function () {
+                        if ($("#txtCompanyCode").val() == "") {
+                            alert("No value selected, check and try again")
+                        }
+                        else {
+
+                            $(this).dialog("close");
+                        }
+                    },
+
+                    "Clear": function () {
+                        $("#txtCompanyCode").val("");
+                        $("#txtCompanyName").val("");
+                    },
+
+                    Cancel: function () {
+                        $(this).dialog("close");
+                        $("#txtCompanyCode").val("");
+                        $("#txtCompanyName").val("");
+                    },
+                }
+
+            });
+
+            //open the dialog form
+            $("#btnSelBranchform").button().on("click", function () {
+                dialog.dialog("open");
+            });
+
+        });
+
+        //--- -----------------------------------SelectCode  LOV Branch------------ -->
+        // LOV to select from
+        $(document).ready(function () {
+            $("#btnSelBranchform").click(function () {
+
+                $("#grdBranchform").jqGrid("setGridParam", {
+
+                    url: '/GetProdCat/getProducts',
+                    datatype: "json",
+                    contentType: "application/json; charset-utf-8",
+                    // data: JSON.stringify(custData),
+                    type: 'GET',
+                    //new added
+
+                }).trigger("reloadGrid", { current: true });
+
+            });
+        });
+
+        $(document).ready(function () {
+            $("#grdBranchform").jqGrid({
+                data: 'local',
+                colNames: ['Code', 'Company Name'],
+                colModel: [
+                    { name: 'CAT_SYS_ID', index: 'CAT_SYS_ID', width: 20, sorttype: "int" },
+                    { name: 'CAT__NAME', index: 'CAT__NAME', width: 50 },
+                ],
+                //Retrive Code and description and return on row click..
+                onSelectRow: function (rowid) {
+                    var grid = $('#grdBranchform');
+                    var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                    var Id = grid.jqGrid('getCell', sel_id, 'CAT_SYS_ID');
+                    var Code = DescCellData = grid.jqGrid('getCell', sel_id, 'CAT__NAME');
+                    $("#txtCompanyCode").val(Id);
+                    $("#txtCompanyName").val(Code);
+                },
+
+                rowNum: 5,
+                rowList: [5, 10, 15],
+                pager: '#grdBranchform1',
+                sortname: 'id',
+                viewrecords: true,
+                sortorder: "asc",
+                caption: "Product list",
+                loadtext: 'Loading, please wait',
+                //new added
+                width: this.parentElement,
+                shrinkToFit: false,
+                autowidth: false,
+                multiselect: false
+            });
+            jQuery("#grdBranchform").jqGrid('navGrid', '#grdBranchform1',
+                { edit: false, add: false, del: false });
+        });
+
+    </script>
+
+    <!-- Form Controls -->
+    <script>
+            //Taps Layout function call using Jquery
+            $(function () {
+                $("#tabs").tabs({
+                    beforeLoad: function (event, ui) {
+                        ui.jqXHR.fail(function () {
+                            ui.panel.html(
+                              "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+                              "If this wouldn't be a demo.");
+                        });
+                    }
+                });
+            });
+
+            $(function () {
+              //  $("#tabs").resizable();
+                $("#tabs").height(1700);
+                //$("#tabs").draggable();
+
+            });
+
+
+
+        //Numeric Value input for Sum insured
+
+            $(document).ready(function () {
+
+                $("#txtSI").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+
+            //Numeric Value input
+            $(document).ready(function () {
+
+                $("#txtProdSysID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+            //Numeric Value input for Covers sys ID
+            $(document).ready(function () {
+
+                $("#txtCoverSysID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+            //Numeric Value input for Product Covers sys ID
+            $(document).ready(function () {
+
+                $("#txtFKProdID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+
+            //Date picker -->
+            $(function () {
+                $("#txtPostedDate").datepicker({
+                    showOn: "button",
+                    buttonImage: "../Content/Images/calendar-icon1.png",
+                    buttonImageOnly: true,
+
+                });
+            });
+
+
+            //Date picker -->
+            //Start date
+            $(function () {
+                $("#dtModifiedDate").datepicker({
+                    showOn: "button",
+                    buttonImage: "~/Content/Images/datePicker.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select"
+                });
+            });
+            ////end date
+            $(function () {
+                $("#dtDob2").datepicker({
+                    showOn: "button",
+                    buttonImage: "Image/datePicker.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select"
+
+                });
+
+            });
+
+            $(function () {
+                var dialog, form,
+                AddDocNodialog = $("#dlgDocNo-form").dialog({
+                    autoOpen: false,
+                    height: 700,
+                    width: 1300,
+                    modal: true,
+
+                    buttons: {
+                        "OK": function () {
+
+                            $(this).dialog("close");
+
+                        },
+
+
+                        "Cancel": function () {
+
+                            $(this).dialog("close");
+
+                        },
+                    }
+
+                });
+
+            //open the dialog form TO add Covers
+            $("#btnQialogDocumentNo").button().on("click", function () {
+
+                if ($('#txtDocTypeCode').val() == "") {
+
+                    alert("Document Type Details must be entered first")
+                }
+                else {
+
+                    AddDocNodialog.dialog("open");
+                }
+
+
+            });
+
+            });
+
+
+
+            $(function () {
+                var dialog, form,
+                AddConditionsdialog = $("#dlgDocNoForm").dialog({
+                    autoOpen: false,
+                    height: 700,
+                    width: 1300,
+                    modal: true,
+
+                    buttons: {
+                        "OK": function () {
+
+                            $(this).dialog("close");
+
+                        },
+
+
+                        "Cancel": function () {
+
+                            $(this).dialog("close");
+
+                        },
+                    }
+
+                });
+
+                //open the dialog form TO add Covers
+                $("#btnQialogDocuments").button().on("click", function () {
+
+                    if ($('#txtDocType').val() == "") {
+
+                        alert("Document Type Details must be entered first")
+                    }
+                    else {
+
+                        AddConditionsdialog.dialog("open");
+                    }
+
+
+                });
+
+            });
+
+            $(document).ready(function () {
+                //initialise sequence
+                RetnSequenceNo("SEQ_DOCU_NUM", "#txtDocNoID");
+
+                $("#btnAddDocTypes").on('click', function () {
+                    if ($('#txtOfficeCode').val() == "") {
+                        alert("The Office code cannot be null, lease check and try again")
+                    }
+                    else {
+                        documentNumber();
+                        //Get next sequence value
+                        RetnSequenceNo("SEQ_DOCU_NUM", "#txtDocNoID");
+
+                        var grid = $('#gridAppDoc');
+
+                        var rowIds = grid.jqGrid('getDataIDs');
+
+                        //declare array to contain the codes to varify
+                        var Code = [];
+              
+
+                        // iterate through the rows and check duplicat each of them
+                        for (var i = 0, len = rowIds.length; i < len; i++) {
+                            var currRow = rowIds[i];
+
+                            //get value of the cell or column in an array
+                            var cellValue = grid.jqGrid('getCell', currRow, 'DOCNO_NUMBER');
+                           
+
+                            Code.push(cellValue);
+                      
+                        }
+                        //add if recode is not found in the Grid
+                        if ((($.inArray($("#txtDocPrefix").val(), Code))) < 0) {
+
+                            RetnSequenceNo("SEQ_DOCU_NUM", "#txtDocNoID");
+
+                            CovSysID = $("#txtDocNoID").val();
+
+                            var DocData = [
+                            {
+                                DOCNO_SYS_ID: CovSysID,
+                                DOCNO_BRANCH: $('#txtOfficeCode').val(),
+                                DOCNO_YEAR: $('#txtFyear').val().substr(2,2),
+                                DOCNO_NUMBER: $('#txtDocPrefix').val(),
+                                DOCNO_START: $('#txtStartNo').val(),
+                                DOCNO_END: $('#txtEndNo').val(),
+                                DOCNO_NEXTNO_DUE: $('#txtNextDue').val(),
+                                DOCNO_STATUS: 'U'
+                        
+
+
+                            },
+
+
+                            ];
+                            for (var i = 0; i < DocData.length; i++)
+                                jQuery("#gridAppDoc").addRowData(DocData[i].id, DocData[i]);
+                            //Clear after adding
+                            $("#txtOfficeCode").val("");
+                            $("#txtFyear").val("");
+                            $("#chkGenDoc").val("");
+                            $("#txtDtyOrgn").val("");
+                            $("#txtStartNo").val("");
+                            $("#txtEndNo").val("");
+                            $("#txtNextDue").val("");
+                            $("#txtDocPrefix").val("");
+                        }
+                        else {
+
+                            alert(" Code exists, you cannot add same record " + cellValue);
+                        }
+                    }
+                });
+
+
+            });
+        //------Delete from Document Types Grid------------
+            function DeleteDoc() {
+
+                var grid = $('#gridAppDoc');
+
+                var row_id = grid.jqGrid('getGridParam', 'selrow');
+
+                var recordStatus = grid.jqGrid('getCell', row_id, 'DOCNO_STATUS');
+
+                var CoverCode = grid.jqGrid('getCell', row_id, 'DOCNO_BRANCH');
+
+                // Remove newlly added record before saving
+                if (recordStatus == "U") {
+
+                    grid.jqGrid('delRowData', row_id);
+
+                }
+
+
+
+                // Mark a record for deletion on saving
+                if (recordStatus == "A") {
+                    grid.jqGrid('setCell', row_id, 'DOCNO_STATUS', 'D');
+                    $('#' + row_id, '#gridAppDoc').css({ color: 'red' })
+                }
+                else if (recordStatus == "D") {
+
+                    $('#' + row_id, '#gridAppDoc').css({ color: 'red' })
+                }
+
+            }
+
+            //Call function to delete Conditions
+            $(document).ready(function () {
+                $("#btnDeleteDoc").click(function () {
+
+                    alert("are you sure you want to delete the current record?")
+
+                    //call delelte
+                    DeleteDoc();
+
+
+                })
+            });
+
+        //FOR CURRENCY
+            $(document).ready(function () {
+                //initialise sequence
+                RetnSequenceNo("DOCUMENTCUR", "#txtCurID");
+
+                $("#btnAddCurrency").on('click', function () {
+                    if ($('#txtCurCode').val() == "") {
+                        alert("The Currency code cannot be null, lease check and try again")
+                    }
+                    else {
+                        //Get next sequence value
+                        RetnSequenceNo("DOCUMENTCUR", "#txtCurID");
+
+                        var grid = $('#gridAppDocCUR');
+
+                        var rowIds = grid.jqGrid('getDataIDs');
+
+                        //declare array to contain the codes to varify
+                        var Code = [];
+
+                        // iterate through the rows and check duplicat each of them
+                        for (var i = 0, len = rowIds.length; i < len; i++) {
+                            var currRow = rowIds[i];
+
+                            //get value of the cell or column in an array
+                            var cellValue = grid.jqGrid('getCell', currRow, 'CUR_NAME');
+
+                            Code.push(cellValue);
+                        }
+                        //add if recode is not found in the Grid
+                        if ($.inArray($("#txtCurName").val(), Code) < 0) {
+
+                            RetnSequenceNo("DOCUMENTCUR", "#txtCurID");
+
+                            CurSysID = $("#txtCurID").val();
+
+                            var curData = [
+                            {
+                                CUR_ID: CurSysID,
+                                CUR_NAME: $('#txtCurName').val(),
+                                CUR_CODE: $('#txtCurCode').val(),
+                               
+                                CUR_STATUS: 'U'
+
+
+                            },
+
+
+                            ];
+                            for (var i = 0; i < curData.length; i++)
+                                jQuery("#gridAppDocCUR").addRowData(curData[i].id, curData[i]);
+                            //Clear after adding
+                            $("#txtCurName").val("");
+                            $("#txtCurCode").val("");
+                         
+                        }
+                        else {
+
+                            alert(" Code exists, you cannot add same record " + cellValue);
+                        }
+                    }
+                });
+
+
+            });
+            $(function () {
+                var dialog, form,
+                AddCurrencydialog = $("#dialog-Currency").dialog({
+                    autoOpen: false,
+                    height: 700,
+                    width: 1300,
+                    modal: true,
+
+                    buttons: {
+                        "OK": function () {
+
+                            $(this).dialog("close");
+
+                        },
+
+
+                        "Cancel": function () {
+
+                            $(this).dialog("close");
+
+                        },
+                    }
+
+                });
+
+                //open the dialog form TO add Covers
+                $("#btnQialogCurrency").button().on("click", function () {
+
+                    if ($('#txtDocType').val() == "") {
+
+                        alert("Document Type Details must be entered first")
+                    }
+                    else {
+
+                        AddCurrencydialog.dialog("open");
+                    }
+
+
+                });
+
+            });
+
+    </script>
+
+    <!-- Adding a style-->
+    <style>
+        .divleft {
+            background-color: Gray;
+            width: 40%;
+            height: 20px;
+            float: left;
+        }
+
+        .divrihgt {
+            background-color: red;
+            width: 60%;
+            height: 20px;
+            float: left;
+        }
+
+        .divcontainer {
+            width: 100%;
+        }
+
+        div.card {
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            line-height: 1em;
+        }
+
+        div.Covers {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        div.FormMenu {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        label {
+            display: inline-block;
+            width: 11em;
+            color: blue;
+            text-align: right;
+            font-size: 12px;
+        }
+
+        errmsg {
+            color: red;
+        }
+
+        .fwm_button {
+            color: white;
+            font-weight: bold;
+            background-color: #6699cc;
+            border: 2px outset;
+            border-top-color: #aaccff;
+            border-left-color: #aaccff;
+            border-right-color: #003366;
+            border-bottom-color: #003366;
+            width: 100px;
+        }
+
+        .Select_button {
+            color: lightseagreen;
+            font-weight: bold;
+            width: 3%;
+            height: 30px;
+        }
+
+        .inputCode {
+            height: 30px;
+            width: 30px;
+            text-align: right;
+        }
+
+        .checkboxx-inline {
+            display: inline-block;
+            padding-left: 10px;
+            padding-right: 45px;
+            margin-bottom: 0;
+            font-weight: normal;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+            .checkboxx input[type="checkbox"], .checkboxx-inline input[type="checkbox"] {
+                float: none;
+                margin-left: -10px;
+                margin-right: 10px;
+            }
+
+            .checkboxx-inline + .checkboxx-inline {
+                margin-top: 0;
+                margin-left: 10px;
+            }
+
+        .checkboxx label {
+            display: inline;
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        label.required:after {
+            content: " *";
+            color: red;
+        }
+
+        .containera button {
+            margin-bottom: 10px;
+            width: 85px;
+            height: 31px;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            padding-top: 5px;
+            background-color: #f2f2f2;
+            color: #428bca;
+            font-size: 15px;
+            text-rendering: optimizeLegibility;
+            font-weight: bolder;
+            font-family: Georgia, serif;
+        }
+    </style>
+
+
+    <div class="card">
+
+        <div style="background-color: lightseagreen; text-align: center; padding: 0px, 0px, 10px, 0px">
+        </div>
+        <div style="background-color: lightskyblue">
+
+        </div>
+        <form name="form1" id="form2">
+
+            <div style="padding-top: 10px">
+                <div style="text-align: center" class="containera">
+
+                    <button type="button" class="btn btn-default" id="btnSaveDocumentType">
+                        <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                    </button>
+                    &nbsp;
+                    &nbsp;
+                    <button type="button" class="btn btn-default" id="btnDocumentType">
+                        <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                    </button>
+                    &nbsp;
+                    &nbsp;
+                    <button type="reset" class="btn btn-default" id="btnReset">
+                        <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                    </button>
+
+                    <button type="button" class="btn btn-default" style="float: right" id="btnQueryMotorPolicy">
+                        <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                    </button>
+
+                    <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search">
+
+                </div>
+            </div>
+
+            <div id="tabs">
+                <!-- Head-->
+                <!-- Tab 1 Header-->
+                <ul>
+                    <li><a href="#tabs-1">Document Types Setups</a></li>
+                </ul>
+
+                <div id="tabs-1">
+
+                    <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+
+                    <div>
+                        <section>
+                               <input id="txtPolicyState" hidden style="width:5%; height: 30px " title="txtPolicyState">
+                            <input id="txtStatus" style="width:10%; height: 30px" hidden value="0" class="text
+
+ui-widget-content ui-corner-all" type="text" name="ID" title="">
+
+                            @*<label id="lblDocTypeCode" for="txtDocTypeCode" class="required"> Code</label>
+                            <input id="txtDocTypeCode" style="width:17%; height: 30px" maxlength="15" class="text
+
+ui-widget-content ui-corner-all" type="text" name="txtCustomerCode" title="Customer Code">*@
+
+                            <label id="lblDocType" for="txtDocType" class="required">Doc. Type</label>
+                            <input id="txtDocType" style="width:17%; height: 30px " maxlength="15" class="text
+
+ui-widget-content ui-corner-all" type="text" name="txtCustomerBranchCode" title="Customer Branch Code">
+                            
+                            <label id="lblDesc" for="txtDesc" class="required">Doc. Description</label>
+                            <input id="txtDesc" style="width:17%; height: 30px" class="text ui-widget-content ui-
+
+corner-all" type="text" name="txtCustomerPinno" title="Customer Pin">
+                        </section>
+                        <br />
+                        <section>
+                          
+
+                        
+
+                        </section>
+                        <br />
+                        <section>
+                            <label id="lblCustomerLastName" for="txtJrnlCat" class="required">
+                                Journal
+
+                                Category
+                            </label>
+                            <input id="txtJou" style="width:17%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCustomerFirstName" title="Customer First name">
+
+                            <td>
+                                <button type="button" class="btn btn-default" id="btnSelJournalCat"
+                                        style="height:30px">
+                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            <label id="lblCustomerFirstName" for="txtCat" class="required">Document Category</label>
+                            <input id="txtCat" style="width:17%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCustomerFirstName" title="Customer First name">
+                           
+                             <td>
+                                <button type="button" class="btn btn-default" id="btnSelDocumentCat"
+                                        style="height:30px">
+                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                          
+                      
+                        </section>
+                        <br />
+                        <section>
+                            <label id="lblDefAcctCode" for="txtDefAcctCode" class="required">
+                                Default Account
+
+                                Code
+                            </label>
+                            <input id="txtDefAcctCode" style="width:14%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtPostedDate" title="DOB">
+
+                           
+                            <td>
+                                <button type="button" class="btn btn-default" id="btnQialogDocumentNo"
+                                        style="height:30px">
+                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                </button>
+                            </td>
+
+                        </section>
+                        <br />
+                        <section>
+                            <label id="lblCustomerProfession" for="txtTax" class="required">
+                                Tax
+
+                            </label>
+                            <input id="txtTax" style="width:8%; height: 30px "  class="text ui-widget-content-ui-corner-all" type="number" maxlength="2" max="2" name="txtPostedDate" title="DOB">
+                            <td>
+                                <button type="button" class="btn btn-default" id="btnQialogDocumentNo"
+                                        style="height:30px">
+                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                </button>
+                            </td>
+
+                            <label id="lblStaus" for="chkIntBnk">Interbank Transaction</label>
+                            <input id="chkIntBnk" type="checkbox" checked="checked" value="">
+
+
+
+
+                        </section>
+                        <br />
+                  
+                            <label id="lblStaus" for="chkDocCur">Document Currency</label>
+                            <input id="chkDocCur" type="checkbox" checked="checked" value="">
+                        <br/>
+                            <label id="lblStaus" for="chkFCur">Foreign Currency</label>
+                            <input id="chkFCur" type="checkbox" checked="checked" value="">
+                   
+                       <br/>
+                        <label id="lblStaus" for="chkStaus">Status</label>
+                        <input id="chkStatus" type="checkbox" checked="checked" value="">
+                        <h4 style="border-bottom-color:cornflowerblue" class="sub-header"></h4>
+
+                    </div>
+                    <br />
+                    <button type="button" class="btn btn-default" id="btnQialogDocuments" style="height:40px"
+                            title="Select business source">
+                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>Document No.
+                    </button>
+
+                 
+                    <button type="button" class="btn btn-default" id="btnQialogCurrency" style="height:40px"
+                            title="Allow Currency">
+                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>Allow FX.
+                    </button>
+                    <button type="button" class="btn btn-default" id="btnQialogProductCovers" style="height:40px"
+                            title="Select business source">
+                        <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>Allow Account Code
+                    </button>
+                    <br /><br />
+                    <input id="txtSearchMaster" style="width:15%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Search Covers">
+                    <button type="button" style="width:10%" id="btnQueryDocumentMaster" class="Select_button ; ui-button ui-widget-content ui-corner-all" title="Save Data"> Search </button>
+
+                    <br />
+                    <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+
+                    <div>
+                        <table id="grdDocTypes"></table>
+                        <table id="grdPager"></table>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+       
+        <!--- ----Dialog Form For managing Conditions and Clauses -->
+        <div id="dlgDocNoForm" title="Applicable Document Number">
+            <form id="AppConditions">
+                <div style="border: 1px solid #000000; border-color: dodgerblue; width: 100%"
+                     class="roundElement">
+                    <h4 style="border-bottom-color:red" class="sub-header"> Document No.</h4>
+
+                    <br />
+                    <table>
+                        <tr style="color:blue; align-content:center">
+                            <th>Office</th>
+                            <th></th>
+
+                            <th>Year</th>
+                            <th>Document No</th>
+                            <th>Prefix Start No.</th>
+                            <th>End No.</th>
+                            <th>Next No. Due.</th>
+
+                        </tr>
+                        <tr>
+
+                            <td>
+                                <input id="txtOfficeCode" style="width: 100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Cover Code">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-default" id="btnSelOffice"
+                                        style="height:30px">
+                                    <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <input id="txtFyear" style="width: 150px;height: 30px " class="text ui-widget-content ui-corner-all" type="text" maxlength="4" name="ProductDesc" title="Sum Insured">
+                            </td>
+                            <td>
+                                <input id="txtDocPrefix" placeholder="Auto Generate" readonly style="width: 150px;height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Sum Insured">
+                            </td>
+                            <td>
+                                <input id="txtStartNo" style="width: 150px;height: 30px " class="text ui-widget-
+
+content ui-corner-all" type="text" name="ProductDesc" title="Sum Insured">
+                            </td>
+                            <td>
+                                <input id="txtEndNo" maxlength="9" style="width: 150px;height: 30px " class="text ui-widget-
+
+content ui-corner-all" type="text" name="ProductDesc" title="Sum Insured">
+                            </td>
+                            <td>
+                                <input id="txtNextDue" style="width: 150px;height: 30px " class="text ui-widget-
+
+content ui-corner-all" type="text" name="ProductDesc" title="Sum Insured">
+                            </td>
+
+
+                        </tr>
+                    </table>
+                    <br />
+                    <input id="txtDocNoID" style="width: 100px; height: 30px " class="text ui-widget-content ui-
+
+corner-all" type="text" name="DocNo" title="Document No.">
+
+                    <br /><br />
+
+                    <!-- Grid for Covers-->
+                    <!--GRID FOR DOCUMENTS TYPE NO's-->
+
+                    <div style="border: 1px solid #000000; border-color: dodgerblue; width: 100%"
+                         class="roundElement">
+                        <br /><br />
+                        <button id="btnAddDocTypes" type="button" class="btn btn-default">
+                            <i class="fa fa-save" title="Add Document No" aria-hidden="true"></i>Add Document No.
+                        </button>
+
+
+
+
+                        <button id="btnDeleteDoc" type="button" class="btn btn-default" style="border-radius:10px">
+                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+
+
+                        <button type="reset" class="btn btn-default" style="border-radius: 10px">
+                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                        </button>
+
+                        <input id="txtTxnStatus" style="width:5%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="status">
+
+                        <button type="button" id="btnFindCover" class="btn btn-default" style="float: right;
+
+border-radius: 10px">
+                            <i class="fa fa-search" title="Search" aria-hidden="true" style="border-radius:
+
+10px"></i> Search
+                        </button>
+                        <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right;
+
+margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search
+
+from DB">
+
+                        <br />
+                        <br />
+
+                        <div>
+                            <table id="gridAppDoc"></table>
+                            <table id="grdDocPager"></table>
+                        </div>
+                        <!-----------------------Journal Category dialog -------------------->
+
+                        <div id="dialog-Journal" title="Get Info">
+                            <form>
+                                <div>
+                                    <input id="txtSearchJournal" type="text" placeholder="Search by Name" style="width: 40%" name="txtSearchOffice" title="">
+                                    <button type="button" class="btn btn-default" id="btnQueryJournal">
+                                        <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                    </button>
+                                </div>
+                                <h4 style="border-bottom-color: red" class="sub-header"></h4>
+                                <!-- LOV Grid and pager-->
+                                <div>
+                                    <table id="grdJournal"></table>
+                                    <table id="grdPager"></table>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <!-----------------------Office  dialog -------------------->
+
+                        <div id="dialog-Office" title="Get Info">
+                            <form>
+                                <div>
+                                    <input id="txtSearchOffice" type="text" placeholder="Search by Name" style="width: 40%" name="txtSearchOffice" title="">
+                                    <button type="button" class="btn btn-default" id="btnQueryOffice">
+                                        <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                    </button>
+                                </div>
+                                <h4 style="border-bottom-color: red" class="sub-header"></h4>
+                                <!-- LOV Grid and pager-->
+                                <div>
+                                    <table id="grdOffice"></table>
+                                    <table id="grdPager"></table>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <!-----------------------Currency  dialog -------------------->
+                        <div id="dialogCur" title="Get Info">
+                            <form>
+                                <div>
+                                    <input id="txtSearchCurrency" type="text" placeholder="Search by Name" style="width: 40%" name="txtSearchCurrency" title="">
+                                    <button type="button" class="btn btn-default" id="btnQueryCurrencies">
+                                        <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                    </button>
+                                </div>
+                                <h4 style="border-bottom-color: red" class="sub-header"></h4>
+                                <!-- LOV Grid and pager-->
+                                <div>
+                                    <table id="grdCurrency"></table>
+                                    <table id="grdCPager"></table>
+                                </div>
+                            </form>
+                        </div>
+                                                <div id="dialog-Currency" title="Get Info">
+
+                                        <form>
+                                            <div style="border: 1px solid #000000; border-color: dodgerblue; width: 100%"
+                                                 class="roundElement">
+                                                <h4 style="border-bottom-color:red" class="sub-header"> Currency </h4>
+
+                                                <br />
+                                                <table>
+                                                    <tr style="color:blue; align-content:center">
+                                                        <th>Currency Code</th>
+                                                        <th></th>
+                                                        <th>Currency Name</th>
+
+
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>
+                                                            <input id="txtCurCode" style="width: 100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Cover Code">
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-default" id="btnCurOffice"
+                                                                    style="height:30px">
+                                                                <i class="fa fa-sort-down" title="Select" aria-hidden="true"></i>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <input id="txtCurName" style="width: 200px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="ProductDesc" title="Cover Code">
+                                                        </td>
+
+
+                                                    </tr>
+                                                </table>
+                                                <br />
+                                                <input id="txtCurID" style="width: 100px; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="DocNo" title="Document No.">
+
+
+                                                <div style="border: 1px solid #000000; border-color: dodgerblue; width: 100%"
+                                                    class="roundElement">
+                                                    <br /><br />
+                                                    <button id="btnAddCurrency" type="button" class="btn btn-default">
+                                                        <i class="fa fa-save" title="Add Currency" aria-hidden="true"></i>Add Currency
+                                                    </button>
+
+
+
+
+                                                    <button id="btnDeleteCur" type="button" class="btn btn-default" style="border-radius:10px">
+                                                        <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                                    </button>
+
+
+                                                    <button type="reset" class="btn btn-default" style="border-radius: 10px">
+                                                        <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                                    </button>
+
+                                                    <input id="txtTxnStatus" style="width:5%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="status">
+
+                                                    <button type="button" id="btnFindCover" class="btn btn-default" style="float: right;
+
+        border-radius: 10px">
+                                                        <i class="fa fa-search" title="Search" aria-hidden="true" style="border-radius:
+
+        10px"></i> Search
+                                                    </button>
+                                                    <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right;
+
+        margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search
+
+        from DB">
+                                                    <br/>
+                                                    <br/>
+                                                    <table id="gridAppDocCUR"></table>
+                                    <table id="grdDocCurPager"></table>
+
+
+
+
+                                                    <!-----------------------Document Category dialog -------------------->
+
+                                                    <div id="dialog-DocumentCat" title="Get Info">
+                                                        <form>
+                                                            <div>
+                                                                <input id="txtSearchDocCat" type="text" placeholder="Search by Name" style="width: 40%" name="txtSearchDocCat" title="">
+                                                                <button type="button" class="btn btn-default" id="btnQueryDocuCat">
+                                                                    <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                                                </button>
+                                                            </div>
+                                                            <h4 style="border-bottom-color: red" class="sub-header"></h4>
+                                                            <!-- LOV Grid and pager-->
+                                                            <div>
+                                                                <table id="grdDocuCat"></table>
+                                                                <table id="grdPager"></table>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                    <!-- dialog form for Saving LOV -->
+                                                    <div id="dlgCode-form" title="Save Data">
+                                                        <form id="ProdCovers">
+                                                            <div style="color: red">
+                                                                Alert Message
+                                                            </div>
+                                                            <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+                                                            <!-- -->
+                                                            <div style="color: fuchsia">
+                                                                Are you sure you want to save ?
+                                                            </div>
+
+                                                        </form>
+                                                    </div>
+
+
+                                                </div>
+                                    </div>
+        </form>
+                </div>
+
+
+
+            </div>
+
+
+        </div>

@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "Account Period";
+}
+<script src="~/Scripts/Page_Scripts/account.period.setup.js"></script>
+<script src="~/Scripts/Services/accountperiod.service.js"></script>
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryAcctPeriod" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Account Period Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="acctperiodForm" id="acctperiodForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the form below</span>
+
+                                        <input id="txtID" style="width:10%;  height: 30px " hidden class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Cust ID">
+                                        <input id="txtStatus" style="width:10%; height: 30px " hidden value="0" class="text ui-widget-content ui-corner-all" type="text" name="ID" title="Cust ID">
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Year Code</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_code">
+                                                        <input id="ACP_YEAR_CODE" class="form-control" min="3" maxlength="15" type="text" name="ACP_YEAR_CODE" title="Code">
+                                                        <span class="textfieldRequiredMsg">Year Code is required.</span>
+                                                        <span class="textfieldMinCharsMsg">Code must specify at least 15 characters.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">From</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_name">
+                                                        <input id="ACP_PERIOD_FROM" class="form-control" min="5" maxlength="50"
+                                                               type="month" name="ACP_PERIOD_FROM" title="Name">
+                                                        <span class="textfieldRequiredMsg">From Date is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">To</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_currcountry">
+                                                        <input id="ACP_PERIOD_TO" class="form-control" min="5" maxlength="50"
+                                                               type="month" name="ACP_PERIOD_TO" title="Name">
+                                                        <span class="textfieldRequiredMsg"> End Date is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Open</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span id="spry_decsymbol">
+                                                        <select id="ACP_MONTH_OPEN" name="ACP_MONTH_OPEN" class="btn btn-default dropdown-toggle">
+                                                            <option value="...">Select</option>
+                                                            <option value="Y">Yes</option>
+                                                            <option value="N">No</option>
+                                                        </select>
+                                                        <span class="textfieldRequiredMsg">Open is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required"> Close</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span id="spry_unit">
+                                                        <select id="ACP_MONTH_CLOSE" name="ACP_MONTH_CLOSE" class="btn btn-default dropdown-toggle">
+                                                            <option value="...">Select</option>
+                                                            <option value="Y">Yes</option>
+                                                            <option value="N">No</option>
+                                                        </select>
+                                                        <span class="textfieldRequiredMsg">Close is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>
+                                                        Status
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="checkbox checkbox-inline pull-left" type="checkbox" id="ACP_STATUS" name="ACP_STATUS" checked required />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdAcctPeriod"></table>
+                                    <table id="grdAcctPeriodPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

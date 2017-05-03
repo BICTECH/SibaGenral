@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "Conditions & Clauses";
+}
+<script src="~/Scripts/Page_Scripts/condition.clauses.setup.js"></script>
+<script src="~/Scripts/Services/conditionsclauses.service.js"></script>
+<div class="main">
+
+    <div id="page-content-wrapper" class="roundElement effects">
+        <div class="container-fluid xyz">
+            <div class="row form-view">
+
+                <div class="col-sm-12 col-md-12">
+                    <!--Form Header-->
+                    <div class="container" style="width: 100%;">
+                        <div class="panel panel-default container-fluid">
+                            <div class="panel-heading row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-4">
+                                        <button type="button" class="btn btn-success" id="btn_Save">
+                                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                                        </button>
+                                        <button type="button" class="btn btn-danger" id="btnDelete">
+                                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                                        </button>
+                                        <button type="reset" class="btn btn-primary" id="btn_Reset">
+                                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <button type="button" id="btnQueryCondsClauses" class="btn btn-info" style="float: right; margin-right: 15px">
+                                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                                        </button>
+                                        <input id="txtSearch" style="width: 50%; text-align: center; float: right; margin-right: 10px"
+                                               class="form-control" type="text" name="txtSearch" placeholder="Search by Code">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Header-->
+                    <div class="row form-header">
+
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tabs-1">Conditions &amp; Clauses Setup</a></li>
+                            </ul>
+                            <div id="tabs-1">
+                                <form name="conditionclauseForm" id="conditionclauseForm">
+                                    <div class="row control-group form-padding">
+                                        <span class="control-grp-lbl text-danger">Fill the Form below</span>
+                                     
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Code</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <span id="spry_code">
+                                                        <input class="form-control" id="CCL_CODE" min="3" maxlength="15" type="text" name="CCL_CODE" title="Code" required>
+                                                        <span class="textfieldRequiredMsg">Code is required.</span>
+                                                        <span class="textfieldMaxCharsMsg">Code must specify at least 15 characters.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Name</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span id="spry_name">
+                                                        <input class="form-control" id="CCL_NAME" min="5" maxlength="50"
+                                                               type="text" name="CCL_NAME" title="Name" required>
+                                                        <span class="textfieldRequiredMsg">Name is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Type</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <select id="CCL_TYPE" name="CCL_TYPE" class="btn btn-default dropdown-toggle" required>
+                                                        <option value="">Select Type</option>
+                                                        <option value="CLAUSE">CLAUSE</option>
+                                                        <option value="CONDITION">CONDITION</option>
+                                                        <option value="SURETY">SURETY</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label class="required">Description</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span id="spry_desc">
+                                                        <textarea rows="4" cols="50" name="CCL_DESCRIPTION" id="CCL_DESCRIPTION" min="5" maxlength="40"
+                                                                  class="form-control" required></textarea>
+                                                        <span class="textfieldRequiredMsg">Address is required.</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label>
+                                                        Status
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input class="checkbox checkbox-inline pull-left" type="checkbox" id="CIT_STATUS" name="CIT_STATUS" checked />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!--Grid Buttons-->
+                                <div class="row">
+                                    <div class="btn-block">
+                                        <button id="btn_add_record" class="btn btn-default" type="button"> <i class="fa fa-plus-circle text-success"></i> Add New</button>
+                                        <button id="btn_update_record" class="btn btn-default" type="button"><i class="fa fa-edit text-yellow"></i> Update</button>
+                                        <button id="btn_remove_record" class="btn btn-default" type="button"><i class="fa fa-trash-o text-danger"></i> Remove</button>
+
+                                        <button type="button" class="btn btn-default pull-right dialog-btn" id="export-btn" title="Export Grid data to Excel">
+                                            <img src="~/Content/Images/Excell_DownLoad.png" alt="Down Load" height="25" width="27" /> Export
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--Setup Grid-->
+                                <div class="row">
+                                    <table id="grdConditionClauses"></table>
+                                    <table id="grdConditionClausesPager"></table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,577 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.base.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.2.min.js"></script>
+
+    <script src="~/Scripts/jquery-1.7.2.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.8.11.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.min.js"></script>
+
+    <script type="text/javascript">
+    ////--- -----------------------------------Select Code  LOV ------------ -->
+
+    //    // LOV to select from
+        $(document).ready(function () {
+
+                $("#btnQueryCustomer").click(function () {
+
+                    $("#grdCustomer").jqGrid("setGridParam", {
+
+                                    url: 'http://localhost:33934/api/Customers',
+                                    datatype: "json",
+                                    contentType: "application/json; charset-utf-8",
+                                    // data: JSON.stringify(custData),
+                                    type: 'GET',
+                                    //new added
+
+                                }).trigger("reloadGrid", { current: true });
+
+                    //var Url = "";
+                    //if ($("#txtSearch").val() == '') {
+                    //    Url = 'http://localhost:33934/api/Customers';
+                    //}
+                    //else {
+                    //    Url = 'http://localhost:33934/api/Customers' + $("#txtSearch").val();
+                    //};
+                    //$("#grdCustomer").jqGrid("setGridParam", {
+                    //   url: Url,
+
+                    //    datatype: "json",
+                    //    contentType: "application/json; charset-utf-8",
+                    //    data: JSON.stringify(custData),
+                    //    type: 'GET',
+                    //    //new added
+
+                    //}).trigger("reloadGrid", { current: true });
+
+                });
+        });
+
+            $(document).ready(function () {
+                $("#grdCustomer").jqGrid({
+                    data: 'local',
+                    //height: 255,
+                    //width: 600,
+                    colNames: ['Code', 'Branch Code'],
+                    colModel: [
+                        { name: 'CUS_CODE', index: 'CUS_CODE', width: 100 },
+                        { name: 'CUS_BRANCH_CODE', index: 'CUS_BRANCH_CODE', width: 100 },
+
+                    ],
+                    //Retrive and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#grdCustomer');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                        var CusCode = DescCellData = grid.jqGrid('getCell', sel_id, 'CUS_CODE');
+
+                        $("#txtCustomerCode").val(CusCode);
+                        $("#txtCustomerBranchCode").val(BranchCode);
+
+                    },
+
+
+                    rowNum: 5,
+                    rowList: [5, 15, 20],
+                    pager: '#grdPager',
+                    sortname: 'id',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    caption: "Customer list",
+                    loadtext:'Loading, please wait',
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+
+                });
+                jQuery("#grdCustomer").jqGrid('navGrid', '#grdPager',
+                    { edit: false, add: false, del: false });
+            });
+
+
+            //call add function to add records to Product Cover grid
+            $(document).ready(function () {
+
+                $("#btnAddGridCov").on('click', function () {
+                    if ($('#txtCoverSysID').val() == "") {
+                        alert(" ID field cannot be empty");
+
+                    }
+                    // check Options
+                    var DfSiChck = "";
+                    var DiscChck = "";
+                    var LoadChk = "";
+
+                    if ($('#chkbxDefault').is(":checked")) {
+                        DfSiChck = "Y"
+                    }
+                    else
+                    {
+                        DfSiChck = "N"
+                    }
+                    //
+                    if ($('#chkbxDisc').is(":checked")) {
+
+                        DiscChck = "Y"
+                    }
+                    else {
+
+                        DiscChck = "N"
+                    }
+                    //
+                    if ($('#chkbxLoad').is(":checked")) {
+
+                        LoadChk = "Y"
+                    }
+                    else {
+
+                        LoadChk = "N"
+                    }
+
+                    if ($('#check_id').is(":checked")) {
+                        // it is checked
+                    }
+
+                    else {
+                        var ProdCoverData = [
+                        {
+                            PCV_SYS_ID: $('#txtCoverSysID').val(),
+                            PCV_PDT_SYS_ID: $('#txtFKProdID').val(),
+                            PCV_COV_CODE: $('#txtCovCode').val(),
+                            PCV_COV_NAME: $('#txtCovName').val(),
+                            PCV_SI: $('#txtSI').val(),
+                            PCV_DFT: DfSiChck,
+                            PCV_DISC: DiscChck,
+                            PCV_LOAD: LoadChk,
+                        },
+
+                        ];
+                        for (var i = 0; i < ProdCoverData.length; i++)
+                            jQuery("#grdProdCov").addRowData(ProdCoverData[i].id, ProdCoverData[i]);
+                    }
+
+                });
+
+            });
+
+    //--- -----------------------------------Save Country ------------ -->
+
+        $(document).ready(function () {
+            $("#btnSaveCustomer").click(function () {
+                // Declare the variables and get values into the variables
+                //Note: veriable names should much with object/entity names in the model object
+                var CustData = [{
+                    CUS_CODE: $("#txtCustomerCode").val(),
+                    CUS_BRANCH_CODE: $("#txtCustomerBranchCode").val(),
+
+                }]
+
+                // alert(JSON.stringify(CountryData));
+                //calling ajax function to post data
+                $.ajax({
+
+                    url: 'http://localhost:33934/api/Customers',
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+                    //convert data into JSON string format
+                    data: JSON.stringify({CustomersData:CustData}),
+                    processData: true,
+
+                    ///call feed back of the action
+                    'success': function (data) {
+                        alert("Saved Successfully");
+                    },
+                    'error': function (error) {
+                        alert("Error occurred");
+                    }
+
+                });
+            });
+        });
+
+        //--- -----------------------------------Update Country ------------ -->
+
+        $(document).ready(function () {
+            $("#btnUpdateCountry").click(function () {
+                // Declare the variables and get values into the variables
+                //Note: veriable names should much with object/entity names in the model object
+                var CountryData = {};
+                CountryData.CNT_CODE = $("#txtCountryCode").val(); //Reading text box values using Jquery
+                CountryData.CNT_NAME = $("#txtCountry Name").val();
+
+
+
+                //calling ajax function to post data
+                $.ajax({
+
+                    url: 'http://localhost:10445/api/Country' + $("1").val(),
+                    type: 'PUT',
+                    //convert data into JSON string format
+                    data: JSON.stringify(CountryData),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+                    //call feed back of the action
+                    'success': function (data) {
+                        alert("Saved Successfully");
+                    },
+                    'error': function (error) {
+                        alert("Error occurred");
+                    }
+
+                });
+            });
+        });
+
+        //--- -----------------------------------Delete Country  ------------ -->
+
+        $(document).ready(function () {
+            $("#btnDeleteCountry").click(function () {
+                // Declare the variables and get values into the variables
+                //Note: veriable names should much with object/entity names in the model object
+                var CountryData = {};
+                CountryData.PDT_SYS_ID = $("1").val(); //Reading text box values using Jquery
+
+          //calling ajax function to post data
+                $.ajax({
+
+                    url: 'http://localhost:10445/api/Country' + $("1").val(),
+                    type: 'DELETE',
+                    //convert data into JSON string format
+                    data: JSON.stringify(CountryData),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+
+                    //call feed back of the action
+                    'success': function (data) {
+                        alert("Record Deleted Successfully");
+                    },
+                    'error': function (error) {
+                        alert("Error occurred");
+                    }
+
+                });
+            });
+        });
+
+    </script>
+
+    <!-- Form Controls -->
+    <script>
+            //Taps Layout function call using Jquery
+            $(function () {
+                $("#tabs").tabs({
+                    beforeLoad: function (event, ui) {
+                        ui.jqXHR.fail(function () {
+                            ui.panel.html(
+                              "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+                              "If this wouldn't be a demo.");
+                        });
+                    }
+                });
+            });
+
+            $(function () {
+              //  $("#tabs").resizable();
+                $("#tabs").height(1700);
+                //$("#tabs").draggable();
+
+            });
+
+
+
+        //Numeric Value input for Sum insured
+
+            $(document).ready(function () {
+
+                $("#txtSI").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+
+            //Numeric Value input
+            $(document).ready(function () {
+
+                $("#txtProdSysID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+            //Numeric Value input for Covers sys ID
+            $(document).ready(function () {
+
+                $("#txtCoverSysID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+            //Numeric Value input for Product Covers sys ID
+            $(document).ready(function () {
+
+                $("#txtFKProdID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+
+            //Date picker -->
+            $(function () {
+                $("#txtPostedDate").datepicker({
+                    showOn: "button",
+                    buttonImage: "../Content/Images/calendar-icon1.png",
+                    buttonImageOnly: true,
+
+                });
+            });
+
+
+            //Date picker -->
+            //Start date
+            $(function () {
+                $("#dtModifiedDate").datepicker({
+                    showOn: "button",
+                    buttonImage: "~/Content/Images/datePicker.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select"
+                });
+            });
+            ////end date
+            $(function () {
+                $("#dtDob2").datepicker({
+                    showOn: "button",
+                    buttonImage: "Image/datePicker.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select"
+
+                });
+
+            });
+
+
+    </script>
+
+    <!-- Adding a style-->
+    <style>
+        .divleft {
+            background-color: Gray;
+            width: 40%;
+            height: 20px;
+            float: left;
+        }
+
+        .divrihgt {
+            background-color: red;
+            width: 60%;
+            height: 20px;
+            float: left;
+        }
+
+        .divcontainer {
+            width: 100%;
+        }
+
+        div.card {
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            line-height: 1em;
+        }
+
+        div.Covers {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        div.FormMenu {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        label {
+            display: inline-block;
+            width: 11em;
+            color: blue;
+            text-align: right;
+            font-size: 12px;
+        }
+
+        errmsg {
+            color: red;
+        }
+
+        .fwm_button {
+            color: white;
+            font-weight: bold;
+            background-color: #6699cc;
+            border: 2px outset;
+            border-top-color: #aaccff;
+            border-left-color: #aaccff;
+            border-right-color: #003366;
+            border-bottom-color: #003366;
+            width: 100px;
+        }
+
+        .Select_button {
+            color: lightseagreen;
+            font-weight: bold;
+            width: 3%;
+            height: 30px;
+        }
+
+        .inputCode {
+            height: 30px;
+            width: 30px;
+            text-align: right;
+        }
+
+        .checkboxx-inline {
+            display: inline-block;
+            padding-left: 10px;
+            padding-right: 45px;
+            margin-bottom: 0;
+            font-weight: normal;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+            .checkboxx input[type="checkbox"], .checkboxx-inline input[type="checkbox"] {
+                float: none;
+                margin-left: -10px;
+                margin-right: 10px;
+            }
+
+            .checkboxx-inline + .checkboxx-inline {
+                margin-top: 0;
+                margin-left: 10px;
+            }
+
+        .checkboxx label {
+            display: inline;
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        label.required:after {
+            content: " *";
+            color: red;
+        }
+
+        .containera button {
+            margin-bottom: 10px;
+            width: 85px;
+            height: 31px;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            padding-top: 5px;
+            background-color: #f2f2f2;
+            color: #428bca;
+            font-size: 15px;
+            text-rendering: optimizeLegibility;
+            font-weight: bolder;
+            font-family: Georgia, serif;
+        }
+    </style>
+
+
+    <div class="card">
+
+        <div style="background-color: lightseagreen; text-align: center; padding: 0px, 0px, 10px, 0px">
+        </div>
+        <div style="background-color: lightskyblue">
+
+        </div>
+        <form name="form1" id="form2">
+
+            <div style="padding-top: 10px">
+                <div style="text-align: center" class="containera">
+
+                    <button type="button" class="btn btn-default" id="btnSaveCustomer">
+                        <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                    </button>
+                    &nbsp;
+                    &nbsp;
+                    <button type="button" class="btn btn-default">
+                        <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                    </button>
+                    &nbsp;
+                    &nbsp;
+                    <button type="reset" class="btn btn-default" id="btnReset">
+                        <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                    </button>
+
+                    <button type="button" class="btn btn-default" style="float: right" id="btnQueryCustomer">
+                        <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                    </button>
+
+                    <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search">
+
+                </div>
+            </div>
+
+            <div id="tabs">
+                <!-- Head-->
+                <!-- Tab 1 Header-->
+                <ul>
+                    <li><a href="#tabs-1">Customers Setups</a></li>
+                </ul>
+
+                <div id="tabs-1">
+
+                    <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+
+                    <div>
+                        <section>
+
+                            <label id="lblCustomerCode" for="txtCustomerCode" class="required"> Code</label>
+                            <input id="txtCustomerCode" style="width:17%; height: 30px " class="text ui-widget-content ui-corner-all" type="text" name="txtCustomerCode" title="Customer Code">
+
+                        </section>
+
+                        <h4 style="border-bottom-color:cornflowerblue" class="sub-header"></h4>
+
+                    </div>
+
+                    <div>
+                        <table id="grdCustomer"></table>
+                        <table id="grdPager"></table>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>

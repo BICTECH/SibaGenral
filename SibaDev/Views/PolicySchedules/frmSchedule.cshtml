@@ -1,0 +1,407 @@
+﻿@model SibaDev.Models.INS_UWD_POLICY_HEAD
+@{
+    Layout = null;
+}
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Css/Custom/rptMotor.css" rel="stylesheet" />
+<script src="~/Scripts/Js/jquery-1.11.3.min.js"></script>
+<script src="~/Scripts/Js/bootstrap.min.js"></script>
+<link href="~/Content/Images/font-awesome-4.6.2/font-awesome-4.6.2/css/font-awesome.min.css" rel="stylesheet" />
+
+<script>
+    function printpage() {
+        document.getElementById('btnPrint').style.visibility = "hidden";
+        window.print();
+    }
+</script>
+
+<div class="row">
+    <button id="btnPrint" type="button" value="Print" onClick="printpage()">
+        <i class="fa fa-print fa-3x" title="Delete" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="book">
+    <div class="page">
+        <div class="subpage">
+
+            <div class="col-md-12 tdfont">
+
+                <table style="width: 100%; text-align:center;" class="motor_detail">
+                    <tr>
+                        <td style="width: 50%; border-right:1px solid black;"><p style="text-align:center;"><img src="~/Content/Images/plain-backgrounds.jpg" /></p></td>
+                        <td style="width: 50%; text-align:center; font-size:medium; font-family:'Lucida Sans'">
+                            <p style="text-align:center;font-weight:400; font-size:x-large">@Model.MS_SYS_COMPANY.CMP_NAME</p>
+                            <p>@Model.MS_SYS_COMPANY.CMP_HEAD_OFFICE_ADD</p>
+                            <p>@Model.MS_SYS_COMPANY.CMP_PHONE</p>
+                            <p>@Model.MS_SYS_COMPANY.CMP_EMAIL</p>
+                            <p>@Model.MS_SYS_COMPANY.CMP_WEBSITE</p>
+                        </td>
+                    </tr>
+
+                </table>
+
+                <p style="text-align:center;font-weight:700; font-size:x-large">@Model.MST_UWD_PRODUCT.PDT_NAME</p>
+
+                <table style="width: 100%;" class="table table-bordered">
+                    <tr>
+                        <td style="width: 30%" colspan="2"> <b>Issue Date of Policy</b></td>
+                        <td> @Html.DisplayFor(x => x.POLH_POL_START_DATE)</td>
+                        <td> <b>Policy No.:</b> @Model.POLH_DISPLAY_NO</td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%" colspan="2">
+
+                            <p style="margin-top: 50px"><b>Policy Holder</b></p>
+
+                        </td>
+                        <td style="font-family:'Trebuchet MS';">
+
+                            <p><b>Insured Code: </b> <span style="float:right">@Model.MS_UDW_CUSTOMERS.CUS_CODE</span> </p>
+                            <p><b>Insured Name: </b> <span style="float:right">@Model.MS_UDW_CUSTOMERS.CUS_OFFICIAL_NAME</span> </p>
+                            <p><b>Insured Address: </b> <span style="float:right">@Model.MS_UDW_CUSTOMERS.CUS_ADDRS1 </span> </p>
+                            <p><b>Occupation: </b> <span style="float:right">@Model.MS_UDW_CUSTOMERS.CUS_PROFESSION</span> </p>
+
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%;" rowspan="4" colspan="2" class="tvertical">
+                            <p style="margin-top: 80px"><b>Policy Details</b></p>
+                        </td>
+                        <td> <b>Policy Number:</b> @Model.POLH_DISPLAY_NO </td>
+                        <td> <b>Endorsement Number:</b> @Model.POLH_END_NO </td>
+                    </tr>
+
+                    <tr>
+                        @*  <td style="width: 30%" colspan="2"> <b>Policy Details</b></td>*@
+                        <td><b>Period:</b>  @Html.DisplayFor(x => x.POLH_POL_START_DATE)</td>
+                        <td><b>To:</b> @Html.DisplayFor(x => x.POLH_POL_END_DATE) </td>
+                    </tr>
+
+                    <tr>
+                        @*  <td style="width: 30%" colspan="2"> </td>*@
+                        <td colspan="2" style="font-family:'Trebuchet MS';">
+                            (1) Both Days Inclusive <br />
+                            (2)Any subsequent period for which the insured shall
+                            pay and the Company shall agree to accept a renewal premium.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        @*  <td style="width: 30%" colspan="2"> </td>*@
+                        <td colspan="2">
+                            <b>Cover:</b> <span style="font-family:'Trebuchet MS';">@Model.MST_UWD_PRODUCT.PDT_NAME</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%" colspan="2"> <b>Premium Details</b></td>
+                        <td colspan="2">
+                            Basic Premium:  @Model.MS_SYS_EXCHANGE_RATES.EXR_CODE <b>@Html.DisplayFor(m => m.POLH_POL_PREM_FC)</b> <br />
+                            <span style="margin-left:80px">NIC:  @Model.MS_SYS_EXCHANGE_RATES.EXR_CODE<b> </b></span><br />
+                            <span><b>Premium(GH):</b>    @Model.MS_SYS_EXCHANGE_RATES.EXR_CODE <b>@Html.DisplayFor(m => m.POLH_POL_PREM_FC)</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 30%" colspan="2"> <b>Agency Details</b></td>
+                        <td colspan="2">
+                            
+                         
+                            @foreach (var pi in Model.INS_UWD_INTERMEDIARY_COMM)
+                            {
+                                @pi.CMM_COM_PERC
+                            }
+                            <br />
+
+                          
+
+                            @*@foreach (var rsk in Model.INS_UWD_INTERMEDIARY_COMM)
+                            {
+                                foreach (var cover in rsk.MS_SYS_INTERMEDIARY)
+                                {
+                                    @cover.RCOV_NET_PREM_FC
+                                }
+                            }*@
+
+                        </td>
+                    </tr>
+
+
+                </table>
+
+                <p style="text-align:center;font-weight:700; font-size:medium">RISK DETAILS</p>
+
+                <table style="width:100%;" class="motor_detail">
+                    <tr>
+                        <td style="border:1px #000 solid;" colspan="9">
+                            <p style="text-align:center;font-weight:700; font-size:large">
+                               
+                                @foreach (var rsk in Model.INS_UWD_VEHICLE_RISK)
+                                {
+                                    @rsk.MS_UDW_MOTOR_RISK.MRK_NAME
+                                }
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr style="height:30px; border:1px #000 solid; text-align: center;">
+                        <td style="border:1px #000 solid;">
+                            <p>
+                                <strong>
+                                    Serial No. <br />
+                                    Reg No. <br />
+                                    Mfg. Yr
+                                </strong>
+                            </p>
+                        </td>
+                        <td style="border:1px #000 solid;">
+                            <p>
+                                <strong>
+                                    Chasis No. <br />
+                                    Engine No. <br />
+                                    Make/Model
+                                </strong>
+                            </p>
+                        </td>
+                        <td style="border:1px #000 solid;">
+                            <p>
+                                <strong>
+                                    Body Type<br />
+                                    No. of seats<br />
+                                    Veh. CC
+                                </strong>
+                            </p>
+                        </td>
+                        <td style="border:1px #000 solid;">
+                            <p>
+                                <strong>
+                                    Vehicle Value<br />
+                                    Gross Premium<br />
+                                    Net Premium
+                                </strong>
+                            </p>
+                        </td>
+                        <td style="border:1px #000 solid;">
+                            <p>
+                                <strong>
+                                    NCD<br />
+                                    Fleet Discount<br />
+                                    Spl. Discount
+                                </strong>
+                            </p>
+                        </td>
+                        <td style="border:1px #000 solid;">
+                            <p>
+                                <strong>
+                                    E. Treatment<br />
+                                    NIC charges<br />
+                                    PA
+                                </strong>
+                            </p>
+                        </td>
+                        <td style="border:1px #000 solid;">
+                            <p>
+                                <strong>
+                                    Extra TPPD<br />
+                                    Extra Seat<br />
+                                    Exx. Bought
+                                </strong>
+                            </p>
+                        </td>
+                        <td style="width: 40px; border:1px #000 solid;">
+                            <p>
+                                <strong>
+                                    Property Dmg Limit (GHC)<br />
+
+                                </strong>
+                            </p>
+                        </td>
+                        <td width="2%" style="border:1px #000 solid;">
+                            <p><strong>Excess</strong></p>
+                        </td>
+                    </tr>
+
+                    @foreach (var be in Model.INS_UWD_VEHICLE_RISK)
+                    {
+                        <p hidden>@be.VEH_SYS_ID</p>
+
+                        <tbody style="border-top:2px #000 solid; border-bottom:2px #000 solid;">
+                            <tr valign="top" style="height:30px; text-align:center;">
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;"></td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                    <p> @be.VEH_CHASSIS_NO</p>
+
+                                </td>
+                                <td width="12%" style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                    <p> @be.VEH_BODY_TYPE</p>
+
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>@Html.DisplayFor(m => m.POLH_POL_SI_FC)</p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>
+                                        @Model.POLH_FEE_FC
+                                    </p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    @foreach (var rsk in Model.INS_UDW_POL_FEES)
+                                    {
+                                        @rsk.POL_FEE_FC_AMOUNT
+                                    }
+                                    
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    0.00
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>
+                                        @*[Property (GHC)]*@
+                                    </p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p> @be.VEH_EXCESS_PERC %</p>
+                                </td>
+                            </tr>
+
+                            <tr valign="top" style="height:30px; text-align:center;">
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                    <p> @be.VEH_VEH_REG_NO</p>
+
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;"></td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                    <p> @be.VEH_PASSENGERS</p>
+
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>@Html.DisplayFor(m => m.POLH_POL_PREM_FC)</p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>
+                                        @*[Fleet Discount]*@
+                                    </p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>
+                                        @foreach (var rsk in Model.INS_UDW_POL_FEES)
+                                        {
+                                            @rsk.POL_FEE_FC_AMOUNT
+                                        }
+                                    </p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>
+                                        0.00
+                                    </p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>
+
+                                    </p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;"></td>
+                            </tr>
+
+                            <tr valign="top" style="height:30px; text-align:center;">
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                    <p>@be.VEH_MANUFACTURE_YR</p>
+
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                    <p>@be.VEH_MAKE 
+                                        @foreach (var rsk in Model.INS_UWD_VEHICLE_RISK)
+                                        {
+                                            @rsk.MS_UDW_MAKE_MODEL.MMO_NAME
+                                        }
+                                    </p> 
+
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                    <p>@be.VEH_CUBIC_CAP</p>
+
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                    @Model.POLH_NET_PREM_FC
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>
+                                        @*[Spl. Discount]*@
+                                    </p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;"></td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p> 0.00</p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                    <p>
+
+                                    </p>
+                                </td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;"></td>
+                            </tr>
+
+                        </tbody>
+
+                    }
+
+                    <tr>
+                        <td colspan="9">
+                            <p style="margin-left:30px; margin-top:10px"><b>Limitations As To Use</b></p>
+                            <p style="margin-left:30px;">
+                                @foreach (var rsk in Model.INS_UWD_VEHICLE_RISK)
+                                {
+                                    @rsk.MS_UDW_MOTOR_RISK.MRK_LIMT_USE
+                                }
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="9">
+                            <p style="margin-left:30px; margin-top:10px"><b>The Policy Does Not Cover</b></p>
+                            <p style="margin-left:30px;">
+                                @foreach (var rsk in Model.INS_UWD_VEHICLE_RISK)
+                                {
+                                    @rsk.MS_UDW_MOTOR_RISK.MRK_DOES_NOT_COV
+                                }
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+
+
+                <table style="width:85%;">
+                    <tr valign="top" style="margin-top: 50px;">
+                        <td width="70%" valign="middle"><strong>Branch: @Model.MS_SYS_OFFICE.OFF_NAME</strong> <br /> </td>
+
+                        <td width="70%" valign="middle"><strong>FOR AND BEHALF OF MULTI INSURANCE LIMITED:</strong> <br /> </td>
+                    </tr>
+
+                    <tr valign="top">
+                        <td height="32" valign="middle"><p><strong>Examined By.......................................................................</strong></p></td>
+
+                    </tr>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

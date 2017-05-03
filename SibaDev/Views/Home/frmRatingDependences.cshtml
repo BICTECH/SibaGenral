@@ -1,0 +1,635 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.base.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.2.min.js"></script>
+
+    <script src="~/Scripts/jquery-1.7.2.js"></script>
+
+    <script src="~/Scripts/jquery-ui-1.8.11.js"></script>
+    <script src="~/Scripts/i18n/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.min.js"></script>
+
+    <script type="text/javascript">
+     
+        $(document).ready(function () {
+
+            $("#txtRatingDependencesCode").autocomplete({
+
+                source: function (request, response) {
+
+                    $.ajax({
+
+                        type: "POST",
+
+                        contentType: "application/json; charset=utf-8",
+
+                        url: "/api/CreateRatingDependences/GetCode",
+
+                        data: "{'namePrefix':'" + $("#txtRatingDependencesCode").val() + "'}",
+
+                        dataType: "json",
+
+                        success: function (data) {
+
+                            response(data.d)
+
+                        },
+
+                        error: function (response) {
+
+                            alert("Error" + res.responseText);
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+        });
+
+
+    ////--- -----------------------------------Select Code  LOV ------------ -->
+        $(document).ready(function () {
+            $("#btnQueryRatingDepend").click(function () {
+                //function findCovers() {
+
+                var GetItem = [{
+                    //paramProdCode: $("#txtProductCode").val(),
+                    paramsearchField: $("#txtSearch").val(),
+                    //paramCoverCode: $('#txtSearchCover').val()
+                }];
+
+                //alert("No data found, Check and try again");
+
+                $.ajax({
+
+                    type: 'POST',
+                    url: '/api/CreateRatingDependences/GetCode',
+
+                    //Data to send
+
+                    data: JSON.stringify({ getcov: GetItem }),
+
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+
+                    //dataprocess: true,
+                    success: function (data) {
+
+                        //clear the grid
+                        $("#grdRatingDepend").clearGridData();
+
+                        var Itemdata = data;
+                        //alert(data);
+
+                        if (Itemdata.length > 0) {
+                            for (var i = 0; i < Itemdata.length; i++)
+
+                                jQuery("#grdRatingDepend").addRowData(Itemdata[i].id, Itemdata[i]);
+                        }
+                        else {
+
+                            alert("No data found, Check and try again");
+                        }
+
+                    },
+                    'error': function (error) {
+
+                        alert(JSON.stringify(error));
+                    }
+
+                });
+            });
+        });
+
+        $(document).ready(function () {
+                $("#grdRatingDepend").jqGrid({
+                    data: 'local',
+                    height: 255,
+                    //width: 600,
+                    colNames: ['ID','Code', 'Description', 'Status'],
+                    colModel: [
+                           { name: 'RDP_SYS_ID', hidden: true, index: 'RDP_SYS_ID', width: 100 },
+                           { name: 'RDP_CODE', index: 'RDP_CODE', width: 200 },
+                           { name: 'RDP_DESCRIPTION', index: 'RDP_DESCRIPTION', width: 600 },
+                           { name: 'RDP_STATUS', index: 'RDP_STATUS', width: 200 },
+                    ],
+                    //Retrive and return on row click..
+                    onSelectRow: function (rowid) {
+                        var grid = $('#grdRatingDepend');
+                        var sel_id = grid.jqGrid('getGridParam', 'selrow');
+                        var RDPID = DescCellData = grid.jqGrid('getCell', sel_id, 'RDP_SYS_ID');
+                        var RDPCode = DescCellData = grid.jqGrid('getCell', sel_id, 'RDP_CODE');
+                        var RDPDescription = DescCellData = grid.jqGrid('getCell', sel_id, 'RDP_DESCRIPTION');
+                        var RDPStatus = DescCellData = grid.jqGrid('getCell', sel_id, 'RDP_STATUS');
+
+                        $("#txtID").val(RDPID);
+                        $("#txtRatingDependencesCode").val(RDPCode);
+                        $("#txtRatingDependencesDesc").val(RDPDescription);
+                        $("#chkStatus").val(RDPStatus);
+                        $("#txtStatus").val(1);
+                    },
+
+                    rowNum: 50,
+                    rowList: [50, 75, 100],
+                    pager: '#grdPager',
+                    sortname: 'id',
+                    viewrecords: true,
+                    sortorder: "asc",
+                    loadonce: true,
+                    ignoreCase: true,
+                    caption: "Rating Dependences list",
+                    loadtext:'Loading, please wait',
+                    //new added
+                    width: this.parentElement,
+                    shrinkToFit: false,
+                    autowidth: false,
+                    multiselect: false
+
+                });
+                jQuery("#grdRatingDepend").jqGrid('navGrid', '#grdPager',
+                    { search: true, edit: false, add: false, del: false });
+
+                jQuery("#grdRatingDepend").jqGrid('filterToolbar',
+                     { searchOnEnter: false, stringResult: true, defaultSearch: "cn" });
+
+                jQuery("#grdRatingDepend").jqGrid('bindKeys');
+            });
+
+
+    //--- -----------------------------------Save Country ------------ -->
+
+            function btnSaveRatingDepend() {
+                // Declare the variables and get values into the variables
+                //Note: veriable names should much with object/entity names in the model object
+                var RDPData = [{
+                    RDP_CODE: $("#txtRatingDependencesCode").val(),
+                    RDP_DESCRIPTION: $("#txtRatingDependencesDesc").val(),
+                    RDP_STATUS: ($("#chkStatus").is(':checked')) ? 'Y' : 'N',
+                    RDP_SYS_ID: $("#txtID").val(),
+                }];
+
+                    var Type = "";
+                    var Url = "";
+
+                    //calling ajax function to post data
+                    if ($('#txtStatus').val() == 0) {
+
+                        Url = '/api/CreateRatingDependences/PostRatingDependences';
+                        Type = 'POST';
+                        alert("Save Successfully");
+
+                    } else if ($('#txtStatus').val() == 1) {
+                        Url = '/api/UpdateRatingDependences';
+                        Type = 'POST';
+                        alert("Updated Successfully");
+                    }
+                    $.ajax({
+
+                        type: Type,
+                        url: Url,
+                        //convert data into JSON string format
+                        data: JSON.stringify({ RatingDependencesData: RDPData }),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+
+                        ///call feed back of the action
+                        'success': function (data) {
+                            alert(JSON.stringify(CurData));
+                            $('#txtStatus').val(1);
+                        },
+                        'error': function (error) {
+                            alert(data);
+                            $('#txtStatus').val(0);
+                        }
+
+                    });
+            };
+      
+        //--- -----------------------------------Delete Country  ------------ -->
+
+        $(document).ready(function () {
+            $("#btnDeleteRatingDepend").click(function () {
+                // Declare the variables and get values into the variables
+                //Note: veriable names should much with object/entity names in the model object
+
+                var delData = [{
+                    RDP_CODE: $("#txtRatingDependencesCode").val(),
+                    RDP_DESCRIPTION: $("#txtRatingDependencesDesc").val(),
+                    RDP_STATUS: ($("#chkStatus").is(':checked')) ? 'Y' : 'N',
+                    RDP_SYS_ID: $("#txtID").val(),
+                }];
+
+
+                //alert(JSON.stringify(delData));
+                //calling ajax function to post data
+                $.ajax({
+
+                    url: '/api/DeleteRatingDependences',
+                    type: 'DELETE',
+                    //convert data into JSON string format
+                    data: JSON.stringify({ RatingDependencesData: delData }),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+
+                    //call feed back of the action
+                    'success': function (data) {
+                        alert("Deleted Successfully");
+
+                        var grid = $('#grdRatingDepend');
+
+                        var row_id = grid.jqGrid('getGridParam', 'selrow');
+
+                        var Code = grid.jqGrid('getCell', row_id, 'RDP_CODE');
+
+                        grid.jqGrid('delRowData', row_id);
+                    },
+                    'error': function (error) {
+                        alert("Error occurred");
+                    }
+
+                });
+            });
+        });
+
+        ////Save Dialog box==========================================================================
+
+        $(function () {
+            var dialog, form,
+            Savedialog = $("#dlgCode-form").dialog({
+                autoOpen: false,
+                height: 300,
+                width: 500,
+                modal: true,
+
+                buttons: {
+                    "YES": function () {
+
+                        $(this).dialog("close");
+
+                        btnSaveRatingDepend();
+
+                    },
+
+                    "NO": function () {
+
+                        $(this).dialog("close");
+
+                    },
+                }
+
+            });
+
+            //open the dialog form TO SAVE
+            $("#btnSave").button().on("click", function () {
+                Savedialog.dialog("open");
+
+            });
+
+        });
+
+    </script>
+
+    <!-- dialog form for Covers LOV -->
+    <div id="dlgCode-form" title="Save Data">
+        <form id="MotorRisk">
+            <div style="color: red">
+                Alert Message
+            </div>
+            <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+            <!-- -->
+            <div style="color: fuchsia">
+                Are you sure you want to save ?
+            </div>
+        </form>
+    </div>
+
+    <!-- Form Controls -->
+    <script>
+            //Taps Layout function call using Jquery
+            $(function () {
+                $("#tabs").tabs({
+                    beforeLoad: function (event, ui) {
+                        ui.jqXHR.fail(function () {
+                            ui.panel.html(
+                              "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+                              "If this wouldn't be a demo.");
+                        });
+                    }
+                });
+            });
+
+            $(function () {
+              //  $("#tabs").resizable();
+                $("#tabs").height(1700);
+                //$("#tabs").draggable();
+
+            });
+
+
+
+        //Numeric Value input for Sum insured
+
+            $(document).ready(function () {
+
+                $("#txtSI").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+
+            //Numeric Value input
+            $(document).ready(function () {
+
+                $("#txtProdSysID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+            //Numeric Value input for Covers sys ID
+            $(document).ready(function () {
+
+                $("#txtCoverSysID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+            //Numeric Value input for Product Covers sys ID
+            $(document).ready(function () {
+
+                $("#txtFKProdID").keypress(function (e) {
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+
+
+            //Date picker -->
+            $(function () {
+                $("#txtPostedDate").datepicker({
+                    showOn: "button",
+                    buttonImage: "../Content/Images/calendar-icon1.png",
+                    buttonImageOnly: true,
+
+                });
+            });
+
+
+            //Date picker -->
+            //Start date
+            $(function () {
+                $("#dtModifiedDate").datepicker({
+                    showOn: "button",
+                    buttonImage: "~/Content/Images/datePicker.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select"
+                });
+            });
+            ////end date
+            $(function () {
+                $("#dtDob2").datepicker({
+                    showOn: "button",
+                    buttonImage: "Image/datePicker.gif",
+                    buttonImageOnly: true,
+                    buttonText: "Select"
+
+                });
+
+            });
+
+
+    </script>
+
+    <!-- Adding a style-->
+    <style>
+        .divleft {
+            background-color: Gray;
+            width: 40%;
+            height: 20px;
+            float: left;
+        }
+
+        .divrihgt {
+            background-color: red;
+            width: 60%;
+            height: 20px;
+            float: left;
+        }
+
+        .divcontainer {
+            width: 100%;
+        }
+
+        div.card {
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            line-height: 1em;
+        }
+
+        div.Covers {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        div.FormMenu {
+            width: 100%;
+            height: 60px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        label {
+            display: inline-block;
+            width: 11em;
+            color: blue;
+            text-align: right;
+            font-size: 12px;
+        }
+
+        errmsg {
+            color: red;
+        }
+
+        .fwm_button {
+            color: white;
+            font-weight: bold;
+            background-color: #6699cc;
+            border: 2px outset;
+            border-top-color: #aaccff;
+            border-left-color: #aaccff;
+            border-right-color: #003366;
+            border-bottom-color: #003366;
+            width: 100px;
+        }
+
+        .Select_button {
+            color: lightseagreen;
+            font-weight: bold;
+            width: 3%;
+            height: 30px;
+        }
+
+        .inputCode {
+            height: 30px;
+            width: 30px;
+            text-align: right;
+        }
+
+        .checkboxx-inline {
+            display: inline-block;
+            padding-left: 10px;
+            padding-right: 45px;
+            margin-bottom: 0;
+            font-weight: normal;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+            .checkboxx input[type="checkbox"], .checkboxx-inline input[type="checkbox"] {
+                float: none;
+                margin-left: -10px;
+                margin-right: 10px;
+            }
+
+            .checkboxx-inline + .checkboxx-inline {
+                margin-top: 0;
+                margin-left: 10px;
+            }
+
+        .checkboxx label {
+            display: inline;
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        label.required:after {
+            content: " *";
+            color: red;
+        }
+
+        .containera button {
+            margin-bottom: 10px;
+            width: 85px;
+            height: 31px;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            padding-top: 5px;
+            background-color: #f2f2f2;
+            color: #428bca;
+            font-size: 15px;
+            text-rendering: optimizeLegibility;
+            font-weight: bolder;
+            font-family: Georgia, serif;
+        }
+
+           .roundElement {
+            border-radius: 10px;
+        }
+    </style>
+
+
+    <div class="card">
+
+        <form name="form1" id="form2">
+
+            <div id="tabs">
+
+                <div style="border: 1px solid #000000; border-color: gray; width: 100%" class="roundElement">
+                    <br />
+                    <div style="text-align: center" class="containera">
+
+                        <button type="button" class="btn btn-default" id="btnSave">
+                            <i class="fa fa-save" title="Save" aria-hidden="true"></i> Save
+                        </button>
+                        &nbsp;
+                        &nbsp;
+                        <button type="button" class="btn btn-default" id="btnDeleteRatingDepend">
+                            <i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Delete
+                        </button>
+                        &nbsp;
+                        &nbsp;
+                        <button type="reset" class="btn btn-default" id="btnReset">
+                            <i class="fa fa-refresh" title="Reset" aria-hidden="true"></i> Reset
+                        </button>
+
+                        <button type="button" class="btn btn-default" style="float: right; margin-right: 15px" id="btnQueryRatingDepend">
+                            <i class="fa fa-search" title="Search" aria-hidden="true"></i> Search
+                        </button>
+
+                        <input id="txtSearch" style="width:20%; height: 30px; text-align:center; float:right; margin-right: 10px" class="text ui-widget-content ui-corner-all" type="text" name="txtSearch" placeholder="Search by Code">
+
+                    </div>
+                </div>
+                <ul>
+                    <li><a href="#tabs-1">Rating &amp; Dependences Setups</a></li>
+                </ul>
+
+                <div id="tabs-1">
+
+                    <h4 style="border-bottom-color:blue" class="sub-header"></h4>
+
+                    <div>
+                        <section>
+
+                            <input id="txtID" hidden="hidden" style="width:10%; height: 30px " min="5" maxlength="5" class="text ui-widget-content ui-corner-all" type="text" name="txtID" title="Code">
+                            <input id="txtStatus" hidden="hidden" value="0" style="width:10%; height: 30px " min="5" maxlength="5" class="text ui-widget-content ui-corner-all" type="text" name="txtStatus" title="Status">
+
+                        </section>
+                        <section>
+
+                            <label id="lblRatingDependencesCode" for="txtRatingDependencesCode" class="required"> Code</label>
+                            <input id="txtRatingDependencesCode" style="width:17%; height: 30px " min="5" maxlength="10" class="text ui-widget-content ui-corner-all" type="text" name="txtRatingDependencesCode" title="Rating & Dependences Code">
+                        </section>
+                        &nbsp;
+                        <section>
+                            <label id="lblRatingDependencesDesc" for="txtRatingDependencesDesc" class="required"> Description</label>
+                            <textarea id="txtRatingDependencesDesc" rows="5" style="width:30%" min="5" maxlength="90" class="text ui-widget-content ui-corner-all" type="text" name="txtRatingDependencesDesc" title="Rating & Dependences Description"></textarea>
+
+                        </section>
+                        <br />
+
+                        <label id="lblStaus" for="chkRDPStatus">Status</label>
+                        <input id="chkStatus" type="checkbox" checked="checked" value="A">
+
+                        <h4 style="border-bottom-color:cornflowerblue" class="sub-header"></h4>
+
+                    </div>
+
+                    <div>
+                        <table id="grdRatingDepend"></table>
+                        <table id="grdPager"></table>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+</div>

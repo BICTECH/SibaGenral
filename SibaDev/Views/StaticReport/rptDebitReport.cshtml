@@ -1,0 +1,229 @@
+﻿
+@model SibaDev.Models.INS_UWD_POLICY_HEAD
+
+@{
+    Layout = null;
+}
+
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/Css/Custom/rptMotor.css" rel="stylesheet" />
+<script src="~/Scripts/Js/jquery-1.11.3.min.js"></script>
+<script src="~/Scripts/Js/bootstrap.min.js"></script>
+<link href="~/Content/Images/font-awesome-4.6.2/font-awesome-4.6.2/css/font-awesome.min.css" rel="stylesheet" />
+
+<script>
+    function printpage() {
+        document.getElementById('btnPrint').style.visibility = "hidden";
+        window.print();
+    }
+</script>
+
+<div class="row">
+    <button id="btnPrint" type="button" value="Print" onClick="printpage()">
+        <i class="fa fa-print fa-3x" title="Delete" aria-hidden="true"></i>
+    </button>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 center-block">
+        <p style="text-align:center;"><img src="~/Content/Images/plain-backgrounds.jpg" /></p>
+    </div>
+</div>
+
+       <div class="container" style="color:#000">
+                                <!-------------------Ttile------------------------>
+
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-10 center-block">
+                                        <u><p style="text-align:center;font-weight:900; font-size:x-large">@Model.MS_SYS_COMPANY.CMP_NAME</p></u>
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
+
+                                <!------------------------------------------------->
+
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-10 center-block">
+                                        <u><p style="text-align:center;font-weight:800; font-size:large">DEBIT NOTE</p></u>
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
+
+                                <!--------------Details------------------>
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-10">
+                                        <table height="187">
+                                            <tr valign="top">
+                                                <td width="147" height="22" style="font-weight:bold;">Branch</td>
+                                                <td width="35" align="left">:</td>
+                                                <td width="387">@Model.MS_SYS_OFFICE.OFF_NAME</td>
+                                                <td width="110" align="left" style="font-weight:bold;">Doc No.</td>
+                                                <td width="44" align="center">:</td>
+                                                <td width="231">@Model.POLH_DOC_NO</td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="22" style="font-weight:bold;">Account Code</td>
+                                                <td align="left">:</td>
+                                                <td>@Model.POLH_CUST_CODE</td>
+                                                <td align="left" style="font-weight:bold;">Date</td>
+                                                <td align="center">:</td>
+                                                <td>
+                                                    @Html.DisplayFor(x => x.POLH_POL_START_DATE)
+                                                </td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="22" style="font-weight:bold;">Account Name</td>
+                                                <td align="left">:</td>
+                                                <td>@Model.MS_UDW_CUSTOMERS.CUS_OFFICIAL_NAME</td>
+                                                <td align="left" style="font-weight:bold;">Department </td>
+                                                <td align="center">:</td>
+                                                <td>@Model.MS_UDW_CLASS_OF_BUSINESS.COB_NAME</td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="22" style="font-weight:bold;">Address</td>
+                                                <td align="left">:</td>
+                                                <td>@Model.MS_UDW_CUSTOMERS.CUS_ADDRS1</td>
+                                                <td align="left" style="font-weight:bold;">Type </td>
+                                                <td align="center">:</td>
+                                                <td>New Business</td>
+                                            </tr>
+                                            @*<tr valign="top">
+                                                <td height="27">&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td align="left" style="font-weight:bold;">Agency</td>
+                                                <td align="center">:</td>
+                                                
+                                            </tr>*@
+                                            <tr valign="top">
+                                                <td height="21" colspan="6"><hr></td>
+                                            </tr>
+
+                                        </table>
+                                        <table height="187">
+                                            <tr valign="top">
+                                                <td width="147" height="22" style="font-weight:bold;">Policy Number</td>
+                                                <td width="35" align="left">:</td>
+                                                <td width="387">@Model.POLH_SYS_ID</td>
+                                                <td width="110" align="left" style="font-weight:bold;">Class</td>
+                                                <td width="44" align="center">:</td>
+                                                <td width="231">@Model.MS_UDW_CLASS_OF_BUSINESS.COB_NAME</td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="22" style="font-weight:bold;">Insured Name</td>
+                                                <td align="left">:</td>
+                                                <td>@Model.MS_UDW_CUSTOMERS.CUS_OFFICIAL_NAME</td>
+                                                <td align="left" style="font-weight:bold;">Policy SI</td>
+                                                <td align="center">:</td>
+                                                <td>@Model.POLH_POL_SI_BC</td>
+                                            </tr>
+                                            <tr valign="top">
+                                                <td height="26" style="font-weight:bold;">Period of Insurance</td>
+                                                <td align="left">:</td>
+                                                <td>
+                                                    @Html.DisplayFor(x => x.POLH_POL_START_DATE) - @Html.DisplayFor(x => x.POLH_POL_END_DATE)
+                                                </td>
+                                            </tr>
+
+                                            <tr valign="top">
+                                                <td height="21" colspan="6"><hr></td>
+                                            </tr>
+
+                                        </table>
+
+
+                                        <table class="table table-bordered">
+
+                                            <thead class="">
+
+                                                <tr>
+
+                                                    <th style="text-align: center">DESCRIPTION</th>
+
+                                                    <th style="text-align: center"> GHC</th>
+
+                                                </tr>
+
+                                            </thead>
+
+                                            <tbody>
+
+                                                <tr>
+
+                                                    <td>
+                                                        <p>Being Premium on @Model.POLH_DISPLAY_NO</p>
+                                                        @*@Html.Raw(string.Format())*@
+                                                        <p>@Html.DisplayNameFor(m => m.POLH_POL_PREM_FC).ToString().ToUpper()</p>
+                                                    </td>
+                                                    <td>
+                                                        <ul>
+                                                            @Html.DisplayFor(m => m.POLH_POL_PREM_FC)
+                                                            @*@foreach (var be in Model.INSURANCE_LEDGER)
+                                                            {
+                                                                <li>@be.IGL_AMOUNT_BC</li>
+                                                            }*@
+                                                        </ul>
+                                                    </td>
+
+                                                </tr>
+
+                                                <tr>
+
+                                                    <td>
+                                                        <span> [Amount in words] </span>
+                                                        <span style="margin-left: 70%; font-weight:bold">TOTAL</span>
+                                                    </td>
+                                                    <td>
+                                                        <ul>
+                                                            @Html.DisplayFor(m => m.POLH_POL_PREM_FC)
+                                                            @*@foreach (var be in Model.INSURANCE_LEDGER)
+                                                            {
+                                                                <li>@be.IGL_AMOUNT_BC</li>
+                                                            }*@
+                                                        </ul>
+                                                    </td>
+
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+
+
+                                        <table>
+                                            <tr>
+                                                <td height="24" colspan="3"><p style="font-style:italic">We have debited your account as follows : </p></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+
+                                        <table width="976">
+                                            <tr>
+                                                <td width="406" height="32">User : </td>
+                                                <td align="center">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td height="60"><p>&nbsp;</p></td>
+                                                <td width="558"><p>Authorised Signatory : .................................................................................</p></td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+
+                                    <!-------------------Footer------------------->
+
+                                    <div class="col-sm-2"></div>
+                                </div>
+
+                            </div>
