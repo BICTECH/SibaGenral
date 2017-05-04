@@ -469,36 +469,6 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
-                                                        <div class="form-group">
-                                                            <div class="col-md-2">
-                                                                <label class="">Created By</label>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <input class="form-control readonly" type="text" id="CUS_CRTE_BY"
-                                                                           name="CUS_CRTE_BY" title="To Date" readonly />
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        <div class="form-group">
-                                                            <div class="col-md-2">
-                                                                <label class="">Created Date</label>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <input class="form-control readonly" type="text" id="CUS_CRTE_DATE"
-                                                                           name="CUS_CRTE_DATE" title="To Date" readonly />
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
                                                     <hr />
 
                                                     <div class="row">
@@ -3183,6 +3153,7 @@
                                     <option value="Endorsemetn">Endorsement Schedule</option>
                                     <option value="Debit">Debit Note</option>
                                     <option value="Credit">Credit Note</option>
+                                    <option value="Certificate">Certificate Note</option>
                                 </select>
                             </div>
                             <div class="col-lg-1">
@@ -3847,34 +3818,33 @@
                                     </div>
                                     <h5 style="border-bottom-color: red" class="sub-header"></h5>
                                     <div class="row">
-
-                                        <div class="col-md-3">
-                                            <label>Original SI</label>
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-md-2">
+                                            <span style="margin-left: -40px"><label>Original SI</label></span>
                                             <input class="form-control" type="number" id="FINW_ORIG_SI_FC" name="FINW_ORIG_SI_FC" title="Original Sum Insured FC" />
                                             <input class="form-control" type="number" name="FINW_ORIG_SI_BC" id="FINW_ORIG_SI_BC" title="Original Sum Insured BC" readonly />
                                         </div>
 
                                         <div class="col-md-2">
-                                            <label>Original Premium</label>
+                                            <span style="margin-left: -20px"><label>Original Premium</label></span>
                                             <input class="form-control" type="number" id="FINW_ORIG_PREM_FC" name="FINW_ORIG_PREM_FC" title="Original Premium FC" />
                                             <input class="form-control" type="number" id="FINW_ORIG_PREM_BC" name="FINW_ORIG_PREM_BC" title="Original Premium BC" readonly />
                                         </div>
 
-
-                                        <div class="col-md-3">
-                                            <label>Our Share SI </label>
+                                        <div class="col-md-2">
+                                            <span style="margin-left: -20px"><label>Original Premium</label></span>
                                             <input class="form-control" type="number" id="FINW_SI_FC" name="FINW_SI_FC" title="Original Premium FC" />
                                             <input class="form-control" type="number" id="FINW_SI_BC" name="FINW_SI_BC" title="Original Premium BC" readonly />
                                         </div>
 
                                         <div class="col-md-2">
-                                            <label>Our Share Premium</label>
+                                            <span style="margin-left: -20px"><label>Our Share Premium</label></span>
                                             <input class="form-control" type="number" id="FINW_PREM_FC" name="FINW_PREM_FC" title="Our Share Premium FC" />
                                             <input class="form-control" type="number" id="FINW_PREM_BC" name="FINW_PREM_BC" title="Our Share Premium BC" readonly />
                                         </div>
 
                                         <div class="col-md-2">
-                                            <label>Inward Commission </label>
+                                            <span style="margin-left: -20px"><label>Inward Commission</label></span>
                                             <input class="form-control" type="number" id="FINW_COMM_FC" name="FINW_COMM_FC" title="Inward Commission FC" />
                                             <input class="form-control" type="number" id="FINW_COMM_BC" name="FINW_COMM_BC" title="Inward Commission BC" readonly />
                                         </div>
@@ -3935,7 +3905,7 @@
                                     <div class="row">
 
                                         <div class="col-md-2">
-                                            <label>Reinsurer Code</label>
+                                            <span style="margin-left: -20px"><label>Reinsurer Code</label></span>
                                             <div class="input-group">
                                                 <input class="form-control" type="text" maxlength="15" id="FINW_PAP_CODE" name="FINW_PAP_CODE" title="Main Account Code" required />
                                                 <span class="input-group-btn">
@@ -3947,21 +3917,21 @@
 
                                         </div>
                                         <div class="col-md-4">
-                                            <label>Reinsurer Name</label>
-                                            <input class="form-control" type="number" min="1" id="FINW_PAP_NAME" name="FINW_PAP_NAME" title="" readonly />
+                                            <span style="margin-left: -100px"><label>Reinsurer Name</label></span>
+                                            <input class="form-control" type="text" id="FINW_PAP_NAME" name="FINW_PAP_NAME" title="" readonly />
                                         </div>
                                         <div class="col-md-2">
-                                            <label>Share %</label>
-                                            <input class="form-control" type="number" min="1" id="FINW_PAP_SHARE_PERC" name="FINW_PAP_SHARE_PERC" title="Share %" />
+                                            <span style="margin-left: -40px"><label>Share %</label></span>
+                                            <input class="form-control" type="number" min="1" id="FINW_PAP_SHARE_PERC" name="FINW_PAP_SHARE_PERC" title="Share %" required />
                                         </div>
                                         <div class="col-md-2">
-                                            <label>Share SI </label>
-                                            <input class="form-control" type="number" min="1" id="FINW_PAP_SHARE_SI" name="FINW_PAP_SHARE_SI" title="Share SI" />
+                                            <span style="margin-left: -50px"><label>Share SI</label></span>
+                                            <input class="form-control" type="number" min="1" id="FINW_PAP_SHARE_SI" name="FINW_PAP_SHARE_SI" title="Share SI" required />
                                         </div>
 
                                         <div class="col-md-2">
-                                            <label>SharePremium</label>
-                                            <input class="form-control" type="number" min="1" id="FINW_PAP_SHARE_PREM" name="FINW_PAP_SHARE_PREM" title="Share Premium" />
+                                            <span style="margin-left: -25px"><label>Share Premium</label></span>
+                                            <input class="form-control" type="number" min="1" id="FINW_PAP_SHARE_PREM" name="FINW_PAP_SHARE_PREM" title="Share Premium" required />
                                         </div>
                                     </div>
                                     <h5 style="border-bottom-color: red" class="sub-header"></h5>
@@ -4031,28 +4001,27 @@
                                     </div>
                                     <h5 style="border-bottom-color: red" class="sub-header"></h5>
                                     <div class="row">
-
+                                        <div class="col-md-1"></div>
                                         <div class="col-md-3">
-                                            <label>Our Share SI</label>
+                                            <span style="margin-left: -75px"><label>Share SI</label></span>
                                             <input class="form-control" type="number" id="FOTW_SHARE_SI_FC" name="FOTW_SHARE_SI_FC" title="Our Share SI FC" />
                                             <input class="form-control" type="number" name="FOTW_SHARE_SI_BC" id="FOTW_SHARE_SI_BC" title="Our Share SI BC" readonly />
                                         </div>
 
                                         <div class="col-md-2">
-                                            <label>Our share Premium</label>
+                                            <span style="margin-left: -20px"><label>Share Premium</label></span>
                                             <input class="form-control" type="number" id="FOTW_SHARE_PREM_FC" name="FOTW_SHARE_PREM_FC" title="Original Premium FC" />
                                             <input class="form-control" type="number" id="FOTW_SHARE_PREM_BC" name="FOTW_SHARE_PREM_BC" title="Original Premium BC" readonly />
                                         </div>
 
-
                                         <div class="col-md-3">
-                                            <label>Members  SI </label>
+                                            <span style="margin-left: -80px"><label>Members  SI</label></span>
                                             <input class="form-control" type="number" id="FOTW_MEM_SI_FC" name="FOTW_MEM_SI_FC" title="Member Share SI FC" />
                                             <input class="form-control" type="number" id="FOTW_MEM_SI_BC" name="FOTW_MEM_SI_BC" title="Member Share SI BC" readonly />
                                         </div>
 
                                         <div class="col-md-2">
-                                            <label>Member Premium</label>
+                                            <span style="margin-left: -20px"><label>Member  Premium</label></span>
                                             <input class="form-control" type="number" id="FOTW_MEM_PREM_FC" name="FOTW_MEM_PREM_FC" title="Member Share Premium FC" />
                                             <input class="form-control" type="number" id="FOTW_MEM_PREM_BC" name="FOTW_MEM_PREM_BC" title="Member Share Premium BC" readonly />
                                         </div>
@@ -4061,9 +4030,9 @@
                                     </div>
                                     <h5 style="border-bottom-color: red" class="sub-header">Coinsurance Members Share details</h5>
                                     <div class="row">
-
+                                        <div class="col-md-1"></div>
                                         <div class="col-md-2">
-                                            <label>Reinsurer Code</label>
+                                            <span style="margin-left: -20px"><label>Reinsurer Code</label></span>
                                             <div class="input-group">
                                                 <input class="form-control" type="text" maxlength="15" id="FOTW_RI_MEM_CODE" name="FOTW_RI_MEM_CODE" title="Member Code" required />
                                                 <span class="input-group-btn">
@@ -4075,15 +4044,15 @@
 
                                         </div>
                                         <div class="col-md-4">
-                                            <label>Reinsurer Name</label>
+                                            <span style="margin-left: -100px"><label>Reinsurer Name</label></span>
                                             <input class="form-control" type="number" min="1" id="FOTW_RI_MEM_NAME" name="FOTW_RI_MEM_NAME" title="Member Name" readonly />
                                         </div>
                                         <div class="col-md-2">
-                                            <label>Share %</label>
+                                            <span style="margin-left: -50px"><label>Share %</label></span>
                                             <input class="form-control" type="number" min="1" id="FOTW_RI_PERC" name="FOTW_RI_PERC" title="RI Share %" />
                                         </div>
                                         <div class="col-md-2">
-                                            <label>Commission % </label>
+                                            <span style="margin-left: -30px"><label>Commission %</label></span>
                                             <input class="form-control" type="number" min="1" id="FOTW_RI_COMM" name="FOTW_RI_COMM" title="RI Share Commission" />
                                         </div>
 
@@ -4091,18 +4060,19 @@
 
                                     <!-- -->
                                     <div class="row">
-
+                                        <div class="col-md-1"></div>
                                         <div class="col-md-2">
-                                            <label>Share SI</label>
+                                            <span style="margin-left: -45px"><label>Share SI</label></span>                                            
                                             <input class="form-control" type="number" min="1" id="FOTW_RI_SHARE_SI" name="FOTW_RI_SHARE_SI" title="Share SI" readonly />
                                         </div>
+
                                         <div class="col-md-2">
-                                            <label>Share Premium </label>
+                                            <span style="margin-left: -20px"><label>Share Premium</label></span>  
                                             <input class="form-control" type="number" min="1" id="FOTW_RI_SHARE_PREM" name="FOTW_RI_SHARE_PREM" title="Share Premium" readonly />
                                         </div>
 
                                         <div class="col-md-2">
-                                            <label>Share Commission</label>
+                                            <span style="margin-left: -20px"><label>Share Commission</label></span> 
                                             <input class="form-control" type="number" min="1" id="FOTW_RI_SHARE_COMM" name="FOTW_RI_SHARE_COMM" title="Share Commission" readonly />
                                         </div>
                                     </div>

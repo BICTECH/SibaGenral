@@ -30,7 +30,7 @@
 
                 <table style="width: 100%; text-align:center;" class="motor_detail">
                     <tr>
-                        <td style="width: 50%; border-right:1px solid black;"><p style="text-align:center;"><img src="~/Content/Images/plain-backgrounds.jpg" /></p></td>
+                        <td style="width: 50%; border-right:1px solid black;"><p style="text-align:center;"><img src="~/Content/Images/multi-logo1.jpg" /></p></td>
                         <td style="width: 50%; text-align:center; font-size:medium; font-family:'Lucida Sans'">
                             <p style="text-align:center;font-weight:400; font-size:x-large">@Model.MS_SYS_COMPANY.CMP_NAME</p>
                             <p>@Model.MS_SYS_COMPANY.CMP_HEAD_OFFICE_ADD</p>
@@ -102,7 +102,7 @@
                         <td style="width: 30%" colspan="2"> <b>Premium Details</b></td>
                         <td colspan="2">
                             Basic Premium:  @Model.MS_SYS_EXCHANGE_RATES.EXR_CODE <b>@Html.DisplayFor(m => m.POLH_POL_PREM_FC)</b> <br />
-                            <span style="margin-left:80px">NIC:  @Model.MS_SYS_EXCHANGE_RATES.EXR_CODE<b> </b></span><br />
+                            <span style="margin-left:62px">NIC:  @Model.MS_SYS_EXCHANGE_RATES.EXR_CODE<b> </b></span><br />
                             <span><b>Premium(GH):</b>    @Model.MS_SYS_EXCHANGE_RATES.EXR_CODE <b>@Html.DisplayFor(m => m.POLH_POL_PREM_FC)</span>
                         </td>
                     </tr>
@@ -110,24 +110,12 @@
                     <tr>
                         <td style="width: 30%" colspan="2"> <b>Agency Details</b></td>
                         <td colspan="2">
-                            
-                         
-                            @foreach (var pi in Model.INS_UWD_INTERMEDIARY_COMM)
+                                                                                
+                            @foreach (var rsk in Model.INS_UWD_INTERMEDIARY_COMM)
                             {
-                                @pi.CMM_COM_PERC
+                               @rsk.MS_SYS_INTERMEDIARY.INT_OFFICIAL_NAME <br />
                             }
-                            <br />
-
-                          
-
-                            @*@foreach (var rsk in Model.INS_UWD_INTERMEDIARY_COMM)
-                            {
-                                foreach (var cover in rsk.MS_SYS_INTERMEDIARY)
-                                {
-                                    @cover.RCOV_NET_PREM_FC
-                                }
-                            }*@
-
+                                             
                         </td>
                     </tr>
 
@@ -150,7 +138,7 @@
                     </tr>
 
                     <tr style="height:30px; border:1px #000 solid; text-align: center;">
-                        <td style="border:1px #000 solid;">
+                        <td style="width: 40px; border:1px #000 solid;">
                             <p>
                                 <strong>
                                     Serial No. <br />
@@ -198,8 +186,8 @@
                         <td style="border:1px #000 solid;">
                             <p>
                                 <strong>
-                                    E. Treatment<br />
                                     NIC charges<br />
+                                    E. Treatment<br />
                                     PA
                                 </strong>
                             </p>
@@ -231,7 +219,7 @@
                         <p hidden>@be.VEH_SYS_ID</p>
 
                         <tbody style="border-top:2px #000 solid; border-bottom:2px #000 solid;">
-                            <tr valign="top" style="height:30px; text-align:center;">
+                            <tr valign="top" style="height:20px; text-align:center;">
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;"></td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
 
@@ -252,18 +240,28 @@
                                     </p>
                                 </td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+                                   
                                     @foreach (var rsk in Model.INS_UDW_POL_FEES)
                                     {
-                                        @rsk.POL_FEE_FC_AMOUNT
+                                        <p>
+                                            @rsk.POL_FEE_FC_AMOUNT
+                                        </p>
                                     }
-                                    
+
                                 </td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
-                                    0.00
+                                  @be.VEH_EXTRA_TPPD
                                 </td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
                                     <p>
-                                        @*[Property (GHC)]*@
+                                        @*@foreach (var rsk in Model.INS_UWD_VEHICLE_RISK)
+                                        {
+                                            foreach (var cover in rsk.INS_UWD_RISK_COVERS)
+                                            {
+                                              @cover.RCOV_NET_PREM_FC
+                                                 
+                                            }
+                                        }*@
                                     </p>
                                 </td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
@@ -271,7 +269,7 @@
                                 </td>
                             </tr>
 
-                            <tr valign="top" style="height:30px; text-align:center;">
+                            <tr valign="top" style="height:20px; text-align:center;">
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
 
                                     <p> @be.VEH_VEH_REG_NO</p>
@@ -292,16 +290,11 @@
                                     </p>
                                 </td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
-                                    <p>
-                                        @foreach (var rsk in Model.INS_UDW_POL_FEES)
-                                        {
-                                            @rsk.POL_FEE_FC_AMOUNT
-                                        }
-                                    </p>
+                                                                     
                                 </td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
                                     <p>
-                                        0.00
+                                      
                                     </p>
                                 </td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
@@ -312,7 +305,7 @@
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;"></td>
                             </tr>
 
-                            <tr valign="top" style="height:30px; text-align:center;">
+                            <tr valign="top" style="height:20px; text-align:center;">
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
 
                                     <p>@be.VEH_MANUFACTURE_YR</p>
@@ -320,7 +313,8 @@
                                 </td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
 
-                                    <p>@be.VEH_MAKE 
+                                    <p>
+                                        @*@be.VEH_MAKE*@ 
                                         @foreach (var rsk in Model.INS_UWD_VEHICLE_RISK)
                                         {
                                             @rsk.MS_UDW_MAKE_MODEL.MMO_NAME
@@ -342,7 +336,9 @@
                                         @*[Spl. Discount]*@
                                     </p>
                                 </td>
-                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;"></td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                </td>
                                 <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
                                     <p> 0.00</p>
                                 </td>
@@ -351,7 +347,9 @@
 
                                     </p>
                                 </td>
-                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;"></td>
+                                <td style="border-left:1px #000 solid; border-right:1px #000 solid;">
+
+                                </td>
                             </tr>
 
                         </tbody>
@@ -386,17 +384,15 @@
 
 
                 <table style="width:85%;">
-                    <tr valign="top" style="margin-top: 50px;">
-                        <td width="70%" valign="middle"><strong>Branch: @Model.MS_SYS_OFFICE.OFF_NAME</strong> <br /> </td>
+                    <tr valign="top" style="margin-top: 10px;">
+                        <td width="50%" valign="middle">Branch: <strong>@Model.MS_SYS_OFFICE.OFF_NAME</strong> <br /> </td>
 
-                        <td width="70%" valign="middle"><strong>FOR AND BEHALF OF MULTI INSURANCE LIMITED:</strong> <br /> </td>
+                        <td width="70%" valign="middle">For and Behalf of: <strong>@Model.MS_SYS_COMPANY.CMP_NAME </strong> <br /> </td>
                     </tr>
 
                     <tr valign="top">
                         <td height="32" valign="middle"><p><strong>Examined By.......................................................................</strong></p></td>
-
                     </tr>
-
                 </table>
 
             </div>

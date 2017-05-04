@@ -2688,9 +2688,19 @@
         $("#btn_Save").on("click", function () {
             //Saving New transaction state
             var Pol_Txn_State = $("#POLH_TXN_STATE").val();
+            var Pol_Ins_Source = $("#POLH_INS_SOURCE").val();
             if (Pol_Txn_State === "C") return u.growl_warning("The Policy is already Confirmed, Please unconfirm before saving");
             if (Pol_Txn_State === "P") return u.growl_warning("The Policy is Approved, You cannot save the Policy");
-
+            if (Pol_Ins_Source === "Fac-In" && u.grid_empty($scope.grdfacInward_grid))
+            {
+                return u.growl_warning("Facultative Inward is selected, Please add Fac Inward details to it's grid");
+            }
+            if (Pol_Ins_Source === "Co-L" && u.grid_empty($scope.grdCoinsLeader_grid)) {
+                return u.growl_warning("Coinsurance Leader is selected, Please add Coinsurance Leader details to it's grid");
+            }
+            if (Pol_Ins_Source === "Co-M" && u.grid_empty($scope.grdfacInward_grid)) {
+                return u.growl_warning("Coinsurance Member is selected, Please add Coinsurance Member details to it's grid");
+            }
 
             // Save policy 
 
@@ -5290,6 +5300,33 @@
                             console.log(policyData);
                             var policyData = u.parse_form("#policyscheduleForm");
                             window.open("/PolicySchedules/PolicyMotorSchedule/" + policyData["POLH_ID"], "result", "width=900,height=1000,toolbar=0,menubar=no,status=no,resizable=yes,location=no,directories=no,scrollbars=yes");
+                        }
+                    });
+                }
+                else {
+                    u.modal_warning("There is no Policy to view");
+                }
+
+            }
+
+            else if (polreports == "Certificate") {
+
+                if (!u.field_empty("#POLH_SYS_ID")) {
+
+                    $("#policyscheduleModal").modal();
+                    $("#PolicyDocsModal").modal("hide");
+
+                    $("#POLH_ID").val($("#POLH_SYS_ID").val());
+
+                    $("#btnQuerypolicyschedule").click(function (e) {
+
+                        if (u.field_empty("#POLH_ID")) {
+                            u.modal_warning("Policy No is not correct");
+                        }
+                        else {
+                            console.log(policyData);
+                            var policyData = u.parse_form("#policyscheduleForm");
+                            window.open("/PolicySchedules/PolicyMotorCertificate/" + policyData["POLH_ID"], "result", "width=900,height=1000,toolbar=0,menubar=no,status=no,resizable=yes,location=no,directories=no,scrollbars=yes");
                         }
                     });
                 }

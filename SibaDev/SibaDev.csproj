@@ -767,6 +767,8 @@
     <Content Include="Content\Images\Motor_insurance.png" />
     <Content Include="Content\Images\Motor_TP.png" />
     <Content Include="Content\Images\Motor_TP_FT.png" />
+    <Content Include="Content\Images\multi-logo1.jpg" />
+    <Content Include="Content\Images\multi.jpg" />
     <Content Include="Content\Images\PA_insurance.png" />
     <Content Include="Content\Images\plain-backgrounds.jpg" />
     <Content Include="Content\Images\PrintNew.png" />

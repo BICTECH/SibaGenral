@@ -15,7 +15,7 @@ namespace SibaDev.Models
             var db = new SibaModel();
             try
             {
-                return (from r in db.INS_UDW_POL_FEES where r.POL_FEE_SYS_ID == code || r.POL_FEE_CODE == "EC" select r).ToList().Select(r => new INS_UDW_POL_FEES
+                return (from r in db.INS_UDW_POL_FEES where r.POL_FEE_SYS_ID == code select r).ToList().Select(r => new INS_UDW_POL_FEES
                 {
                     POL_FEE_SYS_ID = r.POL_FEE_SYS_ID,
                     POL_FEE_CODE = r.POL_FEE_CODE,
